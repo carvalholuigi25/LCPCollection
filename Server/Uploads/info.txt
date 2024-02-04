@@ -1,0 +1,1 @@
+this is a file for uploads directory. you can delete this file, but not the directory!
