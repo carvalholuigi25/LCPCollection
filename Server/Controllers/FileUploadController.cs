@@ -28,6 +28,11 @@ namespace LCPCollection.Server.Controllers
             int maxFileSize = 10 * 1024 * 1024;
             int frmMaxFileSize = maxFileSize / (1024 * 1024);
 
+            if (!Path.Exists(Path.Combine(projectRootPath!, "Uploads")))
+            {
+                Directory.CreateDirectory(Path.Combine(projectRootPath!, "Uploads"));
+            }
+
             foreach (var file in saveFile.Files)
             {
                 foreach(var extf in extFilesNotAllowed)
