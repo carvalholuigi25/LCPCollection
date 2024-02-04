@@ -1,0 +1,40 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar>
+        <MudIconButton Icon="@(!!open ? Icons.Material.Filled.MenuOpen : Icons.Material.Filled.Menu)" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.End" Href="https://github.com/carvalholuigi25/" Title="carvalholuigi25's Github" Target="_blank" />
+    </MudAppBar>
+    <MudDrawer @bind-Open="@open" ClipMode="clipMode" Breakpoint="@breakpoint" PreserveOpenState="@preserveOpenState" Elevation="1" Variant="@variant" Color="@color">
+        <MudDrawerHeader Class="@(!open ? "hidden" : "")">
+            <MudText Typo="Typo.h6">LCP Collection</MudText>
+        </MudDrawerHeader>
+        <MyNavMenu dense="@dense" />
+    </MudDrawer>
+    <MudMainContent Class="pt-16 px-16">
+        <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="mt-6 mb-16">
+            @Body
+        </MudContainer>
+        <Footer />
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    bool open = true;
+    bool dense = false;
+    bool preserveOpenState = false;
+    Color color = Color.Primary;
+    Breakpoint breakpoint = Breakpoint.Lg;
+    DrawerVariant variant = DrawerVariant.Mini;
+    DrawerClipMode clipMode = DrawerClipMode.Never;
+
+    void DrawerToggle()
+    {
+        open = !open;
+    }
+}

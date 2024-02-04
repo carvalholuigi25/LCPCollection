@@ -1,0 +1,22 @@
+[
+  {
+    "Name": "ClientnServer",
+    "Projects": [
+      {
+        "Name": "Server\\LCPCollection.Server.csproj",
+        "Action": "Start",
+        "DebugTarget": "Watch"
+      },
+      {
+        "Name": "Client\\LCPCollection.Client.csproj",
+        "Action": "Start",
+        "DebugTarget": "Watch"
+      },
+      {
+        "Name": "Auth\\LCPCollection.Auth.csproj",
+        "Action": "Start",
+        "DebugTarget": "Watch"
+      }
+    ]
+  }
+]

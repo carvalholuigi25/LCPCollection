@@ -1,0 +1,86 @@
+﻿@page "/books/{id:int}"
+@using System.Net.Http.Json
+@using NJS = Newtonsoft.Json
+@using lcpCl = LCPCollection.Shared.Classes
+@inject HttpClient httpClient
+
+<PageTitle>LCPCollection - Books</PageTitle>
+
+<h1><MudIcon Icon="@Icons.Material.Filled.Book" Color="Color.Inherit"></MudIcon> Books</h1>
+
+<div class="row">
+    <div class="col-12">
+        <div class="form-group">
+            <MudButton Href=@($"/books/update/{id}") Variant="Variant.Filled" Color="Color.Info">Update</MudButton>
+            <MudButton Href=@($"/books/delete/{id}") Variant="Variant.Filled" Color="Color.Error">Delete</MudButton>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    @if (cid != -1)
+    {
+        @foreach (var item in BooksX!)
+        {
+            <MudCard Class="mcarditem mcardroundct" Style=@($"background-image: linear-gradient(to right, rgb(0 0 0 /0.9), rgb(0 0 0/0)), url('covers/{item.ImageUrl}')")>
+                <div class="container d-flex flex-wrap mt-3 mb-3">
+                    <div class="col-12 col-md-6 col-lg-3 mcarditemcol1 p-3">
+                        <img src="@($"images/{item.ImageUrl}")" class="img-fluid mcarditemimg mcardroundct p-0 mx-auto" />
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-9 mcarditemcol2 p-3">
+                        <MudCardContent Class="mcarditemcnt p-0">
+                            <MudText Typo="Typo.h5" Class="mt-3">@item.Title</MudText>
+                            <MudText Class="mt-3">@item.ReleaseDate</MudText>
+                            <MudText Class="mt-3">@item.Platforms</MudText>
+                            <MudText Class="mt-3">@item.Genre</MudText>
+                            <MudText Class="mt-3">@item.Companies</MudText>
+                            <MudText Class="mt-3">@item.Publishers</MudText>
+                            <MudText Class="mt-3">@item.Description</MudText>
+                            <MudText Class="mt-3">@item.TrailerUrl</MudText>
+                            <MudText Class="mt-3">
+                                <MudRating SelectedValue="@int.Parse(item.Rating!.ToString()!)" Size="Size.Small" MaxValue="10" ReadOnly />
+                            </MudText>
+                        </MudCardContent>
+                    </div>
+                </div>
+            </MudCard>
+        }
+
+        <div class="col-12 mx-auto text-center">
+            <div class="d-block mt-3 mx-auto text-center">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Href="/books">Back</MudButton>
+            </div>
+        </div>
+    }
+
+    @if (cid == -1)
+    {
+        <div class="col-12 warnblk">
+            <MudCard>
+                <MudCardContent>
+                    <div class="text-center mx-auto">
+                        <i class="bi bi-exclamation-circle-fill warnico"></i>
+                        <p class="warntxt">0 books has been found!</p>
+                    </div>
+                </MudCardContent>
+                <MudCardActions>
+                    <div class="text-center mx-auto">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Href="/books" Class="text-center mx-auto">Back</MudButton>
+                    </div>
+                </MudCardActions>
+            </MudCard>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public int id { get; set; } = -1;
+    public int cid { get; set; }
+    private IEnumerable<lcpCl.Books>? BooksX = new List<lcpCl.Books>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        BooksX = await httpClient.GetFromJsonAsync<List<lcpCl.Books>>($"https://localhost:5000/api/books/{id}");
+        cid = BooksX!.Where(x => x.Id == id).Count() == 1 ? id : -1;
+    }
+}

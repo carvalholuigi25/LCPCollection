@@ -1,0 +1,189 @@
+﻿@using LCPCollection.Shared.Classes
+@using Microsoft.AspNetCore.Components.Forms
+
+@inject HttpClient Http
+
+<MudDialog>
+    <DialogContent>
+        @if(actTypes.Count() > 0)
+        {
+            <MudSelect T="ActTypes" ToStringFunc="@converter" Value="_selectedActType" ValueChanged="OnValueChanged" Label="Select Action Type" Variant="Variant.Outlined">
+                @foreach (var actiontype in actTypes)
+                {
+                    <MudSelectItem Value="@actiontype">@actiontype.ActTypesName</MudSelectItem>
+                }
+            </MudSelect>
+        }
+        else
+        {
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100px" Height="100px" Class="mt-3" />
+        }
+
+        @if(FileDatasX!.Count() > 0)
+        {
+            <div class="row mt-3">
+                @foreach (var fx in FileDatasX!)
+                {
+                    <div class="col-3 mt-3 mb-3 ipdgfx @($"ipdgfx{fx.Id}")" id="@($"ipdgfx{fx.Id}")">
+                        <img src="@($"https://localhost:5000{fx.FileFullPath}")" class="img-fluid imgipdgfx @IsImgActive(fx.Id)" width="100" height="100" data-id="@fx.Id" @onclick="@(e => GetImgInfo(e, fx.Id))" />
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100px" Height="100px" Class="mt-3" />
+        }
+
+        @if (obj!.Count() > 0 && IsActive)
+        {
+            <div class="row">
+                <p>Url(s)</p>
+                @foreach(var ox in obj!) {
+                    <div class="col-12">
+                        <input type="text" name="@($"url{ox.Id}")" id="@($"url{ox.Id}")" class="@($"form-control url{ox.Id}")" value="@ox.FileFullPath" readonly />
+                    </div>
+                }
+            </div>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Secondary" OnClick="SelectAll" Disabled="IsDisabled">Select All</MudButton>
+        <MudButton Color="Color.Secondary" OnClick="Clear">Clear</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
+    private List<FileData>? FileDatasX = new List<FileData>();
+    public List<FileData>? obj = new List<FileData>();
+    public List<int> lstids = new List<int>();
+    public bool IsSelectedAll { get; set; } = false;
+    public bool IsDisabled { get; set; } = true;
+    public bool IsActive { get; set; } = false;
+    private ActTypes? _selectedActType { get; set; } = new ActTypes() {ActTypesID = 1, ActTypesName = "Single"};
+    readonly Func<ActTypes, string> converter = p => p.ActTypesName!;
+
+    IEnumerable<ActTypes> actTypes = new List<ActTypes>()
+    {
+        new ActTypes() {ActTypesID = 1, ActTypesName = "Single"},
+        new ActTypes() {ActTypesID = 2, ActTypesName = "Multiple"},
+    };
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() {
+        obj = new List<FileData>();
+        FileDatasX = new List<FileData>();
+        MudDialog.Cancel();
+    }
+
+    void Clear()
+    {
+        IsActive = false;
+        IsSelectedAll = false;
+        IsDisabled = _selectedActType!.ActTypesName == "Single" ? true : false;
+
+        if(obj!.Count > 0)
+        {
+            obj = new List<FileData>();
+        }
+
+        if(lstids.Count > 0)
+        {
+            lstids.Clear();
+        }
+    }
+
+    void SelectAll()
+    {
+        IsSelectedAll = !IsSelectedAll;
+
+        if(IsSelectedAll == true)
+        {
+            Clear();
+            IsDisabled = true;
+            IsActive = true;
+            _selectedActType = actTypes.Where(x => x.ActTypesID == 2).ToList()[0];
+
+            if(FileDatasX!.Count > 0)
+            {
+                foreach(var i in FileDatasX!)
+                {
+                    if(!lstids.Contains(i.Id))
+                    {
+                        lstids.Add(i.Id);
+                    }
+                }
+            }
+
+            obj = FileDatasX!.Count > 0 ? FileDatasX!.OrderBy(x => lstids.IndexOf(x.Id)).ToList() : new List<FileData>();
+        }
+        else
+        {
+            Clear();
+            IsDisabled = false;
+            IsActive = false;
+            _selectedActType = actTypes.Where(x => x.ActTypesID == 1).ToList()[0];
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        FileDatasX = await Http.GetFromJsonAsync<List<FileData>>("https://localhost:5000/api/list/files");
+    }
+
+    private void OnValueChanged(ActTypes selected)
+    {
+        Clear();
+        _selectedActType = selected;
+        IsDisabled = _selectedActType.ActTypesName == "Single" ? true : false;
+    }
+
+    private void GetImgInfo(MouseEventArgs? e, int id = -1)
+    {
+        obj = new List<FileData>();
+
+        if(_selectedActType!.ActTypesName == "Single")
+        {
+            obj = FileDatasX!.Where(x => x.Id == id).ToList();
+            IsActive = !IsActive;
+            IsDisabled = true;
+        }
+        else
+        {
+            if(lstids.Contains(id))
+            {
+                lstids.Remove(id);
+            }
+            else
+            {
+                lstids.Add(id);
+            }
+
+            obj = FileDatasX!.Where(x => lstids.Contains(x.Id)).OrderBy(x => lstids.IndexOf(x.Id)).ToList();
+            IsActive = true;
+            IsDisabled = obj.Count == FileDatasX!.Count ? true : false;
+        } 
+    }
+
+    private string IsImgActive(int id = 1)
+    {
+        return _selectedActType!.ActTypesName == "Single" ? (obj!.Count > 0 && obj[0].Id == id ? (!!IsActive ? "active" : "") : "") : (lstids!.Count > 0 && lstids.Contains(id) ? (!!IsActive ? "active" : "") : "");
+    }
+
+    public class ActTypes
+    {
+        public int ActTypesID { get; set; }
+        public string? ActTypesName { get; set; }
+        public override bool Equals(object? o) {
+            var other = o as ActTypes;
+            return other?.ActTypesID==ActTypesID;
+        }
+        public override int GetHashCode() => ActTypesID.GetHashCode();        
+        public override string? ToString() {
+            return ActTypesName;
+        }
+    }
+}

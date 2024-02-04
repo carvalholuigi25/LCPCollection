@@ -1,0 +1,56 @@
+﻿@using lcpCl = LCPCollection.Shared.Classes
+@typeparam T where T : class
+@inject HttpClient httpClient
+@inject NavigationManager navManager
+
+@if (DataItems is not null)
+{
+    <MudPagination BoundaryCount="1" MiddleCount="1" Selected="Page" Count="@pagCount" SelectedChanged="onPageChanged" ShowFirstButton="true" ShowLastButton="true" Class="mt-3" />
+}
+
+@code {
+    [Parameter] public lcpCl.QueryParamsRes<T>? DataItems { get; set; } = new lcpCl.QueryParamsRes<T>();
+    [Parameter] public string ApiName { get; set; } = "animes";
+    [Parameter] public int Page { get; set; } = 1;
+    [Parameter] public int Size { get; set; } = 12;
+    [Parameter] public bool IsFilterEnabled { get; set; } = false;
+    [Parameter] public EventCallback<int> onPageChanged { get; set; }
+
+    public string search { get; set; } = "";
+    public string sortby { get; set; } = "id";
+    public string sortorder { get; set; } = "ASC";
+    public string foperator { get; set; } = "Contains";
+    private string filterstr { get; set; } = "";
+
+    private int pagCount => Convert.ToInt32((DataItems!.TotalCount + Size - 1) / Size);
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadMyFilteredData();
+    }
+
+    private async Task LoadMyFilteredData()
+    {
+        search = !string.IsNullOrEmpty(GetQueryParm("search")) ? GetQueryParm("search") : "";
+        sortby = !string.IsNullOrEmpty(GetQueryParm("sortby")) ? GetQueryParm("sortby") : "id";
+        sortorder = !string.IsNullOrEmpty(GetQueryParm("sortorder")) ? GetQueryParm("sortorder") : "ASC";
+        foperator = !string.IsNullOrEmpty(GetQueryParm("operator")) ? GetQueryParm("operator") : "Contains";
+        filterstr = IsFilterEnabled ? $"?Page={Page}&PageSize={Size}&Search={search}&SortBy={sortby}&SortOrder={sortorder}&Operator={foperator}" : $"?Page={Page}&PageSize={Size}";
+
+        DataItems = await httpClient.GetFromJsonAsync<lcpCl.QueryParamsRes<T>>($"https://localhost:5000/api/{ApiName.ToLower()}/filter{filterstr}");
+        StateHasChanged();
+    }
+
+    private void NavData()
+    {
+        filterstr = IsFilterEnabled ? $"/{ApiName.ToLower()}?page={Page}&size={Size}&search={search}&sortby={sortby}&sortorder={sortorder}&operator={foperator}" : $"/{ApiName.ToLower()}?page={Page}&size={Size}";
+        navManager.NavigateTo(filterstr, false);
+    }
+
+    private dynamic GetQueryParm(string parmName)
+    {
+        var uriBuilder = new UriBuilder(navManager.Uri);
+        var q = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
+        return int.TryParse(q[parmName], out int result) ? result : q[parmName]!;
+    }
+}

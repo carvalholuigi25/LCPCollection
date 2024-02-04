@@ -1,0 +1,15 @@
+﻿<MudNavMenu Color="Color.Transparent" Dense="@dense">
+    <MudNavLink Href="/" Icon="@Icons.Material.Filled.Home" IconColor="Color.Inherit" Match="NavLinkMatch.All" ActiveClass="active" title="Home">Home</MudNavLink>
+    <MudNavLink Href="/games" Icon="@Icons.Material.Filled.Games" IconColor="Color.Inherit" Match="NavLinkMatch.All" title="Games">Games</MudNavLink>
+    <MudNavLink Href="/movies" Icon="@Icons.Material.Filled.Movie" IconColor="Color.Inherit" Match="NavLinkMatch.All" title="Movies">Movies</MudNavLink>
+    <MudNavLink Href="/tvseries" Icon="@Icons.Material.Filled.Tv" IconColor="Color.Inherit" Match="NavLinkMatch.All" title="TV Series">TV Series</MudNavLink>
+    <MudNavLink Href="/books" Icon="@Icons.Material.Filled.Book" IconColor="Color.Inherit" Match="NavLinkMatch.All" title="Books">Books</MudNavLink>
+    <MudNavLink Href="/animes" Icon="@Icons.Material.Filled.Tv" IconColor="Color.Inherit" Match="NavLinkMatch.All" title="Animes">Animes</MudNavLink>
+    <MudNavLink Href="/upload" Icon="@Icons.Material.Filled.CloudUpload" IconColor="Color.Inherit" Match="NavLinkMatch.All" title="Upload Files">Upload Files</MudNavLink>
+    <MudNavLink Href="/docs/api" Icon="@Icons.Material.Filled.Api" IconColor="Color.Inherit" title="API Service">API Docs</MudNavLink>
+    <MudNavLink Href="/swagger" Icon="@Icons.Material.Filled.Api" IconColor="Color.Inherit" title="API Service">API Service</MudNavLink>
+</MudNavMenu>
+
+@code {
+    [Parameter] public bool dense { get; set; } = false; 
+}

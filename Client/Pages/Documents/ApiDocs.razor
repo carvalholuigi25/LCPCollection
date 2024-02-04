@@ -1,0 +1,157 @@
+﻿@page "/docs/api"
+@using static LCPCollection.Shared.Classes.DocsApi
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@implements IDisposable
+
+<PageTitle>LCPCollection - Api Docs</PageTitle>
+<h3>Api Docs</h3>
+
+<div class="container-fluid p-0">
+    <div class="row p-0">
+        <div class="col-12 col-md-12 col-lg-3 col-xl-2 col-xxl-2 mt-3 mb-3">
+            <div class="mt-3 mb-3 apisearchlinks">
+                <MudButtonGroup Class="grpapisrchlinks">
+                    @if(!isAutoInputEnabled)
+                    {
+                        <MudTextField @bind-Value="@searchTitleLink" Label="Search something..." Variant="Variant.Outlined" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Search" aria-label="clear" Class=@("btndosrch" + (isClearShowsUp ? " padbtns" : "")) OnClick="OnSearchTitleChange"></MudIconButton>
+                    }
+                    else
+                    {
+                        <MudTextField @bind-Value="@searchTitleLink" Label="Search something..." Variant="Variant.Outlined" Immediate="true" DebounceInterval="@autoInputDelaySecs" OnDebounceIntervalElapsed="DoSearch" />
+                    }
+
+                    @if (isClearShowsUp)
+                    {
+                        <MudIconButton Icon="@Icons.Material.Filled.Clear" aria-label="clear" Class="btnclearsrch" OnClick="OnClearSearch"></MudIconButton>
+                    }
+                </MudButtonGroup>
+            </div>
+
+            <ApiDocsNavbar listData="listLinks" />
+        </div>
+        <div class="col-12 col-md-12 col-lg-9 col-xl-10 col-xxl-10 mt-3 mb-3">
+            <ApiDocsContent listData="listContent" />
+        </div>
+    </div>
+</div>
+
+@code {
+    /* src: https://www.meziantou.net/anchor-navigation-in-a-blazor-application.htm */
+    /* src 2: https://stackoverflow.com/questions/64306326/how-do-i-set-nav-item-active-in-blazor */
+
+    public List<LinksDocsApi> listLinks { get; set; } = new List<LinksDocsApi>();
+    public List<ContentDocsApi> listContent { get; set; } = new List<ContentDocsApi>();
+    private bool isClearShowsUp { get; set; } = false;
+    private string? searchTitleLink { get; set; } = "";
+    private bool isAutoInputEnabled { get; set; } = false;
+    private double autoInputDelaySecs { get; set; } = 1000;
+
+    protected override void OnInitialized()
+    {
+        listLinks = GetALinks();
+        listContent = GetList();
+        NavigationManager.LocationChanged += OnLocationChanged!;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await ScrollToFragment();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged!;
+    }
+
+    private async void OnLocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        await ScrollToFragment();
+    }
+
+    private async Task ScrollToFragment()
+    {
+        var uri = new Uri(NavigationManager.Uri, UriKind.Absolute);
+        var fragment = uri.Fragment;
+
+        if (fragment.StartsWith('#'))
+        {
+            // Handle text fragment (https://example.org/#test:~:text=foo)
+            // https://github.com/WICG/scroll-to-text-fragment/
+
+            var elementId = fragment.Substring(1);
+            var index = elementId.IndexOf(":~:", StringComparison.Ordinal);
+
+            if (index > 0)
+            {
+                elementId = elementId.Substring(0, index);
+            }
+
+            if (!string.IsNullOrEmpty(elementId))
+            {
+                await JSRuntime.InvokeVoidAsync("BlazorScrollToId", elementId);
+            }
+        }
+    }
+
+    private List<LinksDocsApi> GetALinks()
+    {
+        var listLinksv = new List<LinksDocsApi>();
+
+        for (var i = 0; i < GetList().Count; i++)
+        {
+            listLinksv.AddRange(GetList()[i].LinksListDocsApi!);
+        }
+
+        return listLinksv;
+    }
+
+    private void ClearStuff()
+    {
+        if (listLinks.Count > 0)
+        {
+            listLinks.Clear();
+        }
+
+        if (listContent.Count > 0)
+        {
+            listContent.Clear();
+        }
+    }
+
+    private void AddStuff()
+    {
+        if (listLinks.Count == 0)
+        {
+            listLinks = GetALinks();
+        }
+
+        if (listContent.Count == 0)
+        {
+            listContent = GetList();
+        }
+    }
+
+    private void OnSearchTitleChange()
+    {
+        ClearStuff();
+        listLinks = !string.IsNullOrEmpty(searchTitleLink) || listLinks.Count > 0 ? GetALinks().Where(x => x.Title!.Contains(searchTitleLink!, StringComparison.CurrentCultureIgnoreCase)).ToList() : GetALinks();
+        listContent = !string.IsNullOrEmpty(searchTitleLink) || listContent.Count > 0 ? GetList().Where(x => x.IdName!.Contains(searchTitleLink!, StringComparison.CurrentCultureIgnoreCase)).ToList() : GetList();
+        isClearShowsUp = !string.IsNullOrEmpty(searchTitleLink) ? true : false;
+        AddStuff();
+    }
+
+    private void OnClearSearch()
+    {
+        ClearStuff();
+        isClearShowsUp = false;
+        searchTitleLink = "";
+        OnSearchTitleChange();
+    }
+
+    private async Task DoSearch(string text)
+    {
+        await Task.Run(() => OnSearchTitleChange());
+    }
+}

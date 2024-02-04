@@ -1,0 +1,148 @@
+﻿@using lcpCl = LCPCollection.Shared.Classes
+@typeparam T where T : class
+@inject HttpClient httpClient
+@inject NavigationManager navManager
+
+@if (!!isLoading)
+{
+    <div class="col-12 loadblk">
+        <p>Loading filter...</p>
+    </div>
+}
+else
+{
+    @if(isFilterEnabled)
+    {
+        <MudGrid Spacing="1" Justify="Justify.FlexStart" Class="mt-3 mb-3">
+            <MudItem xs="12" sm="12" md="6" lg="3" xl="2">
+                <MudSelect T="int" Label="Page Size" Value="@Size" ValueChanged="onPageSizeChanged" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                    <MudSelectItem T="int" Value="0" />
+                    <MudSelectItem T="int" Value="2" />
+                    <MudSelectItem T="int" Value="4" />
+                    <MudSelectItem T="int" Value="6" />
+                    <MudSelectItem T="int" Value="8" />
+                    <MudSelectItem T="int" Value="10" />
+                    <MudSelectItem T="int" Value="12" />
+                    <MudSelectItem T="int" Value="15" />
+                    <MudSelectItem T="int" Value="20" />
+                    <MudSelectItem T="int" Value="30" />
+                    <MudSelectItem T="int" Value="40" />
+                    <MudSelectItem T="int" Value="50" />
+                    <MudSelectItem T="int" Value="100" />
+                    <MudSelectItem T="int" Value="1000" />
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12" sm="12" md="6" lg="3" xl="2">
+                <MudTextField T="string" Label="Search" Value="@Search" TextChanged="onTextChanged" Variant="Variant.Outlined" />
+            </MudItem>
+            <MudItem xs="12" sm="12" md="6" lg="3" xl="2">
+                <MudSelect T="string" Label="Sort By" Value="@Sortby" ValueChanged="onSortByChanged" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                    @if (SortByEnumList!.Count > 0)
+                    {
+                        @foreach (var valen in SortByEnumList!)
+                        {
+                            <MudSelectItem T="string" Value="@valen" />
+                        }
+                    }
+                    else
+                    {
+                        <MudSelectItem T="string" Value="@("id")" />
+                        <MudSelectItem T="string" Value="@("title")" />
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12" sm="12" md="6" lg="3" xl="2">
+                <MudSelect T="string" Label="Sort Order" Value="@Sortorder" ValueChanged="onSortOrderChanged" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                    <MudSelectItem T="string" Value="@("ASC")" />
+                    <MudSelectItem T="string" Value="@("DESC")" />
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12" sm="12" md="6" lg="3" xl="2">
+                <MudSelect T="string" Label="Operator" Value="@Operator" ValueChanged="onOperatorChanged" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                    @if (OperatorEnumList!.Count > 0)
+                    {
+                        @foreach (var valenop in OperatorEnumList!)
+                        {
+                            <MudSelectItem T="string" Value="@valenop" />
+                        }
+                    }
+                    else
+                    {
+                        <MudSelectItem T="string" Value="@("Contains")" />
+                        <MudSelectItem T="string" Value="@("Equals")" />
+                    }
+                </MudSelect>
+            </MudItem>
+        </MudGrid>
+        <div class="form-group mt-1 mb-3">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ClearFilter" Disabled="@(Search!.Length == 0 ? true : false)">Clear</MudButton>
+        </div>
+    }
+}
+
+@code {
+    [Parameter] public lcpCl.QueryParamsRes<T>? DataItems { get; set; } = new lcpCl.QueryParamsRes<T>();
+    [Parameter] public string ApiName { get; set; } = "animes";
+    [Parameter] public int Page { get; set; } = 1;
+    [Parameter] public int Size { get; set; } = 12;
+    [Parameter] public string Search { get; set; } = "";
+    [Parameter] public string Sortby { get; set; } = "id";
+    [Parameter] public string Sortorder { get; set; } = "ASC";
+    [Parameter] public string Operator { get; set; } = "Contains";
+    [Parameter] public bool isFilterEnabled { get; set; } = false;
+    [Parameter] public EventCallback<int> onPageSizeChanged { get; set; }
+    [Parameter] public EventCallback<string> onTextChanged { get; set; }
+    [Parameter] public EventCallback<string> onSortByChanged { get; set; }
+    [Parameter] public EventCallback<string> onSortOrderChanged { get; set; }
+    [Parameter] public EventCallback<string> onOperatorChanged { get; set; }
+
+    private List<string>? SortByEnumList = new List<string>();
+    private List<string>? OperatorEnumList = new List<string>();
+    private string? filterStr { get; set; }
+    public bool isLoading { get; set; } = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        await LoadMyFilteredData();
+        isLoading = false;
+        StateHasChanged();
+    }
+
+    private async Task ClearFilter()
+    {
+        Page = 1;
+        Size = 12;
+        Search = "";
+        Sortby = "id";
+        Sortorder = "ASC";
+        Operator = "Contains";
+        await LoadMyFilteredData();
+    }
+
+    private async Task LoadMyFilteredData()
+    {
+        filterStr = isFilterEnabled ? $"?Page={Page}&PageSize={Size}&Search={Search}&SortBy={Sortby}&SortOrder={Sortorder}&Operator={Operator}" : $"?Page={Page}&PageSize={Size}";
+        DataItems = await httpClient.GetFromJsonAsync<lcpCl.QueryParamsRes<T>>($"https://localhost:5000/api/{ApiName.ToLower()}/filter{filterStr}");
+        SortByEnumList = await httpClient.GetFromJsonAsync<List<string>>($"https://localhost:5000/api/{ApiName.ToLower()}/enumslist");
+        OperatorEnumList = await httpClient.GetFromJsonAsync<List<string>>($"https://localhost:5000/api/{ApiName.ToLower()}/fopenumslist");
+        NavData();
+    }
+
+    private void NavData()
+    {
+        navManager.NavigateTo(isFilterEnabled ? $"/{ApiName.ToLower()}?page={Page}&size={Size}&search={Search}&sortby={Sortby}&sortorder={Sortorder}&operator={Operator}" : $"/{ApiName.ToLower()}?page={Page}&size={Size}", false);
+    }
+
+    private void Back() 
+    {
+         navManager.NavigateTo($"/{ApiName.ToLower()}?page={Page}&size={Size}", true);
+    }
+
+    private dynamic GetQueryParm(string parmName)
+    {
+        var uriBuilder = new UriBuilder(navManager.Uri);
+        var q = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
+        return int.TryParse(q[parmName], out int result) ? result : q[parmName]!;
+    }
+}

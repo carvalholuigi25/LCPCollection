@@ -1,0 +1,160 @@
+﻿@using static LCPCollection.Shared.Classes.DocsApi
+
+<div class="apidocscontainer" data-bs-spy="scroll" data-bs-target="#navapidocslinks" data-bs-smooth-scroll="true" tabindex="0">
+    @if (listData.Count == 0)
+    {
+        <p>Loading content api docs...</p>
+    }
+
+    @if (listData.Count > 0)
+    {
+        @foreach (var lc in listData)
+        {
+            <div id="@lc.IdName" class="@lc.ClassName">
+                <h2 class="title">@lc.Title</h2>
+
+                @foreach (var slc in lc.ListSubContent!)
+                {
+                    <div id="@slc.ClassNameEndpoint" class="apiendpoint">
+                        <div class=@("headerendpoint")>
+                            <h3 class="titleendpoint">@slc.TitleEndpoint</h3>
+                        </div>
+
+                        <div class=@("bodyendpoint")>
+                            @if (!string.IsNullOrEmpty(slc.DescEndpoint))
+                            {
+                                <p class="descendpoint">
+                                    <EscapeHTML Text="@slc.DescEndpoint" />
+                                </p>
+                            }
+                            else
+                            {
+                                <p class="descendpoint">
+                                    <EscapeHTML Text="@lc.Desc" />
+                                </p>
+                            }
+
+                            @if (slc.HttpReqsEndpoint != null)
+                            {
+                                <div class="httpreqendpoint">
+                                    <p class="titlehrendpoint fw-bold">HTTP(s) Request(s)</p>
+
+                                    @foreach(var thrx in slc.HttpReqsEndpoint)
+                                    {
+                                        if (!string.IsNullOrEmpty(thrx.Desc))
+                                        {
+                                            <code class="code deschrendpoint">
+                                                <EscapeHTML Text="@thrx.Desc" />
+                                            </code>
+                                        }
+                                    }
+                                </div>
+                            }
+
+                            @if (slc.QueryParamsEndpoint != null)
+                            {
+                                <div class="qryparamsendpoint">
+                                    <p class="qptitleendpoint fw-bold">Query Parameters</p>
+                                    <div class="qptblendpoint table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    @foreach (var thx in slc.QueryParamsEndpoint!.HeaderTbl!)
+                                                    {
+                                                        <th>@thx.Value</th>
+                                                        <th>@thx.Desc</th>
+                                                    }
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    @foreach (var tdx in slc.QueryParamsEndpoint!.BodyTbl!)
+                                                    {
+                                                        <td>@tdx.Value</td>
+                                                        <td>@tdx.Desc</td>
+                                                    }
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            }
+
+                            @if (slc.BodyParamsEndpoint != null)
+                            {
+                                <div class="bodyparamsendpoint">
+                                    <p class="bptitleendpoint fw-bold">Body Parameters</p>
+                                    <div class="bptblendpoint table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    @foreach (var thx in slc.BodyParamsEndpoint!.HeaderTbl!)
+                                                    {
+                                                        <th>@thx.Value</th>
+                                                        <th>@thx.Desc</th>
+                                                    }
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var tdx in slc.BodyParamsEndpoint!.BodyTbl!)
+                                                {
+                                                    <tr>
+                                                        <td>@tdx.Value</td>
+                                                        <td>@tdx.Desc</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            }
+
+                            @if (!string.IsNullOrEmpty(slc.ModelValExampleEndpoint))
+                            {
+                                <div class="mveendpoint">
+                                    <p class="mvetitleendpoint fw-bold">Model Example Value</p>
+
+                                    <code class="code descmveendpoint">
+                                        @slc.ModelValExampleEndpoint
+                                    </code>
+                                </div>
+                            }
+
+                            @if (slc.TblErrorsCodeEndpoint != null)
+                            {
+                                <div class="errorsendpoint">
+                                    <div class="bptblendpoint table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    @foreach (var thx in slc.TblErrorsCodeEndpoint!.HeaderTbl!)
+                                                    {
+                                                        <th>@thx.Value</th>
+                                                        <th>@thx.Desc</th>
+                                                    }
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var tdx in slc.TblErrorsCodeEndpoint!.BodyTbl!)
+                                                {
+                                                    <tr>
+                                                        <td>@tdx.Value</td>
+                                                        <td>@tdx.Desc</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    }
+</div>
+
+@code {
+    [Parameter] public List<ContentDocsApi> listData { get; set; } = new List<ContentDocsApi>();
+}

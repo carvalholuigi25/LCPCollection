@@ -1,0 +1,16 @@
+﻿@using LCPCollection.Shared.Classes
+@using LCPCollection.Client.Components.Dialogs
+
+@inject IDialogService DialogService
+
+<MudButton @onclick="OpenDialog" Variant="Variant.Filled" Color="Color.Primary">
+    Open Image Picker
+</MudButton>
+
+@code {
+    private void OpenDialog()
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true };
+        DialogService.Show<ImagePickerDialog>("Image picker", options);
+    }
+}

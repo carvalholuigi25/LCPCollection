@@ -1,0 +1,148 @@
+﻿@using LCPCollection.Shared.Classes
+@using Microsoft.AspNetCore.Components.Forms
+@inject HttpClient Http
+
+<MudPaper Class="d-flex flex-column justify-center py-2 px-1 mt-6">
+    @if(isMultiple)
+    {
+        <InputFile id="fileInput" OnChange="UploadFiles" hidden multiple />
+    }
+    else
+    {
+        <InputFile id="fileInput" OnChange="UploadFiles" hidden />
+    }
+
+    <p>The maximum file size is: @maxSizeFrm mb! (in bytes is: @maxSize)</p>
+    <p>Extensions files not allowed: @(Newtonsoft.Json.JsonConvert.SerializeObject(extFilesNotAllowed))</p>
+
+    <div class="flex-row justify-center">
+        <MudButton HtmlTag="label"
+                   Variant="Variant.Filled"
+                   Color="Color.Success"
+                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                   for="fileInput">
+            Upload Files
+        </MudButton>
+
+        <MudButton OnClick="SaveToServer"
+                   Variant="Variant.Filled"
+                   Color="Color.Warning"
+                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                   for="fileInput">
+            Upload Files To Server
+        </MudButton>
+    </div>
+</MudPaper>
+ 
+@if ((saveFile?.Files?.Count ?? 0) > 0)
+{
+    <MudPaper Class="d-flex justify-center py-2 px-1">
+        @foreach (var item in saveFile?.Files!)
+        {
+            <MudPaper Class="pa-2 mx-2">
+                <MudIconButton Color="Color.Error" Icon="@Icons.Material.Filled.Delete" OnClick="@(_ => RemoveImg(item))" aria-label="delete"></MudIconButton>
+ 
+                <img width="150" height="150" src="@($"data:{item.FileType};base64,{Convert.ToBase64String(item.ImageBytes!)}")">
+            </MudPaper>
+        }
+    </MudPaper>
+}
+
+<MudPaper Class="d-flex flex-column justify-center py-2 px-1 mt-3">
+    <h2>My uploaded files</h2>
+
+    @if (!!isLoading)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        <div class="container-fluid mt-3">
+            <div class="row justify-content-center align-items-start">
+                @if (FileDatasX!.Count > 0)
+                {
+                    @foreach (var items in FileDatasX!)
+                    {
+                        <div class="col-12 col-md-6 col-lg-4 col-xl-3 col-xxl-3 p-3">
+                            <a href="@($"https://localhost:5000{items.FileFullPath}")" target="_blank">
+                                <img src="@($"https://localhost:5000{items.FileFullPath}")" class="img-fluid w-100" style="height: 30vh" />
+                            </a>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-12">
+                        <p>0 files...</p>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</MudPaper>
+
+@code {
+    private string[] extFilesNotAllowed = { ".exe", ".iso" };
+    private bool isMultiple = true;
+    private bool isLoading = true;
+    private int maxSize => 10 * 1024 * 1024; //bytes to megabytes
+    private int maxSizeFrm => maxSize / (1024 * 1024); //megabytes to bytes
+    private List<FileData>? FileDatasX = new List<FileData>();
+    private int CTX = 0;
+
+    SaveFile saveFile = new SaveFile();
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        FileDatasX = await Http.GetFromJsonAsync<List<FileData>>("https://localhost:5000/api/list/files");
+        isLoading = false;
+    }
+
+    private async Task UploadFiles(InputFileChangeEventArgs e)
+    {
+        CTX++;
+
+        foreach (var file in e.GetMultipleFiles())
+        {
+            foreach (var extf in extFilesNotAllowed)
+            {
+                if (file.Name.EndsWith($"{extf}", StringComparison.OrdinalIgnoreCase))
+                {
+                    saveFile.Files.Clear();
+                    Console.WriteLine($"These extensions ({extf}) are not allowed");
+                    return;
+                }
+            }
+
+            if(file.Size >= maxSize)
+            {
+                saveFile.Files.Clear();
+                Console.WriteLine($"The maximum file size is {maxSize} bytes ({maxSizeFrm} mb)!");
+                return;
+            }
+
+            var fileData = new FileData();
+            var buffers = new byte[file.Size];
+            await file.OpenReadStream(maxSize).ReadAsync(buffers);
+            fileData.Id = CTX;
+            fileData.GId = Guid.NewGuid();
+            fileData.FileName = file.Name;
+            fileData.FileSize = file.Size;
+            fileData.FileType = file.ContentType;
+            fileData.FileFullPath = $"/uploads/{file.Name}";
+            fileData.ImageBytes = buffers;
+            saveFile.Files.Add(fileData);
+        }
+    }
+
+    private async Task SaveToServer()
+    {
+        await Http.PostAsJsonAsync("https://localhost:5000/api/upload/files", saveFile);
+    }
+
+    private void RemoveImg(FileData file)
+    {
+        saveFile.Files.Remove(file);
+    }
+}

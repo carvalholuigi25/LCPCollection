@@ -1,0 +1,139 @@
+﻿@page "/movies/update/{id:int}"
+
+@using LCPCollection.Shared.Classes
+@using Microsoft.AspNetCore.Components.Forms
+@using System.Net.Http.Json
+@using lcpCl = LCPCollection.Shared.Classes
+@inject ILogger<Movies> _logger
+@inject NavigationManager navMan
+@inject HttpClient httpClient
+
+<PageTitle>LCPCollection - Update Movies</PageTitle>
+
+<h3><MudIcon Icon="@Icons.Material.Filled.Movie" Color="Color.Inherit"></MudIcon> Update Movies</h3>
+
+@if (cid != -1)
+{
+    @if(MoviesXList != null)
+    {
+        <EditForm Model="MoviesXList" OnValidSubmit="UpdateIt">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            @foreach(var modelx in MoviesXList!)
+            {
+                <div class="form-group mt-3">
+                    <MudTextField Label="Title" @bind-Value="modelx.Title" For="@(() => modelx.Title)"/>
+                </div>
+
+                <div class="form-group mt-3">
+                    <MudTextField AutoGrow="true" Lines="10" MaxLines="10" Label="Description" @bind-Value="modelx.Description" For="@(() => modelx.Description)"/>
+                </div>
+
+                <div class="form-group mt-3">
+                    <MudTextField Label="Cover URL" @bind-Value="modelx.CoverUrl" For="@(() => modelx.CoverUrl)"/>
+                </div>
+
+                <div class="form-group mt-3">
+                    <MudTextField Label="Image URL" @bind-Value="modelx.ImageUrl" For="@(() => modelx.ImageUrl)"/>
+                </div>
+
+                <div class="form-group mt-3">
+                    <MudTextField Label="Companies" @bind-Value="modelx.Companies" For="@(() => modelx.Companies)"/>
+                </div>
+
+                <div class="form-group mt-3">
+                    <MudTextField Label="Publishers" @bind-Value="modelx.Publishers" For="@(() => modelx.Publishers)"/>
+                </div>
+
+                <div class="form-group mt-3">
+                    <MudTextField Label="Platforms" @bind-Value="modelx.Platforms" For="@(() => modelx.Platforms)"/>
+                </div>
+
+                <div class="form-group mt-3">
+                    <MudTextField T="DateTime?" Format="s" InputType="InputType.DateTimeLocal" Label="Release Date" @bind-Value="modelx.ReleaseDate" For="@(() => modelx.ReleaseDate)"/>
+                </div>
+
+                <div class="form-group mt-3">
+                    <MudTextField Label="Trailer URL" @bind-Value="modelx.TrailerUrl" For="@(() => modelx.TrailerUrl)"/>
+                </div>
+
+                <div class="form-group mt-3">
+                    <MudTextField Label="Genre" @bind-Value="modelx.Genre" For="@(() => modelx.Genre)"/>
+                </div>
+
+                <div class="form-group mt-3">
+                    <MudNumericField Label="Rating" @bind-Value="modelx.Rating" For="@(() => modelx.Rating)" Min="0" Max="10" />
+                </div>
+            }
+
+            <div class="form-group mt-3">
+                <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled" Class="btnupd">Update</MudButton>
+                <MudButton ButtonType="ButtonType.Button" Color="Color.Secondary" Variant="Variant.Filled" Class="btnbck" OnClick="Back">Back</MudButton>
+            </div>
+        </EditForm>
+    } 
+    else
+    {
+        <div class="col-12 loadblk">
+            <p>Loading...</p>
+        </div>
+    }
+}
+else
+{
+    <div class="col-12 warnblk">
+        <MudCard>
+            <MudCardContent>
+                <div class="text-center mx-auto">
+                    <i class="bi bi-exclamation-circle-fill warnico"></i>
+                    <p class="warntxt">0 movies has been found!</p>
+                </div>
+            </MudCardContent>
+            <MudCardActions>
+                <div class="text-center mx-auto">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Href="/movies" Class="text-center mx-auto">Back</MudButton>
+                </div>
+            </MudCardActions>
+        </MudCard>
+    </div>
+}
+
+@code {
+    [Parameter] public int id { get; set; } = -1;
+    public int cid { get; set; }
+    private List<lcpCl.Movies>? MoviesXList = new List<lcpCl.Movies>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        MoviesXList = await httpClient.GetFromJsonAsync<List<lcpCl.Movies>>($"https://localhost:5000/api/movies/{id}");
+        cid = MoviesXList!.Where(x => x.Id == id).Count() == 1 ? id : -1;
+    }
+
+    async Task UpdateIt()
+    {
+        try
+        {
+            if (cid != -1)
+            {
+                await httpClient.PutAsJsonAsync<lcpCl.Movies>($"https://localhost:5000/api/movies/{cid}", MoviesXList![0]);
+                _logger.LogInformation("Updated movie successfully!");
+            }
+            else
+            {
+                _logger.LogInformation("Unable to update movie because it hasn't been found or does not exist!");
+            }
+
+            navMan.NavigateTo(cid != -1 ? $"/movies/{cid}" : "/movies", false);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, ex.Message);
+        }
+    }
+
+    void Back()
+    {
+        navMan.NavigateTo(cid != -1 ? $"/movies/{cid}" : "/movies", false);
+    }
+}

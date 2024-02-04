@@ -1,0 +1,72 @@
+﻿@using static LCPCollection.Shared.Classes.DocsApi
+
+@if (listData.Count > 0)
+{
+    @if(typeNav >= 1)
+    {
+        <MudNavMenu id="navapidocslinks" Class="mt-3" Color="Color.Info" Bordered="true">
+            @foreach (var llnk in listData)
+            {
+                @if (llnk.Subitem == true && llnk.SubitemList!.Count > 0)
+                {
+                    <MudNavGroup Title=@($"{llnk.Title}") Expanded="false">
+                        @foreach (var sllnk in llnk.SubitemList)
+                        {
+                            <MudNavLink Href="@($"{prefixLink + llnk.Href + sllnk.Href}")">
+                                @($"{sllnk.Title}")
+                            </MudNavLink>
+                        }
+                    </MudNavGroup>
+                }
+                else
+                {
+                    <MudNavLink Href=@($"{prefixLink + llnk.Href}")>
+                        @($"{llnk.Title}")
+                    </MudNavLink>
+                }
+            }
+        </MudNavMenu>
+    } 
+    else
+    {
+        <nav id="navapidocslinks" class="h-100 flex-column align-items-stretch pe-4 mt-3">
+            <ul class="nav nav-pills flex-column">
+                @foreach (var llnk in listData)
+                {
+                    @if (llnk.Subitem == true && llnk.SubitemList!.Count > 0)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                @($"{llnk.Title}")
+                            </a>
+                            <ul class="dropdown-menu">
+                                @foreach (var sllnk in llnk.SubitemList)
+                                {
+                                    <li>
+                                        <a class=@("dropdown-item ms-3 my-1") href="@($"{prefixLink + llnk.Href + sllnk.Href}")">
+                                            @($"{sllnk.Title}")
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class=@("nav-link") href=@($"{prefixLink + llnk.Href}")>
+                                @($"{llnk.Title}")
+                            </a>
+                        </li>
+                    }
+                }
+            </ul>
+        </nav>
+    }
+}
+
+@code {
+    [Parameter] public List<LinksDocsApi> listData { get; set; } = new List<LinksDocsApi>();
+    private string prefixLink { get; set; } = "docs/api#";
+    private int typeNav { get; set; } = 1;
+}
