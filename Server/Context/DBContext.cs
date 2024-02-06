@@ -14,6 +14,8 @@ namespace LCPCollection.Server.Context
         public DbSet<TVSeries> TVSeries { get; set; }
         public DbSet<Animes> Animes { get; set; }
         public DbSet<FileData> FilesData { get; set; }
+        public DbSet<Softwares> Softwares { get; set; }
+        public DbSet<Websites> Websites { get; set; }
 
         public DBContext(IConfiguration configuration, IHostEnvironment environment)
         {

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LCPCollection.Server.Migrations.MySQL
 {
     [DbContext(typeof(DBContextMySQL))]
-    [Migration("20240203095012_InitialCreatePostgreSQL")]
+    [Migration("20240206143226_InitialCreatePostgreSQL")]
     partial class InitialCreatePostgreSQL
     {
         /// <inheritdoc />
@@ -246,6 +246,50 @@ namespace LCPCollection.Server.Migrations.MySQL
                     b.ToTable("Movies");
                 });
 
+            modelBuilder.Entity("LCPCollection.Shared.Classes.Softwares", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("AuthorName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Companies")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Platforms")
+                        .HasColumnType("longtext");
+
+                    b.Property<double?>("Rating")
+                        .HasColumnType("double");
+
+                    b.Property<string>("Requirements")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("Version")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Softwares");
+                });
+
             modelBuilder.Entity("LCPCollection.Shared.Classes.TVSeries", b =>
                 {
                     b.Property<int?>("Id")
@@ -288,6 +332,47 @@ namespace LCPCollection.Server.Migrations.MySQL
                     b.HasKey("Id");
 
                     b.ToTable("TVSeries");
+                });
+
+            modelBuilder.Entity("LCPCollection.Shared.Classes.Websites", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("AuthorName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("BrowsersName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Companies")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<double?>("Rating")
+                        .HasColumnType("double");
+
+                    b.Property<string>("Requirements")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Websites");
                 });
 #pragma warning restore 612, 618
         }

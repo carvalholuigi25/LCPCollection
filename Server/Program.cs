@@ -46,6 +46,8 @@ builder.Services.AddScoped<IGames, GamesService>();
 builder.Services.AddScoped<IMovies, MoviesService>();
 builder.Services.AddScoped<ITVSeries, TVSeriesService>();
 builder.Services.AddScoped<IFilesList, FilesListService>();
+builder.Services.AddScoped<ISoftwares, SoftwaresService>();
+builder.Services.AddScoped<IWebsites, WebsitesService>();
 
 //builder.Services.AddControllersWithViews().AddNewtonsoftJson(opts => opts.SerializerSettings.Converters.Add(new StringEnumConverter()));
 builder.Services.AddControllersWithViews().AddJsonOptions(options => {

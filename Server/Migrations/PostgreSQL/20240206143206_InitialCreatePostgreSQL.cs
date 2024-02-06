@@ -123,6 +123,29 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
                 });
 
             migrationBuilder.CreateTable(
+                name: "Softwares",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Title = table.Column<string>(type: "text", nullable: true),
+                    Type = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    Companies = table.Column<string>(type: "text", nullable: true),
+                    ImageUrl = table.Column<string>(type: "text", nullable: true),
+                    Version = table.Column<int>(type: "integer", nullable: true),
+                    Requirements = table.Column<string>(type: "text", nullable: true),
+                    Platforms = table.Column<string>(type: "text", nullable: true),
+                    Rating = table.Column<double>(type: "double precision", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    AuthorName = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Softwares", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TVSeries",
                 columns: table => new
                 {
@@ -143,6 +166,28 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TVSeries", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Websites",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Title = table.Column<string>(type: "text", nullable: true),
+                    Type = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    Companies = table.Column<string>(type: "text", nullable: true),
+                    ImageUrl = table.Column<string>(type: "text", nullable: true),
+                    Requirements = table.Column<string>(type: "text", nullable: true),
+                    BrowsersName = table.Column<string>(type: "text", nullable: true),
+                    Rating = table.Column<double>(type: "double precision", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    AuthorName = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Websites", x => x.Id);
                 });
 
             migrationBuilder.InsertData(
@@ -170,7 +215,13 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
                 name: "Movies");
 
             migrationBuilder.DropTable(
+                name: "Softwares");
+
+            migrationBuilder.DropTable(
                 name: "TVSeries");
+
+            migrationBuilder.DropTable(
+                name: "Websites");
         }
     }
 }

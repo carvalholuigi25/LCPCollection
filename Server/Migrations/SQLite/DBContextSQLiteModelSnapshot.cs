@@ -241,6 +241,50 @@ namespace LCPCollection.Server.Migrations.SQLite
                     b.ToTable("Movies");
                 });
 
+            modelBuilder.Entity("LCPCollection.Shared.Classes.Softwares", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AuthorName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Companies")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DateCreated")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Platforms")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double?>("Rating")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("Requirements")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("Version")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Softwares");
+                });
+
             modelBuilder.Entity("LCPCollection.Shared.Classes.TVSeries", b =>
                 {
                     b.Property<int?>("Id")
@@ -283,6 +327,47 @@ namespace LCPCollection.Server.Migrations.SQLite
                     b.HasKey("Id");
 
                     b.ToTable("TVSeries");
+                });
+
+            modelBuilder.Entity("LCPCollection.Shared.Classes.Websites", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AuthorName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("BrowsersName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Companies")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DateCreated")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double?>("Rating")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("Requirements")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Websites");
                 });
 #pragma warning restore 612, 618
         }

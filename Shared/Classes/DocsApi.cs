@@ -1019,6 +1019,360 @@
                 new ContentDocsApi()
                 {
                     Id = 8,
+                    Title = "Softwares",
+                    Desc = "",
+                    ClassName = "apisoftwares",
+                    IdName = "softwares",
+                    ListSubContent = new List<SubContentDocsApi>()
+                    {
+                        new SubContentDocsApi()
+                        {
+                            TitleEndpoint = "Get all softwares",
+                            DescEndpoint = "This endpoint fetches all softwares infos.",
+                            ClassNameEndpoint = "softwaresget",
+                            HttpReqsEndpoint = new List<HttpReqsEndpointCl>()
+                            {
+                                new HttpReqsEndpointCl()
+                                {
+                                    Desc = "GET https://localhost:5000/api/softwares"
+                                },
+                                new HttpReqsEndpointCl()
+                                {
+                                    Desc = "GET http://localhost:5001/api/softwares"
+                                }
+                            },
+                            QueryParamsEndpoint = null,
+                            BodyParamsEndpoint = null,
+                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(""), Newtonsoft.Json.Formatting.Indented),
+                            TblErrorsCodeEndpoint = null
+                        },
+                        new SubContentDocsApi()
+                        {
+                            TitleEndpoint = "Get softwares by id",
+                            DescEndpoint = "This endpoint fetches a softwares info by id.",
+                            ClassNameEndpoint = "softwaresgetbyid",
+                            HttpReqsEndpoint = new List<HttpReqsEndpointCl>()
+                            {
+                                new HttpReqsEndpointCl()
+                                {
+                                    Desc = "GET https://localhost:5000/api/softwares/id"
+                                },
+                                new HttpReqsEndpointCl()
+                                {
+                                    Desc = "GET http://localhost:5001/api/softwares/id"
+                                }
+                            },
+                            QueryParamsEndpoint = new TblProps()
+                            {
+                                HeaderTbl = new List<TblPropsObjs>()
+                                {
+                                    new TblPropsObjs() { Key = 1, Value = "Parameter", Desc = "Description" },
+                                },
+                                BodyTbl = new List<TblPropsObjs>()
+                                {
+                                    new TblPropsObjs() { Key = 1, Value = "Id", Desc = "The ID of the softwares to get it" }
+                                },
+                            },
+                            BodyParamsEndpoint = null,
+                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(""), Newtonsoft.Json.Formatting.Indented),
+                            TblErrorsCodeEndpoint = null
+                        },
+                        new SubContentDocsApi()
+                        {
+                            TitleEndpoint = "Create softwares",
+                            DescEndpoint = "This endpoint creates a new softwares.",
+                            ClassNameEndpoint = "softwarespost",
+                            HttpReqsEndpoint = new List<HttpReqsEndpointCl>()
+                            {
+                                new HttpReqsEndpointCl()
+                                {
+                                    Desc = "POST https://localhost:5000/api/softwares"
+                                },
+                                new HttpReqsEndpointCl()
+                                {
+                                    Desc = "POST http://localhost:5001/api/softwares"
+                                }
+                            },
+                            QueryParamsEndpoint = null,
+                            BodyParamsEndpoint = new TblProps()
+                            {
+                                HeaderTbl = new List<TblPropsObjs>()
+                                {
+                                    new TblPropsObjs() { Key = 1, Value = "Parameter", Desc = "Description" },
+                                },
+                                BodyTbl = new List<TblPropsObjs>()
+                                {
+                                    new TblPropsObjs() { Key = 1, Value = "Id", Desc = "The ID of the softwares" }
+                                },
+                            },
+                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(""), Newtonsoft.Json.Formatting.Indented),
+                            TblErrorsCodeEndpoint = null
+                        },
+                        new SubContentDocsApi()
+                        {
+                            TitleEndpoint = "Update softwares",
+                            DescEndpoint = "This endpoint updates the current softwares by id and body.",
+                            ClassNameEndpoint = "softwaresupdate",
+                            HttpReqsEndpoint = new List<HttpReqsEndpointCl>()
+                            {
+                                new HttpReqsEndpointCl()
+                                {
+                                    Desc = "PUT https://localhost:5000/api/softwares/id"
+                                },
+                                new HttpReqsEndpointCl()
+                                {
+                                    Desc = "PUT http://localhost:5001/api/softwares/id"
+                                }
+                            },
+                            QueryParamsEndpoint = new TblProps()
+                            {
+                                HeaderTbl = new List<TblPropsObjs>()
+                                {
+                                    new TblPropsObjs() { Key = 1, Value = "Parameter", Desc = "Description" },
+                                },
+                                BodyTbl = new List<TblPropsObjs>()
+                                {
+                                    new TblPropsObjs() { Key = 1, Value = "Id", Desc = "The ID of the softwares to update" }
+                                },
+                            },
+                            BodyParamsEndpoint = new TblProps()
+                            {
+                                HeaderTbl = new List<TblPropsObjs>()
+                                {
+                                    new TblPropsObjs() { Key = 1, Value = "Parameter", Desc = "Description" },
+                                },
+                                BodyTbl = new List<TblPropsObjs>()
+                                {
+                                    new TblPropsObjs() { Key = 1, Value = "Id", Desc = "The ID of the softwares" }
+                                },
+                            },
+                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(""), Newtonsoft.Json.Formatting.Indented),
+                            TblErrorsCodeEndpoint = null
+                        },
+                        new SubContentDocsApi()
+                        {
+                            TitleEndpoint = "Delete softwares By Id",
+                            DescEndpoint = "This endpoint deletes a specific book by id.",
+                            ClassNameEndpoint = "softwaresdelete",
+                            HttpReqsEndpoint = new List<HttpReqsEndpointCl>()
+                            {
+                                new HttpReqsEndpointCl()
+                                {
+                                    Desc = "DELETE https://localhost:5000/api/softwares/id"
+                                },
+                                new HttpReqsEndpointCl()
+                                {
+                                    Desc = "DELETE http://localhost:5001/api/softwares/id"
+                                }
+                            },
+                            QueryParamsEndpoint = new TblProps()
+                            {
+                                HeaderTbl = new List<TblPropsObjs>()
+                                {
+                                    new TblPropsObjs() { Key = 1, Value = "Parameter", Desc = "Description" },
+                                },
+                                BodyTbl = new List<TblPropsObjs>()
+                                {
+                                    new TblPropsObjs() { Key = 1, Value = "Id", Desc = "The ID of the softwares to delete" }
+                                },
+                            },
+                            BodyParamsEndpoint = null,
+                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(""), Newtonsoft.Json.Formatting.Indented),
+                            TblErrorsCodeEndpoint = null
+                        }
+                    },
+                    LinksListDocsApi = new List<LinksDocsApi>()
+                    {
+                        new LinksDocsApi()
+                        {
+                            Id = 8,
+                            Title = "Softwares",
+                            Href = "softwares",
+                            Subitem = true,
+                            SubitemList = GetSubitemListLinks()
+                        }
+                    }
+                },
+                new ContentDocsApi()
+                {
+                    Id = 9,
+                    Title = "Websites",
+                    Desc = "",
+                    ClassName = "apiwebsites",
+                    IdName = "websites",
+                    ListSubContent = new List<SubContentDocsApi>()
+                    {
+                        new SubContentDocsApi()
+                        {
+                            TitleEndpoint = "Get all websites",
+                            DescEndpoint = "This endpoint fetches all websites infos.",
+                            ClassNameEndpoint = "websitesget",
+                            HttpReqsEndpoint = new List<HttpReqsEndpointCl>()
+                            {
+                                new HttpReqsEndpointCl()
+                                {
+                                    Desc = "GET https://localhost:5000/api/websites"
+                                },
+                                new HttpReqsEndpointCl()
+                                {
+                                    Desc = "GET http://localhost:5001/api/websites"
+                                }
+                            },
+                            QueryParamsEndpoint = null,
+                            BodyParamsEndpoint = null,
+                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(""), Newtonsoft.Json.Formatting.Indented),
+                            TblErrorsCodeEndpoint = null
+                        },
+                        new SubContentDocsApi()
+                        {
+                            TitleEndpoint = "Get websites by id",
+                            DescEndpoint = "This endpoint fetches a websites info by id.",
+                            ClassNameEndpoint = "websitesgetbyid",
+                            HttpReqsEndpoint = new List<HttpReqsEndpointCl>()
+                            {
+                                new HttpReqsEndpointCl()
+                                {
+                                    Desc = "GET https://localhost:5000/api/websites/id"
+                                },
+                                new HttpReqsEndpointCl()
+                                {
+                                    Desc = "GET http://localhost:5001/api/websites/id"
+                                }
+                            },
+                            QueryParamsEndpoint = new TblProps()
+                            {
+                                HeaderTbl = new List<TblPropsObjs>()
+                                {
+                                    new TblPropsObjs() { Key = 1, Value = "Parameter", Desc = "Description" },
+                                },
+                                BodyTbl = new List<TblPropsObjs>()
+                                {
+                                    new TblPropsObjs() { Key = 1, Value = "Id", Desc = "The ID of the websites to get it" }
+                                },
+                            },
+                            BodyParamsEndpoint = null,
+                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(""), Newtonsoft.Json.Formatting.Indented),
+                            TblErrorsCodeEndpoint = null
+                        },
+                        new SubContentDocsApi()
+                        {
+                            TitleEndpoint = "Create websites",
+                            DescEndpoint = "This endpoint creates a new websites.",
+                            ClassNameEndpoint = "websitespost",
+                            HttpReqsEndpoint = new List<HttpReqsEndpointCl>()
+                            {
+                                new HttpReqsEndpointCl()
+                                {
+                                    Desc = "POST https://localhost:5000/api/websites"
+                                },
+                                new HttpReqsEndpointCl()
+                                {
+                                    Desc = "POST http://localhost:5001/api/websites"
+                                }
+                            },
+                            QueryParamsEndpoint = null,
+                            BodyParamsEndpoint = new TblProps()
+                            {
+                                HeaderTbl = new List<TblPropsObjs>()
+                                {
+                                    new TblPropsObjs() { Key = 1, Value = "Parameter", Desc = "Description" },
+                                },
+                                BodyTbl = new List<TblPropsObjs>()
+                                {
+                                    new TblPropsObjs() { Key = 1, Value = "Id", Desc = "The ID of the websites" }
+                                },
+                            },
+                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(""), Newtonsoft.Json.Formatting.Indented),
+                            TblErrorsCodeEndpoint = null
+                        },
+                        new SubContentDocsApi()
+                        {
+                            TitleEndpoint = "Update websites",
+                            DescEndpoint = "This endpoint updates the current websites by id and body.",
+                            ClassNameEndpoint = "websitesupdate",
+                            HttpReqsEndpoint = new List<HttpReqsEndpointCl>()
+                            {
+                                new HttpReqsEndpointCl()
+                                {
+                                    Desc = "PUT https://localhost:5000/api/websites/id"
+                                },
+                                new HttpReqsEndpointCl()
+                                {
+                                    Desc = "PUT http://localhost:5001/api/websites/id"
+                                }
+                            },
+                            QueryParamsEndpoint = new TblProps()
+                            {
+                                HeaderTbl = new List<TblPropsObjs>()
+                                {
+                                    new TblPropsObjs() { Key = 1, Value = "Parameter", Desc = "Description" },
+                                },
+                                BodyTbl = new List<TblPropsObjs>()
+                                {
+                                    new TblPropsObjs() { Key = 1, Value = "Id", Desc = "The ID of the websites to update" }
+                                },
+                            },
+                            BodyParamsEndpoint = new TblProps()
+                            {
+                                HeaderTbl = new List<TblPropsObjs>()
+                                {
+                                    new TblPropsObjs() { Key = 1, Value = "Parameter", Desc = "Description" },
+                                },
+                                BodyTbl = new List<TblPropsObjs>()
+                                {
+                                    new TblPropsObjs() { Key = 1, Value = "Id", Desc = "The ID of the websites" }
+                                },
+                            },
+                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(""), Newtonsoft.Json.Formatting.Indented),
+                            TblErrorsCodeEndpoint = null
+                        },
+                        new SubContentDocsApi()
+                        {
+                            TitleEndpoint = "Delete websites By Id",
+                            DescEndpoint = "This endpoint deletes a specific book by id.",
+                            ClassNameEndpoint = "websitesdelete",
+                            HttpReqsEndpoint = new List<HttpReqsEndpointCl>()
+                            {
+                                new HttpReqsEndpointCl()
+                                {
+                                    Desc = "DELETE https://localhost:5000/api/websites/id"
+                                },
+                                new HttpReqsEndpointCl()
+                                {
+                                    Desc = "DELETE http://localhost:5001/api/websites/id"
+                                }
+                            },
+                            QueryParamsEndpoint = new TblProps()
+                            {
+                                HeaderTbl = new List<TblPropsObjs>()
+                                {
+                                    new TblPropsObjs() { Key = 1, Value = "Parameter", Desc = "Description" },
+                                },
+                                BodyTbl = new List<TblPropsObjs>()
+                                {
+                                    new TblPropsObjs() { Key = 1, Value = "Id", Desc = "The ID of the websites to delete" }
+                                },
+                            },
+                            BodyParamsEndpoint = null,
+                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(""), Newtonsoft.Json.Formatting.Indented),
+                            TblErrorsCodeEndpoint = null
+                        }
+                    },
+                    LinksListDocsApi = new List<LinksDocsApi>()
+                    {
+                        new LinksDocsApi()
+                        {
+                            Id = 9,
+                            Title = "Websites",
+                            Href = "websites",
+                            Subitem = true,
+                            SubitemList = GetSubitemListLinks()
+                        }
+                    }
+                },
+                new ContentDocsApi()
+                {
+                    Id = 10,
                     Title = "Errors",
                     Desc = "",
                     ClassName = "apierrors",

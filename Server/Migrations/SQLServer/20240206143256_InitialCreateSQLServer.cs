@@ -122,6 +122,29 @@ namespace LCPCollection.Server.Migrations.SQLServer
                 });
 
             migrationBuilder.CreateTable(
+                name: "Softwares",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Companies = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Version = table.Column<int>(type: "int", nullable: true),
+                    Requirements = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Platforms = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Rating = table.Column<double>(type: "float", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    AuthorName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Softwares", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TVSeries",
                 columns: table => new
                 {
@@ -142,6 +165,28 @@ namespace LCPCollection.Server.Migrations.SQLServer
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TVSeries", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Websites",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Companies = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Requirements = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BrowsersName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Rating = table.Column<double>(type: "float", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    AuthorName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Websites", x => x.Id);
                 });
 
             migrationBuilder.InsertData(
@@ -169,7 +214,13 @@ namespace LCPCollection.Server.Migrations.SQLServer
                 name: "Movies");
 
             migrationBuilder.DropTable(
+                name: "Softwares");
+
+            migrationBuilder.DropTable(
                 name: "TVSeries");
+
+            migrationBuilder.DropTable(
+                name: "Websites");
         }
     }
 }

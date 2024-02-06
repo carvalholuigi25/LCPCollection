@@ -1,9 +1,0 @@
-import / export db of postgresql
-
-C:/PostgreSQL/16/bin/pg_dump.exe -C -h localhost -U postgres LCPCollectionDB > C:/Users/luisc/pgsqldata/lcpcollectiondb.sql
-C:/PostgreSQL/16/bin/psql.exe -h localhost -U postgres LCPCollectionDB < C:/Users/luisc/pgsqldata/lcpcollectiondb.sql
-
-pg_dump -C -h host -U username db_name > /any_directory/dump_schema_and_data_file 
-psql -h host -U username db_name < dump_schema_and_data_file
-
-src: https://stackoverflow.com/questions/1237725/copying-postgresql-database-to-another-server

@@ -1,0 +1,159 @@
+﻿@page "/websites"
+@page "/websites/{page:int?}/{size:int?}/{search}/{sortby}/{sortorder}/{foperator}"
+@using System.Net.Http.Json
+@using lcpCl = LCPCollection.Shared.Classes
+@inject HttpClient httpClient
+@inject NavigationManager navManager
+
+<PageTitle>LCPCollection - Websites</PageTitle>
+
+<h1><MudIcon Icon="@Icons.Material.Filled.Web" Color="Color.Inherit"></MudIcon> Websites</h1>
+
+<div class="row">
+    <div class="col-12">
+        <div class="form-group">
+            <MudButton Href="/websites/create" Variant="Variant.Filled" Color="Color.Primary">Create</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ToggleFilter">Toggle Filter</MudButton>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <MyDataFilter T="lcpCl.Websites" DataItems="WebsitesX" ApiName="Websites" isFilterEnabled="isFilterEnabled" Page="page" Size="size" Search="@search" Sortby="@sortby" Sortorder="@sortorder" Operator="@foperator" onPageSizeChanged="PageSizeChanged" onTextChanged="TextChanged" onSortByChanged="SortByChanged" onSortOrderChanged="SortOrderChanged" onOperatorChanged="OperatorChanged" />
+
+    @if(WebsitesX!.Count > 0)
+    {
+        <MudGrid Spacing="1" Justify="Justify.FlexStart" Class="mt-3 mb-3">
+            @foreach (var item in WebsitesX!.Data!)
+            {
+                <MudItem xs="12" sm="6" md="4" lg="2">
+                    <a href="@($"/websites/{item.Id}")">
+                        <MudImage Src="@($"{item.ImageUrl}")" Class="img-fluid img-cover-main mcardroundct" />
+                    </a>
+                </MudItem>
+            }
+        </MudGrid>
+
+        <MyPagination T="lcpCl.Websites" DataItems="WebsitesX" ApiName="Websites" Page="page" Size="size" IsFilterEnabled="isFilterEnabled" onPageChanged="PageChanged" />
+    }
+    else
+    {
+        @if(!!isLoading)
+        {
+            <div class="col-12 loadblk">
+                <p>Loading...</p>
+            </div>
+        }
+        else
+        {
+            <div class="col-12 warnblk">
+                <MudCard>
+                    <MudCardContent>
+                        <div class="text-center mx-auto">
+                            <i class="bi bi-exclamation-circle-fill warnico"></i>
+                            <p class="warntxt">0 websites has been found!</p>
+                        </div>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <div class="text-center mx-auto">
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary" Href="/" Class="text-center mx-auto">Back</MudButton>
+                        </div>
+                    </MudCardActions>
+                </MudCard>
+            </div>
+        }
+    }
+</div>
+
+@code {
+    [Parameter] public int page { get; set; } = 1;
+    [Parameter] public int size { get; set; } = 12;
+    [Parameter] public string? search { get; set; } = "";
+    [Parameter] public string? sortby { get; set; } = "id";
+    [Parameter] public string? sortorder { get; set; } = "ASC";
+    [Parameter] public string? foperator { get; set; } = "Contains";
+
+    public bool isFilterEnabled { get; set; } = false;
+    public bool isLoading { get; set; } = true;
+    public string? filterStr { get; set; }
+    private lcpCl.QueryParamsRes<lcpCl.Websites>? WebsitesX = new lcpCl.QueryParamsRes<lcpCl.Websites>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        page = GetQueryParm("page") > 0 ? GetQueryParm("page") : 1;
+        size = GetQueryParm("size") > 0 ? GetQueryParm("size") : 12;
+        search = !string.IsNullOrEmpty(GetQueryParm("search")) ? GetQueryParm("search") : "";
+        sortby = !string.IsNullOrEmpty(GetQueryParm("sortby")) ? GetQueryParm("sortby") : "id";
+        sortorder = !string.IsNullOrEmpty(GetQueryParm("sortorder")) ? GetQueryParm("sortorder") : "ASC";
+        foperator = !string.IsNullOrEmpty(GetQueryParm("operator")) ? GetQueryParm("operator") : "Contains";
+        await LoadMyFilteredData();
+        isLoading = false;
+        StateHasChanged();
+    }
+
+    private async Task LoadMyFilteredData()
+    {
+        WebsitesX = await httpClient.GetFromJsonAsync<lcpCl.QueryParamsRes<lcpCl.Websites>>($"https://localhost:5000/api/websites/filter?Page={page}&PageSize={size}&Search={search}&SortBy={sortby}&SortOrder={sortorder}&Operator={foperator}");
+    }
+
+    private async Task PageChanged(int i)
+    {
+        page = i > 0 ? i : 1;
+        await LoadMyFilteredData();
+        NavData();
+    }
+
+    private async Task PageSizeChanged(int i)
+    {
+        size = i > 0 ? i : 12;
+        await LoadMyFilteredData();
+        NavData();
+    }
+
+    private async Task TextChanged(string srch)
+    {
+        search = srch;
+        await LoadMyFilteredData();
+        NavData();
+    }
+
+    private async Task SortByChanged(string srtby)
+    {
+        sortby = srtby;
+        await LoadMyFilteredData();
+        NavData();
+    }
+
+    private async Task SortOrderChanged(string srtorder)
+    {
+        sortorder = srtorder;
+        await LoadMyFilteredData();
+        NavData();
+    }
+
+    private async Task OperatorChanged(string fnoperator)
+    {
+        foperator = fnoperator;
+        await LoadMyFilteredData();
+        NavData();
+    }
+
+    private void ToggleFilter()
+    {
+        isFilterEnabled = !isFilterEnabled;
+        NavData();
+    }
+
+    private void NavData()
+    {
+        navManager.NavigateTo(isFilterEnabled ? $"/websites?page={page}&size={size}&search={search}&sortby={sortby}&sortorder={sortorder}&operator={foperator}" : $"/websites?page={page}&size={size}", false);
+    }
+
+    private dynamic GetQueryParm(string parmName)
+    {
+        var uriBuilder = new UriBuilder(navManager.Uri);
+        var q = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
+        return int.TryParse(q[parmName], out int result) ? result : q[parmName]!;
+    }
+}
