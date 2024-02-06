@@ -516,13 +516,7 @@ input:read-only, input:disabled {
     border-left-style: solid;
 }
 
-#introduction, #auth,
-#animes, #animesget, #animesgetbyid, #animespost, #animesupdate, #animesdelete,
-#games, #gamesget, #gamesgetbyid, #gamespost, #gamesupdate, #gamesdelete,
-#movies, #moviesget, #moviesgetbyid, #moviespost, #moviesupdate, #moviesdelete,
-#books, #booksget, #booksgetbyid, #bookspost, #booksupdate, #booksdelete,
-#tvseries, #tvseriesget, #tvseriesgetbyid, #tvseriespost, #tvseriesupdate, #tvseriesdelete,
-#errors {
+.apianchorscroll {
     scroll-margin-top: 5rem;
 }
 
