@@ -39,13 +39,23 @@
                             <MudText Class="mt-3">@item.Companies</MudText>
                             <MudText Class="mt-3">@item.Publishers</MudText>
                             <MudText Class="mt-3">@item.Description</MudText>
-                            <MudText Class="mt-3">@item.TrailerUrl</MudText>
                             <MudText Class="mt-3">
                                 <MudRating SelectedValue="@int.Parse(item.Rating!.ToString()!)" Size="Size.Small" MaxValue="10" ReadOnly />
                             </MudText>
+                            <MudButton Class="mt-3" Variant="Variant.Filled" Color="Color.Primary" OnClick="OnToggleMedia">Toggle Media</MudButton>
                         </MudCardContent>
                     </div>
                 </div>
+
+                @if(isMediaToggled) {
+                    <div class="container mt-3">
+                        <div class="col-12">
+                            <h3>Media</h3>
+                            <VideoPlayer type="video/youtube" src="@item.TrailerUrl" />
+                        </div>
+                    </div>
+                }
+                
             </MudCard>
         }
 
@@ -78,6 +88,8 @@
 
 @code {
     [Parameter] public int id { get; set; } = -1;
+
+    public bool isMediaToggled { get; set; } = false;
     public int cid { get; set; }
     private IEnumerable<lcpCl.Animes>? AnimesX = new List<lcpCl.Animes>();
 
@@ -85,5 +97,10 @@
     {
         AnimesX = await httpClient.GetFromJsonAsync<List<lcpCl.Animes>>($"https://localhost:5000/api/animes/{id}");
         cid = AnimesX!.Where(x => x.Id == id).Count() == 1 ? id : -1;
+    }
+
+    private void OnToggleMedia() 
+    {
+        isMediaToggled = !isMediaToggled;
     }
 }

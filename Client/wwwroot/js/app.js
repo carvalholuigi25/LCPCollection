@@ -24,6 +24,18 @@ function BlazorScrollToId(id) {
     }
 }
 
+function loadPlayer(id, options) {
+    if(document.getElementById(id)) {
+        let player;
+        let players = videojs.players;
+        if(players && Object.keys(players).length) {
+            player = players[id];
+            player.dispose();
+        }
+        player = videojs(id, options);
+    }
+}
+
 window.addEventListener("DOMContentLoaded", () => {
     console.log("Loaded app.js!");
 });

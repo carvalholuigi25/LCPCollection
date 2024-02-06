@@ -8,6 +8,10 @@
     src: url('/fonts/montserrat/static/Montserrat-Regular.ttf');
 }
 
+h1, h2, h3, h4, h5, h6 {
+    color: inherit;
+}
+
 h1:focus {
     outline: none;
 }
@@ -154,6 +158,12 @@ h1:focus {
     border-radius: calc(16px + 8px);
 }
 
+.mcardroundct h1, .mcardroundct h2, .mcardroundct h3, 
+.mcardroundct h4, .mcardroundct h5, .mcardroundct h6 {
+    color: white;
+}
+
+
 .mychkbox .mud-ripple-checkbox,
 .mychkbox.active .mud-ripple-checkbox {
     position: absolute;
@@ -188,7 +198,7 @@ input:read-only, input:disabled {
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 68vh;
+    height: auto;
     max-width: 100%;
     max-height: 100%;
     padding: 15px;

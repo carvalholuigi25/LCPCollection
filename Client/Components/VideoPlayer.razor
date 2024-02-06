@@ -1,0 +1,34 @@
+@page "/player" 
+@inject IJSRuntime jsRuntime
+
+<video id="my-player" controls class="video-js mt-3"></video>
+
+@code {
+    [Parameter] public string? type { get; set; } = "video/youtube";
+    [Parameter] public string? src { get; set; } = "https://www.youtube.com/watch?v=xjS6SftYQaQ";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await jsRuntime.InvokeVoidAsync("loadPlayer", "my-player", new
+            {
+                controls = true,
+                autoplay = false,
+                preload = "auto",
+                poster = "",
+                width = 560,
+                height = 264,
+                enableSmoothSeeking = true,
+                fluid = true,
+                techOrder = new[] { "youtube", "html5" },
+                sources = new[] {
+                    new { 
+                        type = type, 
+                        src = src
+                    }
+                }
+            });
+        }
+    }
+}

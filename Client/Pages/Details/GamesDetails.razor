@@ -22,10 +22,13 @@
     {
         @foreach (var item in GamesX!)
         {
-            <MudCard Class="mcarditem mcardroundct" Style=@($"background-image: linear-gradient(to right, rgb(0 0 0 /0.9), rgb(0 0 0/0)), url('covers/{item.ImageUrl}')")>
+            var coverurl = item.CoverUrl;
+            var imgurl = item.ImageUrl;
+
+            <MudCard Class="mcarditem mcardroundct" Style=@($"background-image: linear-gradient(to right, rgb(0 0 0 /0.9), rgb(0 0 0/0)), url('{coverurl}')")>
                 <div class="container d-flex flex-wrap mt-3 mb-3">
                     <div class="col-12 col-md-6 col-lg-3 mcarditemcol1 p-3">
-                        <img src="@($"images/{item.ImageUrl}")" class="img-fluid mcarditemimg mcardroundct p-0 mx-auto" />
+                        <img src="@imgurl" class="img-fluid mcarditemimg mcardroundct p-0 mx-auto" />
                     </div>
                     <div class="col-12 col-md-6 col-lg-9 mcarditemcol2 p-3">
                         <MudCardContent Class="mcarditemcnt p-0">
@@ -36,13 +39,23 @@
                             <MudText Class="mt-3">@item.Companies</MudText>
                             <MudText Class="mt-3">@item.Publishers</MudText>
                             <MudText Class="mt-3">@item.Description</MudText>
-                            <MudText Class="mt-3">@item.TrailerUrl</MudText>
                             <MudText Class="mt-3">
                                 <MudRating SelectedValue="@int.Parse(item.Rating!.ToString()!)" Size="Size.Small" MaxValue="10" ReadOnly />
                             </MudText>
+                            <MudButton Class="mt-3" Variant="Variant.Filled" Color="Color.Primary" OnClick="OnToggleMedia">Toggle Media</MudButton>
                         </MudCardContent>
                     </div>
                 </div>
+
+                @if(isMediaToggled) {
+                    <div class="container mt-3">
+                        <div class="col-12">
+                            <h3>Media</h3>
+                            <VideoPlayer type="video/youtube" src="@item.TrailerUrl" />
+                        </div>
+                    </div>
+                }
+                
             </MudCard>
         }
 
@@ -51,9 +64,9 @@
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" Href="/games">Back</MudButton>
             </div>
         </div>
-    }
-
-    @if (cid == -1)
+    } 
+    
+    @if(cid == -1)
     {
         <div class="col-12 warnblk">
             <MudCard>
@@ -75,6 +88,8 @@
 
 @code {
     [Parameter] public int id { get; set; } = -1;
+
+    public bool isMediaToggled { get; set; } = false;
     public int cid { get; set; }
     private IEnumerable<lcpCl.Games>? GamesX = new List<lcpCl.Games>();
 
@@ -82,5 +97,10 @@
     {
         GamesX = await httpClient.GetFromJsonAsync<List<lcpCl.Games>>($"https://localhost:5000/api/games/{id}");
         cid = GamesX!.Where(x => x.Id == id).Count() == 1 ? id : -1;
+    }
+
+    private void OnToggleMedia() 
+    {
+        isMediaToggled = !isMediaToggled;
     }
 }
