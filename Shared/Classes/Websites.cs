@@ -34,4 +34,7 @@ public class Websites {
 
     [DataType("text")]
     public string? AuthorName { get; set; }
+
+    [DataType("text")]
+    public string? UrlValue { get; set; }
 }

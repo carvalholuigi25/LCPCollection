@@ -137,7 +137,8 @@ namespace LCPCollection.Server.Migrations.SQLServer
                     Platforms = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rating = table.Column<double>(type: "float", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    AuthorName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    AuthorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UrlValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -182,7 +183,8 @@ namespace LCPCollection.Server.Migrations.SQLServer
                     BrowsersName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rating = table.Column<double>(type: "float", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    AuthorName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    AuthorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UrlValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

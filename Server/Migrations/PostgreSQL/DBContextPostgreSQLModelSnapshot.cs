@@ -294,6 +294,9 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
                     b.Property<string>("Type")
                         .HasColumnType("text");
 
+                    b.Property<string>("UrlValue")
+                        .HasColumnType("text");
+
                     b.Property<int?>("Version")
                         .HasColumnType("integer");
 
@@ -384,6 +387,9 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
                         .HasColumnType("text");
 
                     b.Property<string>("Type")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UrlValue")
                         .HasColumnType("text");
 
                     b.HasKey("Id");

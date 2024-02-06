@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LCPCollection.Server.Migrations.SQLServer
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20240206143256_InitialCreateSQLServer")]
+    [Migration("20240206153520_InitialCreateSQLServer")]
     partial class InitialCreateSQLServer
     {
         /// <inheritdoc />
@@ -297,6 +297,9 @@ namespace LCPCollection.Server.Migrations.SQLServer
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UrlValue")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("Version")
                         .HasColumnType("int");
 
@@ -387,6 +390,9 @@ namespace LCPCollection.Server.Migrations.SQLServer
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UrlValue")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

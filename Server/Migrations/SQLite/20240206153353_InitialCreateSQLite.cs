@@ -137,7 +137,8 @@ namespace LCPCollection.Server.Migrations.SQLite
                     Platforms = table.Column<string>(type: "TEXT", nullable: true),
                     Rating = table.Column<double>(type: "REAL", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    AuthorName = table.Column<string>(type: "TEXT", nullable: true)
+                    AuthorName = table.Column<string>(type: "TEXT", nullable: true),
+                    UrlValue = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -182,7 +183,8 @@ namespace LCPCollection.Server.Migrations.SQLite
                     BrowsersName = table.Column<string>(type: "TEXT", nullable: true),
                     Rating = table.Column<double>(type: "REAL", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    AuthorName = table.Column<string>(type: "TEXT", nullable: true)
+                    AuthorName = table.Column<string>(type: "TEXT", nullable: true),
+                    UrlValue = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

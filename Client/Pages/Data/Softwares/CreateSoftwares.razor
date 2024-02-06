@@ -77,6 +77,10 @@ else
         </div>
 
         <div class="form-group mt-3">
+            <MudTextField Label="Url" @bind-Value="SoftwaresX!.UrlValue" For="@(() => SoftwaresX!.UrlValue)"/>
+        </div>
+
+        <div class="form-group mt-3">
             <MudButton ButtonType="ButtonType.Button" Color="Color.Tertiary" Variant="Variant.Filled" Class="btnback" OnClick="Back">Back</MudButton>
             <MudButton ButtonType="ButtonType.Reset" Color="Color.Secondary" Variant="Variant.Filled" Class="btnres">Reset</MudButton>
             <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled" Class="btnsub">Submit</MudButton>

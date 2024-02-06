@@ -193,6 +193,8 @@ namespace LCPCollection.Server.Migrations.MySQL
                     Rating = table.Column<double>(type: "double", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     AuthorName = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UrlValue = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -257,6 +259,8 @@ namespace LCPCollection.Server.Migrations.MySQL
                     Rating = table.Column<double>(type: "double", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     AuthorName = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UrlValue = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>

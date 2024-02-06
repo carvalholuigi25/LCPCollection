@@ -279,6 +279,9 @@ namespace LCPCollection.Server.Migrations.MySQL
                     b.Property<string>("Type")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("UrlValue")
+                        .HasColumnType("longtext");
+
                     b.Property<int?>("Version")
                         .HasColumnType("int");
 
@@ -365,6 +368,9 @@ namespace LCPCollection.Server.Migrations.MySQL
                         .HasColumnType("longtext");
 
                     b.Property<string>("Type")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UrlValue")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");

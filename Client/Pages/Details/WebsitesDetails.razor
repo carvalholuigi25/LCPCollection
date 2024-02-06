@@ -40,6 +40,11 @@
                             <MudText Class="mt-3">@item.DateCreated</MudText>
                             <MudText Class="mt-3">@item.AuthorName</MudText>
                             <MudText Class="mt-3">
+                                <MudLink Href="@item.UrlValue" Target="_blank">
+                                    @item.UrlValue
+                                </MudLink>
+                            </MudText>
+                            <MudText Class="mt-3">
                                 <MudRating SelectedValue="@int.Parse(item.Rating!.ToString()!)" Size="Size.Small" MaxValue="10" ReadOnly />
                             </MudText>
                         </MudCardContent>

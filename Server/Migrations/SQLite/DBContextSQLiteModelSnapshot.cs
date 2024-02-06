@@ -277,6 +277,9 @@ namespace LCPCollection.Server.Migrations.SQLite
                     b.Property<string>("Type")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("UrlValue")
+                        .HasColumnType("TEXT");
+
                     b.Property<int?>("Version")
                         .HasColumnType("INTEGER");
 
@@ -363,6 +366,9 @@ namespace LCPCollection.Server.Migrations.SQLite
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Type")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UrlValue")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

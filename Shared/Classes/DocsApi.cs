@@ -1043,7 +1043,7 @@
                             },
                             QueryParamsEndpoint = null,
                             BodyParamsEndpoint = null,
-                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject("[\r\n  {\r\n    \"id\": 0,\r\n    \"title\": \"string\",\r\n    \"type\": \"string\",\r\n    \"description\": \"string\",\r\n    \"companies\": \"string\",\r\n    \"imageUrl\": \"string\",\r\n    \"version\": 0,\r\n    \"requirements\": \"string\",\r\n    \"platforms\": \"string\",\r\n    \"rating\": 0,\r\n    \"dateCreated\": \"2024-02-06T14:44:49.927Z\",\r\n    \"authorName\": \"string\"\r\n  }\r\n]"), Newtonsoft.Json.Formatting.Indented),
+                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject("[\r\n  {\r\n    \"id\": 0,\r\n    \"title\": \"string\",\r\n    \"type\": \"string\",\r\n    \"description\": \"string\",\r\n    \"companies\": \"string\",\r\n    \"imageUrl\": \"string\",\r\n    \"version\": 0,\r\n    \"requirements\": \"string\",\r\n    \"platforms\": \"string\",\r\n    \"rating\": 0,\r\n    \"dateCreated\": \"2024-02-06T14:44:49.927Z\",\r\n    \"authorName\": \"string\"\r\n,\r\n    \"urlValue\": \"string\"\r\n  }\r\n]"), Newtonsoft.Json.Formatting.Indented),
                             TblErrorsCodeEndpoint = null
                         },
                         new SubContentDocsApi()
@@ -1074,7 +1074,7 @@
                                 },
                             },
                             BodyParamsEndpoint = null,
-                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject("[\r\n  {\r\n    \"id\": 0,\r\n    \"title\": \"string\",\r\n    \"type\": \"string\",\r\n    \"description\": \"string\",\r\n    \"companies\": \"string\",\r\n    \"imageUrl\": \"string\",\r\n    \"version\": 0,\r\n    \"requirements\": \"string\",\r\n    \"platforms\": \"string\",\r\n    \"rating\": 0,\r\n    \"dateCreated\": \"2024-02-06T14:44:49.927Z\",\r\n    \"authorName\": \"string\"\r\n  }\r\n]"), Newtonsoft.Json.Formatting.Indented),
+                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject("[\r\n  {\r\n    \"id\": 0,\r\n    \"title\": \"string\",\r\n    \"type\": \"string\",\r\n    \"description\": \"string\",\r\n    \"companies\": \"string\",\r\n    \"imageUrl\": \"string\",\r\n    \"version\": 0,\r\n    \"requirements\": \"string\",\r\n    \"platforms\": \"string\",\r\n    \"rating\": 0,\r\n    \"dateCreated\": \"2024-02-06T14:44:49.927Z\",\r\n    \"authorName\": \"string\"\r\n,\r\n    \"urlValue\": \"string\"\r\n  }\r\n]"), Newtonsoft.Json.Formatting.Indented),
                             TblErrorsCodeEndpoint = null
                         },
                         new SubContentDocsApi()
@@ -1105,7 +1105,7 @@
                                     new TblPropsObjs() { Key = 1, Value = "Id", Desc = "The ID of the softwares" }
                                 },
                             },
-                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject("[\r\n  {\r\n    \"id\": 0,\r\n    \"title\": \"string\",\r\n    \"type\": \"string\",\r\n    \"description\": \"string\",\r\n    \"companies\": \"string\",\r\n    \"imageUrl\": \"string\",\r\n    \"version\": 0,\r\n    \"requirements\": \"string\",\r\n    \"platforms\": \"string\",\r\n    \"rating\": 0,\r\n    \"dateCreated\": \"2024-02-06T14:44:49.927Z\",\r\n    \"authorName\": \"string\"\r\n  }\r\n]"), Newtonsoft.Json.Formatting.Indented),
+                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject("[\r\n  {\r\n    \"id\": 0,\r\n    \"title\": \"string\",\r\n    \"type\": \"string\",\r\n    \"description\": \"string\",\r\n    \"companies\": \"string\",\r\n    \"imageUrl\": \"string\",\r\n    \"version\": 0,\r\n    \"requirements\": \"string\",\r\n    \"platforms\": \"string\",\r\n    \"rating\": 0,\r\n    \"dateCreated\": \"2024-02-06T14:44:49.927Z\",\r\n    \"authorName\": \"string\"\r\n,\r\n    \"urlValue\": \"string\"\r\n  }\r\n]"), Newtonsoft.Json.Formatting.Indented),
                             TblErrorsCodeEndpoint = null
                         },
                         new SubContentDocsApi()
@@ -1146,7 +1146,7 @@
                                     new TblPropsObjs() { Key = 1, Value = "Id", Desc = "The ID of the softwares" }
                                 },
                             },
-                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject("[\r\n  {\r\n    \"id\": 0,\r\n    \"title\": \"string\",\r\n    \"type\": \"string\",\r\n    \"description\": \"string\",\r\n    \"companies\": \"string\",\r\n    \"imageUrl\": \"string\",\r\n    \"version\": 0,\r\n    \"requirements\": \"string\",\r\n    \"platforms\": \"string\",\r\n    \"rating\": 0,\r\n    \"dateCreated\": \"2024-02-06T14:44:49.927Z\",\r\n    \"authorName\": \"string\"\r\n  }\r\n]"), Newtonsoft.Json.Formatting.Indented),
+                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject("[\r\n  {\r\n    \"id\": 0,\r\n    \"title\": \"string\",\r\n    \"type\": \"string\",\r\n    \"description\": \"string\",\r\n    \"companies\": \"string\",\r\n    \"imageUrl\": \"string\",\r\n    \"version\": 0,\r\n    \"requirements\": \"string\",\r\n    \"platforms\": \"string\",\r\n    \"rating\": 0,\r\n    \"dateCreated\": \"2024-02-06T14:44:49.927Z\",\r\n    \"authorName\": \"string\"\r\n,\r\n    \"urlValue\": \"string\"\r\n  }\r\n]"), Newtonsoft.Json.Formatting.Indented),
                             TblErrorsCodeEndpoint = null
                         },
                         new SubContentDocsApi()
@@ -1177,7 +1177,7 @@
                                 },
                             },
                             BodyParamsEndpoint = null,
-                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject("[\r\n  {\r\n    \"id\": 0,\r\n    \"title\": \"string\",\r\n    \"type\": \"string\",\r\n    \"description\": \"string\",\r\n    \"companies\": \"string\",\r\n    \"imageUrl\": \"string\",\r\n    \"version\": 0,\r\n    \"requirements\": \"string\",\r\n    \"platforms\": \"string\",\r\n    \"rating\": 0,\r\n    \"dateCreated\": \"2024-02-06T14:44:49.927Z\",\r\n    \"authorName\": \"string\"\r\n  }\r\n]"), Newtonsoft.Json.Formatting.Indented),
+                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject("[\r\n  {\r\n    \"id\": 0,\r\n    \"title\": \"string\",\r\n    \"type\": \"string\",\r\n    \"description\": \"string\",\r\n    \"companies\": \"string\",\r\n    \"imageUrl\": \"string\",\r\n    \"version\": 0,\r\n    \"requirements\": \"string\",\r\n    \"platforms\": \"string\",\r\n    \"rating\": 0,\r\n    \"dateCreated\": \"2024-02-06T14:44:49.927Z\",\r\n    \"authorName\": \"string\"\r\n,\r\n    \"urlValue\": \"string\"\r\n  }\r\n]"), Newtonsoft.Json.Formatting.Indented),
                             TblErrorsCodeEndpoint = null
                         }
                     },
@@ -1220,7 +1220,7 @@
                             },
                             QueryParamsEndpoint = null,
                             BodyParamsEndpoint = null,
-                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject("[\r\n  {\r\n    \"id\": 0,\r\n    \"title\": \"string\",\r\n    \"type\": \"string\",\r\n    \"description\": \"string\",\r\n    \"companies\": \"string\",\r\n    \"imageUrl\": \"string\",\r\n    \"requirements\": \"string\",\r\n    \"browsersName\": \"string\",\r\n    \"rating\": 0,\r\n    \"dateCreated\": \"2024-02-06T14:45:02.526Z\",\r\n    \"authorName\": \"string\"\r\n  }\r\n]"), Newtonsoft.Json.Formatting.Indented),
+                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject("[\r\n  {\r\n    \"id\": 0,\r\n    \"title\": \"string\",\r\n    \"type\": \"string\",\r\n    \"description\": \"string\",\r\n    \"companies\": \"string\",\r\n    \"imageUrl\": \"string\",\r\n    \"requirements\": \"string\",\r\n    \"browsersName\": \"string\",\r\n    \"rating\": 0,\r\n    \"dateCreated\": \"2024-02-06T14:45:02.526Z\",\r\n    \"authorName\": \"string\"\r\n,\r\n    \"urlValue\": \"string\"\r\n  }\r\n]"), Newtonsoft.Json.Formatting.Indented),
                             TblErrorsCodeEndpoint = null
                         },
                         new SubContentDocsApi()
@@ -1251,7 +1251,7 @@
                                 },
                             },
                             BodyParamsEndpoint = null,
-                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject("[\r\n  {\r\n    \"id\": 0,\r\n    \"title\": \"string\",\r\n    \"type\": \"string\",\r\n    \"description\": \"string\",\r\n    \"companies\": \"string\",\r\n    \"imageUrl\": \"string\",\r\n    \"requirements\": \"string\",\r\n    \"browsersName\": \"string\",\r\n    \"rating\": 0,\r\n    \"dateCreated\": \"2024-02-06T14:45:02.526Z\",\r\n    \"authorName\": \"string\"\r\n  }\r\n]"), Newtonsoft.Json.Formatting.Indented),
+                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject("[\r\n  {\r\n    \"id\": 0,\r\n    \"title\": \"string\",\r\n    \"type\": \"string\",\r\n    \"description\": \"string\",\r\n    \"companies\": \"string\",\r\n    \"imageUrl\": \"string\",\r\n    \"requirements\": \"string\",\r\n    \"browsersName\": \"string\",\r\n    \"rating\": 0,\r\n    \"dateCreated\": \"2024-02-06T14:45:02.526Z\",\r\n    \"authorName\": \"string\"\r\n,\r\n    \"urlValue\": \"string\"\r\n  }\r\n]"), Newtonsoft.Json.Formatting.Indented),
                             TblErrorsCodeEndpoint = null
                         },
                         new SubContentDocsApi()
@@ -1282,7 +1282,7 @@
                                     new TblPropsObjs() { Key = 1, Value = "Id", Desc = "The ID of the websites" }
                                 },
                             },
-                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject("[\r\n  {\r\n    \"id\": 0,\r\n    \"title\": \"string\",\r\n    \"type\": \"string\",\r\n    \"description\": \"string\",\r\n    \"companies\": \"string\",\r\n    \"imageUrl\": \"string\",\r\n    \"requirements\": \"string\",\r\n    \"browsersName\": \"string\",\r\n    \"rating\": 0,\r\n    \"dateCreated\": \"2024-02-06T14:45:02.526Z\",\r\n    \"authorName\": \"string\"\r\n  }\r\n]"), Newtonsoft.Json.Formatting.Indented),
+                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject("[\r\n  {\r\n    \"id\": 0,\r\n    \"title\": \"string\",\r\n    \"type\": \"string\",\r\n    \"description\": \"string\",\r\n    \"companies\": \"string\",\r\n    \"imageUrl\": \"string\",\r\n    \"requirements\": \"string\",\r\n    \"browsersName\": \"string\",\r\n    \"rating\": 0,\r\n    \"dateCreated\": \"2024-02-06T14:45:02.526Z\",\r\n    \"authorName\": \"string\"\r\n,\r\n    \"urlValue\": \"string\"\r\n  }\r\n]"), Newtonsoft.Json.Formatting.Indented),
                             TblErrorsCodeEndpoint = null
                         },
                         new SubContentDocsApi()
@@ -1323,7 +1323,7 @@
                                     new TblPropsObjs() { Key = 1, Value = "Id", Desc = "The ID of the websites" }
                                 },
                             },
-                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject("[\r\n  {\r\n    \"id\": 0,\r\n    \"title\": \"string\",\r\n    \"type\": \"string\",\r\n    \"description\": \"string\",\r\n    \"companies\": \"string\",\r\n    \"imageUrl\": \"string\",\r\n    \"requirements\": \"string\",\r\n    \"browsersName\": \"string\",\r\n    \"rating\": 0,\r\n    \"dateCreated\": \"2024-02-06T14:45:02.526Z\",\r\n    \"authorName\": \"string\"\r\n  }\r\n]"), Newtonsoft.Json.Formatting.Indented),
+                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject("[\r\n  {\r\n    \"id\": 0,\r\n    \"title\": \"string\",\r\n    \"type\": \"string\",\r\n    \"description\": \"string\",\r\n    \"companies\": \"string\",\r\n    \"imageUrl\": \"string\",\r\n    \"requirements\": \"string\",\r\n    \"browsersName\": \"string\",\r\n    \"rating\": 0,\r\n    \"dateCreated\": \"2024-02-06T14:45:02.526Z\",\r\n    \"authorName\": \"string\"\r\n,\r\n    \"urlValue\": \"string\"\r\n  }\r\n]"), Newtonsoft.Json.Formatting.Indented),
                             TblErrorsCodeEndpoint = null
                         },
                         new SubContentDocsApi()
@@ -1354,7 +1354,7 @@
                                 },
                             },
                             BodyParamsEndpoint = null,
-                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject("[\r\n  {\r\n    \"id\": 0,\r\n    \"title\": \"string\",\r\n    \"type\": \"string\",\r\n    \"description\": \"string\",\r\n    \"companies\": \"string\",\r\n    \"imageUrl\": \"string\",\r\n    \"requirements\": \"string\",\r\n    \"browsersName\": \"string\",\r\n    \"rating\": 0,\r\n    \"dateCreated\": \"2024-02-06T14:45:02.526Z\",\r\n    \"authorName\": \"string\"\r\n  }\r\n]"), Newtonsoft.Json.Formatting.Indented),
+                            ModelValExampleEndpoint = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject("[\r\n  {\r\n    \"id\": 0,\r\n    \"title\": \"string\",\r\n    \"type\": \"string\",\r\n    \"description\": \"string\",\r\n    \"companies\": \"string\",\r\n    \"imageUrl\": \"string\",\r\n    \"requirements\": \"string\",\r\n    \"browsersName\": \"string\",\r\n    \"rating\": 0,\r\n    \"dateCreated\": \"2024-02-06T14:45:02.526Z\",\r\n    \"authorName\": \"string\"\r\n,\r\n    \"urlValue\": \"string\"\r\n  }\r\n]"), Newtonsoft.Json.Formatting.Indented),
                             TblErrorsCodeEndpoint = null
                         }
                     },

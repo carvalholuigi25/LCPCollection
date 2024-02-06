@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LCPCollection.Server.Migrations.PostgreSQL
 {
     [DbContext(typeof(DBContextPostgreSQL))]
-    [Migration("20240206143206_InitialCreatePostgreSQL")]
+    [Migration("20240206153417_InitialCreatePostgreSQL")]
     partial class InitialCreatePostgreSQL
     {
         /// <inheritdoc />
@@ -297,6 +297,9 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
                     b.Property<string>("Type")
                         .HasColumnType("text");
 
+                    b.Property<string>("UrlValue")
+                        .HasColumnType("text");
+
                     b.Property<int?>("Version")
                         .HasColumnType("integer");
 
@@ -387,6 +390,9 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
                         .HasColumnType("text");
 
                     b.Property<string>("Type")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UrlValue")
                         .HasColumnType("text");
 
                     b.HasKey("Id");

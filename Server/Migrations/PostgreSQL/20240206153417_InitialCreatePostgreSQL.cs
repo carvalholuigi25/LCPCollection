@@ -138,7 +138,8 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
                     Platforms = table.Column<string>(type: "text", nullable: true),
                     Rating = table.Column<double>(type: "double precision", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    AuthorName = table.Column<string>(type: "text", nullable: true)
+                    AuthorName = table.Column<string>(type: "text", nullable: true),
+                    UrlValue = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -183,7 +184,8 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
                     BrowsersName = table.Column<string>(type: "text", nullable: true),
                     Rating = table.Column<double>(type: "double precision", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    AuthorName = table.Column<string>(type: "text", nullable: true)
+                    AuthorName = table.Column<string>(type: "text", nullable: true),
+                    UrlValue = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
