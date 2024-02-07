@@ -9,16 +9,61 @@ namespace LCPCollection.Auth
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddCascadingAuthenticationState();
+            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            // Add services to the container.
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+
             builder.Services.AddRazorPages();
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+            })
+            .AddMicrosoftAccount(options =>
+            {
+                options.ClientId = builder.Configuration["Authentication:Microsoft:ClientId"]!;
+                options.ClientSecret = builder.Configuration["Authentication:Microsoft:ClientSecret"]!;
+                options.CallbackPath = "/signin-microsoft";
+            })
+            .AddGoogle(options =>
+            {
+                options.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
+                options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
+                options.CallbackPath = "/signin-google";
+            })
+            .AddFacebook(options =>
+            {
+                options.AppId = builder.Configuration["Authentication:Facebook:AppId"]!;
+                options.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"]!;
+                options.CallbackPath = "/signin-facebook";
+            })
+            .AddGitHub(options =>
+            {
+                options.ClientId = builder.Configuration["Authentication:Github:ClientId"]!;
+                options.ClientSecret = builder.Configuration["Authentication:Github:ClientSecret"]!;
+                options.CallbackPath = "/signin-github";
+            })
+            .AddReddit(options => {
+                options.ClientId = builder.Configuration["Authentication:Reddit:ClientId"]!;
+                options.ClientSecret = builder.Configuration["Authentication:Reddit:ClientSecret"]!;
+                options.CallbackPath = "/signin-reddit";
+            })
+            .AddTwitter(options => {
+                options.ConsumerKey = builder.Configuration["Authentication:Twitter:ConsumerAPIKey"]!;
+                options.ConsumerSecret = builder.Configuration["Authentication:Twitter:ConsumerSecret"]!;
+                options.CallbackPath = "/signin-twitter";
+            })
+            .AddDiscord(options => {
+                options.ClientId = builder.Configuration["Authentication:Discord:ClientId"]!;
+                options.ClientSecret = builder.Configuration["Authentication:Discord:ClientSecret"]!;
+                options.CallbackPath = "/signin-discord";
+            }).AddCookie();
 
             builder.Services.Configure<IdentityOptions>(options =>
             {
@@ -31,8 +76,8 @@ namespace LCPCollection.Auth
                 options.Password.RequiredUniqueChars = 1;
 
                 // Lockout settings.
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                options.Lockout.MaxFailedAccessAttempts = 500;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromDays(7);
+                options.Lockout.MaxFailedAccessAttempts = 10;
                 options.Lockout.AllowedForNewUsers = true;
 
                 // User settings.
@@ -45,11 +90,11 @@ namespace LCPCollection.Auth
             {
                 // Cookie settings
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.ExpireTimeSpan = TimeSpan.FromDays(7);
 
-                options.LoginPath = "/Identity/Account/Login";
-                options.LogoutPath = "/Identity/Account/Login";
-                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
 
@@ -69,12 +114,10 @@ namespace LCPCollection.Auth
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseAntiforgery();
             app.MapRazorPages();
 
             app.Run();
