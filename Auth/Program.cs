@@ -1,6 +1,8 @@
 using LCPCollection.Auth.Data;
-using Microsoft.AspNetCore.Identity;
+using LCPCollection.Auth.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace LCPCollection.Auth
 {
@@ -19,6 +21,13 @@ namespace LCPCollection.Auth
             .AddDefaultTokenProviders();
 
             builder.Services.AddRazorPages();
+
+            Console.WriteLine(Convert.ToBoolean(builder.Configuration.GetSection("SendGridEmailerEnabled").Value));
+
+            if(Convert.ToBoolean(builder.Configuration.GetSection("SendGridEmailerEnabled").Value) == true) {
+                builder.Services.AddTransient<IEmailSender, EmailSender>();
+                builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
+            }
 
             builder.Services.AddAuthentication(options =>
             {
