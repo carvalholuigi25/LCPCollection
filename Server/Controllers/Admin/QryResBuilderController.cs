@@ -29,7 +29,7 @@ namespace LCPCollection.Server.Controllers
             try {
                 StringComparison cmp = StringComparison.InvariantCultureIgnoreCase;
 
-                if(qrclb.QryStr!.Contains("DROP")) {
+                if(qrclb.QryStr!.Contains("DROP", cmp)) {
                     return BadRequest("This command is forbidden!");
                 }
 
