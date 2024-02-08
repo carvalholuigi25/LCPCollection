@@ -101,9 +101,9 @@ namespace LCPCollection.Auth
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromDays(7);
 
-                options.LoginPath = "/Account/Login";
-                options.LogoutPath = "/Account/Login";
-                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.LoginPath = "/Identity/Account/Login";
+                options.LogoutPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
 
