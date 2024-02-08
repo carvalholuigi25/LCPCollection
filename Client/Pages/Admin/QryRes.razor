@@ -1,0 +1,77 @@
+@page "/admin/qryres"
+@using lcpCl = LCPCollection.Shared.Classes
+@using System.Net.Http.Json
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+@inject HttpClient httpClient
+@inject NavigationManager navManager
+
+<PageTitle>LCPCollection - Admin - Query Result</PageTitle>
+
+<h1>Admin - Query Result</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+                <DataAnnotationsValidator/>
+                <ValidationSummary />
+
+                <MudGrid>
+                    <MudItem xs="12" sm="7">
+                        <MudCard>
+                            <MudCardContent>
+                                <MudSelect T="lcpCl.QryResClBuilder.DBModeListM" Label="DB Mode" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" ValueChanged="((e) => OnSelDBMode(e))">
+                                    @foreach(var i in model.DBMode) {
+                                        <MudSelectItem Value="@(i.Name)" />
+                                    }
+                                </MudSelect>
+                                <MudTextField @bind-Value="model.DBMode" Disabled />
+                                <MudTextField @bind-Value="model.DBConStr" T="string" Label="DB Connection String" HelperText="Write the db connection string here" readonly For="@(() => model.DBConStr)" />
+                                <MudTextField @bind-Value="model.QryStr" T="string" Label="Query" HelperText="Write the query string here" For="@(() => model.QryStr)" />
+                            </MudCardContent>
+                            <MudCardActions>
+                                <MudButton ButtonType="ButtonType.Reset" Variant="Variant.Filled" Color="Color.Secondary" Class="ml-auto">Reset</MudButton>
+                                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Send</MudButton>
+                            </MudCardActions>
+                        </MudCard>
+                    </MudItem>
+                </MudGrid>
+            </EditForm>
+
+            @if(DataX is not null) 
+            {
+                <div class="qryres" id="qryres">
+                    @DataX
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    lcpCl.QryResClBuilder.QryResCl model { get; set; } = new lcpCl.QryResClBuilder.QryResCl();
+    lcpCl.QryResClBuilder.QryResCl? DataX { get; set; } = new lcpCl.QryResClBuilder.QryResCl();
+    bool success;
+
+    private async Task OnValidSubmit(EditContext context)
+    {
+        success = true;
+
+        if(success) {
+            await DoSubData();
+        }
+
+        StateHasChanged();
+    }
+
+    private async Task DoSubData()
+    {
+        var qryParams = $"?dbmode={model.DBMode}&dbcon={model.DBConStr}&qrystr={model.QryStr}";
+        DataX = await httpClient.GetFromJsonAsync<lcpCl.QryResClBuilder.QryResCl>($"https://localhost:5000/api/admin/qryres{qryParams}");
+    }
+
+    private void OnSelDBMode(lcpCl.QryResClBuilder.DBModeListM e) {
+        model.DBMode = lcpCl.QryResClBuilder.GetDBModeList().Where(x => x.Name!.Contains(e.Name!)).ToList<lcpCl.QryResClBuilder.DBModeListM>();
+    }
+}
