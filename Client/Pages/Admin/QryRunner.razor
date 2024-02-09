@@ -21,11 +21,11 @@
                     <MudItem xs="12" sm="7">
                         <MudCard>
                             <MudCardContent>
-                                <MudSelect T="string" @bind-Value="model.DBMode" Label="DB Mode" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined">
-                                    <MudSelectItem Value="@("SQLServer")" />
-                                    <MudSelectItem Value="@("SQLite")" />
-                                    <MudSelectItem Value="@("MySQL")" />
-                                    <MudSelectItem Value="@("PostgreSQL")" />
+                                <MudSelect T="lcpCl.QryDBModeEnum" @bind-Value="model.DBMode" Label="DB Mode" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined">
+                                    <MudSelectItem Value="@(lcpCl.QryDBModeEnum.SQLServer)" />
+                                    <MudSelectItem Value="@(lcpCl.QryDBModeEnum.SQLite)" />
+                                    <MudSelectItem Value="@(lcpCl.QryDBModeEnum.MySQL)" />
+                                    <MudSelectItem Value="@(lcpCl.QryDBModeEnum.PostgreSQL)" />
                                 </MudSelect>
                                 <MudTextField @bind-Value="model.DBConStr" T="string" Label="DB Connection String" HelperText="Write the db connection string here" readonly For="@(() => model.DBConStr)" />
                                 <MudTextField @bind-Value="model.QryStr" T="string" Label="Query" HelperText="Write the query string here" For="@(() => model.QryStr)" />
@@ -70,6 +70,6 @@
     private async Task DoSubData()
     {
         var qryParams = $"?dbmode={model.DBMode}&dbcon={model.DBConStr}&qrystr={model.QryStr}";
-        DataX = await httpClient.GetFromJsonAsync<lcpCl.QryResClBuilder.QryResCl>($"https://localhost:5000/api/admin/qryrunner{qryParams}");
+        DataX = await httpClient.GetFromJsonAsync<lcpCl.QryRunner>($"https://localhost:5000/api/admin/qryrunner{qryParams}");
     }
 }

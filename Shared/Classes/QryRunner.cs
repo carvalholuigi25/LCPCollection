@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace LCPCollection.Shared.Classes;
 public class QryRunner {
-    [Required] public QryDBModeEnum? DBMode { get; set; } = QryDBModeEnum.SQLServer;
+    [Required] public QryDBModeEnum DBMode { get; set; } = QryDBModeEnum.SQLServer;
     public string? DBConStr { get; set; }
     [Required] public string QryStr { get; set; } = null!;
 }
