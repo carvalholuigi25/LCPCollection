@@ -8,6 +8,7 @@ using Microsoft.Data.Sqlite;
 using MySqlConnector;
 using Npgsql;
 using System.Collections;
+using Newtonsoft.Json;
 
 namespace LCPCollection.Server.Controllers
 {
@@ -54,28 +55,33 @@ namespace LCPCollection.Server.Controllers
             SqlCommand command = new SqlCommand(qryrun.QryStr, connection);
             command.Connection.Open();
 
-            ArrayList res = new ArrayList();
+            var res = new Dictionary<object, object?>();
+            var lstres = new List<object>();
 
             if (qryrun.QryStr.Contains("SELECT", cmp))
             {
                 using SqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+                if(reader.HasRows) 
                 {
-                    if(reader.HasRows) 
+                    while (reader.Read())
                     {
                         for(var x = 0; x < reader.FieldCount; x++) {
-                            res.Add(new { key = reader.GetName(x), value = reader.GetValue(x) });
+                            res[reader.GetName(x)] = reader.GetValue(x);
+                            // res.Add(reader.GetName(x), reader.GetValue(x));
                         }
                     }
-            }
+
+                    lstres.Add(res);
+                }
             }
             else
             {
                 command.ExecuteNonQuery();
-                res.Add(command.ToJson());
+                res.Add(command.ToJson(), null);
+                lstres.Add(res);
             }
 
-            return Ok(res);
+            return Ok(lstres);
         }
 
         private IActionResult FetchDataSQLite(QryRunner qryrun, StringComparison cmp) {
