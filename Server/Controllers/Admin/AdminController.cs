@@ -7,17 +7,19 @@ using NuGet.Protocol;
 using Microsoft.Data.Sqlite;
 using MySqlConnector;
 using Npgsql;
+using System.Collections;
 
 namespace LCPCollection.Server.Controllers
 {
-    [Route("api/admin/[controller]")]
+    [Route("api/admin")]
     [ApiController]
     // [Authorize(Roles = "Administrator")]
     public class AdminController : ControllerBase
     {
-
-        public AdminController()
+        private readonly IConfiguration _configuration;
+        public AdminController(IConfiguration configuration)
         {
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -33,11 +35,11 @@ namespace LCPCollection.Server.Controllers
                     return BadRequest("This command is forbidden!");
                 }
 
-                if(qryrun.DBMode == QryDBModeEnum.SQLite) {
+                if(qryrun.DBMode == QryDBModeEnum.SQLite.ToString()) {
                     return FetchDataSQLite(qryrun, cmp);
-                } else if(qryrun.DBMode == QryDBModeEnum.MySQL) {
+                } else if(qryrun.DBMode == QryDBModeEnum.MySQL.ToString()) {
                     return FetchDataMySQL(qryrun, cmp);
-                } else if(qryrun.DBMode == QryDBModeEnum.PostgreSQL) {
+                } else if(qryrun.DBMode == QryDBModeEnum.PostgreSQL.ToString()) {
                     return FetchDataPostgreSQL(qryrun, cmp);
                 } else {
                     return FetchDataSQLServer(qryrun, cmp);
@@ -48,31 +50,36 @@ namespace LCPCollection.Server.Controllers
         }
 
         private IActionResult FetchDataSQLServer(QryRunner qryrun, StringComparison cmp) {
-            using SqlConnection connection = new SqlConnection(qryrun.DBConStr);
+            using SqlConnection connection = new SqlConnection(_configuration[$"ConnectionStrings:{qryrun.DBMode}"]);
             SqlCommand command = new SqlCommand(qryrun.QryStr, connection);
             command.Connection.Open();
 
-            var res = "";
+            ArrayList res = new ArrayList();
 
             if (qryrun.QryStr.Contains("SELECT", cmp))
             {
                 using SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    res = string.Format("{0}", reader[0]);
-                }
+                    if(reader.HasRows) 
+                    {
+                        for(var x = 0; x < reader.FieldCount; x++) {
+                            res.Add(new { key = reader.GetName(x), value = reader.GetValue(x) });
+                        }
+                    }
+            }
             }
             else
             {
                 command.ExecuteNonQuery();
-                res = command.ToJson();
+                res.Add(command.ToJson());
             }
 
             return Ok(res);
         }
 
         private IActionResult FetchDataSQLite(QryRunner qryrun, StringComparison cmp) {
-            using var con = new SqliteConnection(qryrun.DBConStr);
+            using var con = new SqliteConnection(_configuration[$"ConnectionStrings:{qryrun.DBMode}"]);
             con.Open();
             using var cmd = new SqliteCommand(qryrun.QryStr, con);
 
@@ -86,7 +93,7 @@ namespace LCPCollection.Server.Controllers
         }
 
         private IActionResult FetchDataMySQL(QryRunner qryrun, StringComparison cmp) {
-            using var con = new MySqlConnection(qryrun.DBConStr);
+            using var con = new MySqlConnection(_configuration[$"ConnectionStrings:{qryrun.DBMode}"]);
 
             MySqlCommand cmd = con.CreateCommand();
             cmd.CommandText = qryrun.QryStr;
@@ -102,7 +109,7 @@ namespace LCPCollection.Server.Controllers
         }
 
         private IActionResult FetchDataPostgreSQL(QryRunner qryrun, StringComparison cmp) {
-            var con = new NpgsqlConnection(connectionString: qryrun.DBConStr);
+            var con = new NpgsqlConnection(connectionString: _configuration[$"ConnectionStrings:{qryrun.DBMode}"]);
             con.Open();
             using var cmd = new NpgsqlCommand();
             cmd.Connection = con;
