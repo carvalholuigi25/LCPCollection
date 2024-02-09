@@ -20,13 +20,13 @@
                     <MudItem xs="12" sm="12" md="12" lg="12" xl="12" xxl="12">
                         <MudCard>
                             <MudCardContent>
-                                <MudSelect T="string" @bind-Value="model.DBMode" Label="DB Mode" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined">
+                                <MudSelect T="string" @bind-Value="model.DBMode" Label="DB Mode" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" TextChanged="OnSelDBModeChanged">
                                     <MudSelectItem Value="@("SQLServer")" />
                                     <MudSelectItem Value="@("SQLite")" />
                                     <MudSelectItem Value="@("MySQL")" />
                                     <MudSelectItem Value="@("PostgreSQL")" />
                                 </MudSelect>
-                                <MudTextField @bind-Value="model.QryStr" T="string" Label="Query" HelperText="Write the query string here" Placeholder="select * from animes" For="@(() => model.QryStr)" />
+                                <MudTextField @bind-Value="model.QryStr" T="string" Label="Query" HelperText="Write the query string here" Placeholder="@qrystrpholder" For="@(() => model.QryStr)" />
                             </MudCardContent>
                             <MudCardActions Class="d-block text-center mt-3 mb-3">
                                 <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Secondary" Class="ml-auto" OnClick="DoClearData">Reset</MudButton>
@@ -52,7 +52,14 @@
 @code {
     lcpCl.QryRunner model { get; set; } = new lcpCl.QryRunner();
     string? DataX { get; set; } = "";
+    string? qrystrpholder { get; set; }
     bool success;
+
+    protected override Task OnInitializedAsync()
+    {
+        qrystrpholder = GetQryStrPlaceHolder(model.DBMode);
+        return base.OnInitializedAsync();
+    }
 
     private async Task OnValidSubmit(EditContext context)
     {
@@ -66,7 +73,7 @@
     }
 
     private void DoClearData() {
-        model.DBMode = "SQLServer";
+        @* model.DBMode = "SQLServer"; *@
         model.QryStr = "";
         DataX = "";
         StateHasChanged();
@@ -76,5 +83,14 @@
     {
         var qryParams = $"?DBMode={model.DBMode}&QryStr={model.QryStr}";
         DataX = await httpClient.GetStringAsync($"https://localhost:5000/api/admin/qryrunner{qryParams}");
+        qrystrpholder = GetQryStrPlaceHolder(model.DBMode);
+    }
+
+    private void OnSelDBModeChanged() {
+        qrystrpholder = GetQryStrPlaceHolder(model.DBMode);
+    }
+
+    private string GetQryStrPlaceHolder(string dbm) {
+        return dbm.Contains("PostgreSQL", StringComparison.InvariantCultureIgnoreCase) ? $"select * from public."+'"'+"Animes"+'"' : "select * from animes";
     }
 }
