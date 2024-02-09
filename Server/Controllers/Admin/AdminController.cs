@@ -35,11 +35,11 @@ namespace LCPCollection.Server.Controllers
                     return BadRequest("This command is forbidden!");
                 }
 
-                if(qryrun.DBMode == QryDBModeEnum.SQLite.ToString()) {
+                if(qryrun.DBMode.Contains(QryDBModeEnum.SQLite.ToString(), cmp)) {
                     return FetchDataSQLite(qryrun, cmp);
-                } else if(qryrun.DBMode == QryDBModeEnum.MySQL.ToString()) {
+                } else if(qryrun.DBMode.Contains(QryDBModeEnum.MySQL.ToString(), cmp)) {
                     return FetchDataMySQL(qryrun, cmp);
-                } else if(qryrun.DBMode == QryDBModeEnum.PostgreSQL.ToString()) {
+                } else if(qryrun.DBMode.Contains(QryDBModeEnum.PostgreSQL.ToString(), cmp)) {
                     return FetchDataPostgreSQL(qryrun, cmp);
                 } else {
                     return FetchDataSQLServer(qryrun, cmp);
