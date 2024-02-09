@@ -10,15 +10,14 @@
 
 <h1>Admin - Query Runner</h1>
 
-<div class="container">
+<div class="container-fluid mt-3">
     <div class="row">
         <div class="col-12">
             <EditForm Model="@model" OnValidSubmit="OnValidSubmit">
                 <DataAnnotationsValidator/>
-                <ValidationSummary />
 
                 <MudGrid>
-                    <MudItem xs="12" sm="7">
+                    <MudItem xs="12" sm="12" md="12" lg="12" xl="12" xxl="12">
                         <MudCard>
                             <MudCardContent>
                                 <MudSelect T="string" @bind-Value="model.DBMode" Label="DB Mode" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined">
@@ -27,10 +26,10 @@
                                     <MudSelectItem Value="@("MySQL")" />
                                     <MudSelectItem Value="@("PostgreSQL")" />
                                 </MudSelect>
-                                <MudTextField @bind-Value="model.QryStr" T="string" Label="Query" HelperText="Write the query string here" For="@(() => model.QryStr)" />
+                                <MudTextField @bind-Value="model.QryStr" T="string" Label="Query" HelperText="Write the query string here" Placeholder="select * from animes" For="@(() => model.QryStr)" />
                             </MudCardContent>
-                            <MudCardActions>
-                                <MudButton ButtonType="ButtonType.Reset" Variant="Variant.Filled" Color="Color.Secondary" Class="ml-auto">Reset</MudButton>
+                            <MudCardActions Class="d-block text-center mt-3 mb-3">
+                                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Secondary" Class="ml-auto" OnClick="DoClearData">Reset</MudButton>
                                 <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Send</MudButton>
                             </MudCardActions>
                         </MudCard>
@@ -38,11 +37,11 @@
                 </MudGrid>
             </EditForm>
 
-            @if(DataX is not null) 
+            @if(!string.IsNullOrEmpty(DataX)) 
             {
-                <div class="qryrunres" id="qryrunres">
+                <div class="qryrunres mt-3" id="qryrunres">
                     <pre class="code">
-                        @DataX
+                        @Newtonsoft.Json.JsonConvert.DeserializeObject(DataX)
                     </pre>
                 </div>
             }
@@ -52,7 +51,7 @@
 
 @code {
     lcpCl.QryRunner model { get; set; } = new lcpCl.QryRunner();
-    lcpCl.QryRunner? DataX { get; set; } = new lcpCl.QryRunner();
+    string? DataX { get; set; } = "";
     bool success;
 
     private async Task OnValidSubmit(EditContext context)
@@ -66,9 +65,16 @@
         StateHasChanged();
     }
 
+    private void DoClearData() {
+        model.DBMode = "SQLServer";
+        model.QryStr = "";
+        DataX = "";
+        StateHasChanged();
+    }
+
     private async Task DoSubData()
     {
-        var qryParams = $"?dbmode={model.DBMode}&qrystr={model.QryStr}";
-        DataX = await httpClient.GetFromJsonAsync<lcpCl.QryRunner>($"https://localhost:5000/api/admin/qryrunner{qryParams}");
+        var qryParams = $"?DBMode={model.DBMode}&QryStr={model.QryStr}";
+        DataX = await httpClient.GetStringAsync($"https://localhost:5000/api/admin/qryrunner{qryParams}");
     }
 }
