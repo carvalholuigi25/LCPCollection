@@ -1,4 +1,4 @@
-@page "/admin/qryres"
+@page "/admin/qryrunner"
 @using lcpCl = LCPCollection.Shared.Classes
 @using System.Net.Http.Json
 @using System.ComponentModel.DataAnnotations
@@ -6,9 +6,9 @@
 @inject HttpClient httpClient
 @inject NavigationManager navManager
 
-<PageTitle>LCPCollection - Admin - Query Result</PageTitle>
+<PageTitle>LCPCollection - Admin - Query Runner</PageTitle>
 
-<h1>Admin - Query Result</h1>
+<h1>Admin - Query Runner</h1>
 
 <div class="container">
     <div class="row">
@@ -21,12 +21,12 @@
                     <MudItem xs="12" sm="7">
                         <MudCard>
                             <MudCardContent>
-                                <MudSelect T="lcpCl.QryResClBuilder.DBModeListM" Label="DB Mode" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" ValueChanged="((e) => OnSelDBMode(e))">
-                                    @foreach(var i in model.DBMode) {
-                                        <MudSelectItem Value="@(i.Name)" />
-                                    }
+                                <MudSelect T="string" @bind-Value="model.DBMode" Label="DB Mode" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined">
+                                    <MudSelectItem Value="@("SQLServer")" />
+                                    <MudSelectItem Value="@("SQLite")" />
+                                    <MudSelectItem Value="@("MySQL")" />
+                                    <MudSelectItem Value="@("PostgreSQL")" />
                                 </MudSelect>
-                                <MudTextField @bind-Value="model.DBMode" Disabled />
                                 <MudTextField @bind-Value="model.DBConStr" T="string" Label="DB Connection String" HelperText="Write the db connection string here" readonly For="@(() => model.DBConStr)" />
                                 <MudTextField @bind-Value="model.QryStr" T="string" Label="Query" HelperText="Write the query string here" For="@(() => model.QryStr)" />
                             </MudCardContent>
@@ -41,8 +41,10 @@
 
             @if(DataX is not null) 
             {
-                <div class="qryres" id="qryres">
-                    @DataX
+                <div class="qryrunres" id="qryrunres">
+                    <pre class="code">
+                        @DataX
+                    </pre>
                 </div>
             }
         </div>
@@ -50,8 +52,8 @@
 </div>
 
 @code {
-    lcpCl.QryResClBuilder.QryResCl model { get; set; } = new lcpCl.QryResClBuilder.QryResCl();
-    lcpCl.QryResClBuilder.QryResCl? DataX { get; set; } = new lcpCl.QryResClBuilder.QryResCl();
+    lcpCl.QryRunner model { get; set; } = new lcpCl.QryRunner();
+    lcpCl.QryRunner? DataX { get; set; } = new lcpCl.QryRunner();
     bool success;
 
     private async Task OnValidSubmit(EditContext context)
@@ -68,10 +70,6 @@
     private async Task DoSubData()
     {
         var qryParams = $"?dbmode={model.DBMode}&dbcon={model.DBConStr}&qrystr={model.QryStr}";
-        DataX = await httpClient.GetFromJsonAsync<lcpCl.QryResClBuilder.QryResCl>($"https://localhost:5000/api/admin/qryres{qryParams}");
-    }
-
-    private void OnSelDBMode(lcpCl.QryResClBuilder.DBModeListM e) {
-        model.DBMode = lcpCl.QryResClBuilder.GetDBModeList().Where(x => x.Name!.Contains(e.Name!)).ToList<lcpCl.QryResClBuilder.DBModeListM>();
+        DataX = await httpClient.GetFromJsonAsync<lcpCl.QryResClBuilder.QryResCl>($"https://localhost:5000/api/admin/qryrunner{qryParams}");
     }
 }
