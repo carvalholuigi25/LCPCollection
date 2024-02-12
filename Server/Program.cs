@@ -51,6 +51,7 @@ builder.Services.AddScoped<IWebsites, WebsitesService>();
 
 //builder.Services.AddControllersWithViews().AddNewtonsoftJson(opts => opts.SerializerSettings.Converters.Add(new StringEnumConverter()));
 builder.Services.AddControllersWithViews().AddJsonOptions(options => {
+    options.JsonSerializerOptions.WriteIndented = true;
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 

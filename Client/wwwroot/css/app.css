@@ -228,6 +228,27 @@ input:read-only, input:disabled {
     color: white;
 }
 
+.mud-navmenu.mud-navmenu-default .mud-nav-link.active:not(.mud-nav-link-disabled) {
+    color: white;
+}
+
+.qryrunres .code {
+    font-family: "montserrat";
+    background: #0000001f;
+    color: green;
+    padding: 15px;
+    width: 100%;
+    height: 100%;
+    max-height: 500px;
+    overflow: auto;
+    display: block;
+    border-radius: 24px;
+    word-wrap: break-word;
+    margin-top: 15px;
+    box-shadow: 1px 3px 5px 1px;
+    font-weight: normal;
+}
+
 /* start of api docs styles */
 
 .apidocscontainer {
@@ -520,6 +541,8 @@ input:read-only, input:disabled {
     scroll-margin-top: 5rem;
 }
 
+/* end of api docs styles */
+
 code.code, code#code {
     font-family: "montserrat";
     background: #0000001f;
@@ -538,26 +561,36 @@ code.code > *, code#code > * {
     margin: 0 auto;
 }
 
-.qryrunres .code {
-    font-family: "montserrat";
-    background: #0000001f;
-    color: green;
-    padding: 15px;
-    width: 100%;
-    height: 100%;
-    max-height: 500px;
-    overflow: auto;
+.codetitle {
+  display: flex;
+  padding: 15px;
+  text-align: left;
+  justify-content: flex-start;
+  align-items: center;
+  white-space: normal;
+  font-size: 1.3rem;
+  background: green;
+  color: white;
+  border-radius: 0;
+  padding: 15px;
+  margin: -15px;
+}
+
+.codeicon {
+    font-size: inherit;
+}
+
+.codetext {
+    margin-left: 15px;
+    font-size: inherit;
+}
+
+.coderesp {
     display: block;
-    border-radius: 24px;
-    word-wrap: break-word;
-    margin-top: 15px;
-    box-shadow: 1px 3px 5px 1px;
-    font-weight: normal;
+    font-size: inherit;
 }
 
 .bold { font-weight: bold; }
-
-/* end of api docs styles */
 
 @media all and (min-width: 992px) and (max-width: 1199px) {
     .mcarditem {

@@ -9,10 +9,13 @@ using MySqlConnector;
 using Npgsql;
 using System.Collections;
 using Newtonsoft.Json;
+using Microsoft.SqlServer.Server;
+using System.Diagnostics;
 
 namespace LCPCollection.Server.Controllers
 {
     [Route("api/admin")]
+    [Produces("application/json")]
     [ApiController]
     // [Authorize(Roles = "Administrator")]
     public class AdminController : ControllerBase
@@ -26,8 +29,8 @@ namespace LCPCollection.Server.Controllers
         /// <summary>
         /// This endpoint runs the query and retrives his results
         /// </summary>
-        [HttpGet("qryrunner")]
-        public IActionResult DoQryRun([FromQuery] QryRunner qryrun)
+        [HttpPost("qryrunner")]
+        public IActionResult DoQryRun([FromBody] QryRunner qryrun)
         {
             try {
                 StringComparison cmp = StringComparison.InvariantCultureIgnoreCase;
@@ -46,11 +49,18 @@ namespace LCPCollection.Server.Controllers
                     return FetchDataSQLServer(qryrun, cmp);
                 }
             } catch(Exception e) {
-                return Ok("Error: " + e.Message);
+                return Ok(new {
+                    Data = e.Message,
+                    DatabaseMode = qryrun.DBMode,
+                    QueryString = qryrun.QryStr,
+                    DateTimeExecuted = DateTime.UtcNow,
+                    DateMeasureMsg = string.Format("Elapsed time {0} ms", 0)
+                });
             }
         }
 
         private IActionResult FetchDataSQLServer(QryRunner qryrun, StringComparison cmp) {
+            Stopwatch stopWatch = Stopwatch.StartNew();
             var res = new Dictionary<object, object?>();
             var lstres = new List<object>();
 
@@ -97,10 +107,18 @@ namespace LCPCollection.Server.Controllers
             }
 
             lstres.Add(res);
-            return Ok(lstres);
+            stopWatch.Stop();
+            return Ok(new {
+                Data = lstres,
+                DatabaseMode = qryrun.DBMode,
+                QueryString = qryrun.QryStr,
+                DateTimeExecuted = DateTime.UtcNow,
+                DateMeasureMsg = string.Format("Elapsed time {0} ms", stopWatch.ElapsedMilliseconds)
+            });
         }
 
         private IActionResult FetchDataSQLite(QryRunner qryrun, StringComparison cmp) {
+            Stopwatch stopWatch = Stopwatch.StartNew();
             var res = new Dictionary<object, object?>();
             var lstres = new List<object>();
 
@@ -144,10 +162,18 @@ namespace LCPCollection.Server.Controllers
             }
 
             lstres.Add(res);
-            return Ok(lstres);
+            stopWatch.Stop();
+            return Ok(new {
+                Data = lstres,
+                DatabaseMode = qryrun.DBMode,
+                QueryString = qryrun.QryStr,
+                DateTimeExecuted = DateTime.UtcNow,
+                DateMeasureMsg = string.Format("Elapsed time {0} ms", stopWatch.ElapsedMilliseconds)
+            });
         }
 
         private IActionResult FetchDataMySQL(QryRunner qryrun, StringComparison cmp) {
+            Stopwatch stopWatch = Stopwatch.StartNew();
             var res = new Dictionary<object, object?>();
             var lstres = new List<object>();
 
@@ -194,10 +220,18 @@ namespace LCPCollection.Server.Controllers
             }
 
             lstres.Add(res);
-            return Ok(lstres);
+            stopWatch.Stop();
+            return Ok(new {
+                Data = lstres,
+                DatabaseMode = qryrun.DBMode,
+                QueryString = qryrun.QryStr,
+                DateTimeExecuted = DateTime.UtcNow,
+                DateMeasureMsg = string.Format("Elapsed time {0} ms", stopWatch.ElapsedMilliseconds)
+            });
         }
 
         private IActionResult FetchDataPostgreSQL(QryRunner qryrun, StringComparison cmp) {
+            Stopwatch stopWatch = Stopwatch.StartNew();
             var res = new Dictionary<object, object?>();
             var lstres = new List<object>();
 
@@ -245,7 +279,14 @@ namespace LCPCollection.Server.Controllers
             }
 
             lstres.Add(res);
-            return Ok(lstres);
+            stopWatch.Stop();
+            return Ok(new {
+                Data = lstres,
+                DatabaseMode = qryrun.DBMode,
+                QueryString = qryrun.QryStr,
+                DateTimeExecuted = DateTime.UtcNow,
+                DateMeasureMsg = string.Format("Elapsed time {0} ms", stopWatch.ElapsedMilliseconds)
+            });
         }
     }
 }
