@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dotmim.Sync.Core" Version="0.9.8" />
+    <PackageReference Include="Dotmim.Sync.MariaDB" Version="0.9.8" />
+    <PackageReference Include="Dotmim.Sync.MySql" Version="0.9.8" />
+    <PackageReference Include="Dotmim.Sync.PostgreSql" Version="0.9.8" />
+    <PackageReference Include="Dotmim.Sync.Sqlite" Version="0.9.8" />
+    <PackageReference Include="Dotmim.Sync.SqlServer" Version="0.9.8" />
+    <PackageReference Include="Dotmim.Sync.SqlServer.ChangeTracking" Version="0.9.8" />
     <PackageReference Include="DynamicExpressions.NET" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.1" />

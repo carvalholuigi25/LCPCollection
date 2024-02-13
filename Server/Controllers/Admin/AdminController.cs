@@ -1,15 +1,16 @@
-using Microsoft.AspNetCore.Mvc;
+using Dotmim.Sync.Sqlite;
+using Dotmim.Sync.SqlServer;
+using Dotmim.Sync.PostgreSql;
+using Dotmim.Sync;
+using Dotmim.Sync.MySql;
 using LCPCollection.Shared.Classes;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Data.SqlClient;
-using NuGet.Protocol;
 using Microsoft.Data.Sqlite;
 using MySqlConnector;
+using NuGet.Protocol;
 using Npgsql;
-using System.Collections;
-using Newtonsoft.Json;
-using Microsoft.SqlServer.Server;
 using System.Diagnostics;
 
 namespace LCPCollection.Server.Controllers
@@ -55,6 +56,65 @@ namespace LCPCollection.Server.Controllers
                     QueryString = qryrun.QryStr,
                     DateTimeExecuted = DateTime.UtcNow,
                     DateMeasureMsg = string.Format("Elapsed time {0} ms", 0)
+                });
+            }
+        }
+
+        /// <summary>
+        /// This endpoint synchronizes the specific database to the another database
+        /// </summary>
+        [HttpPost("dbsync")]
+        public async Task<IActionResult> DoDBSync(DBSyncRunner dbsrunner)
+        {
+            Stopwatch stopWatch = new Stopwatch();
+
+            try
+            {
+                stopWatch.Start();
+
+                StringComparison cmp = StringComparison.InvariantCultureIgnoreCase;
+                SqlSyncProvider serverProvider = new SqlSyncProvider(_configuration[$"ConnectionStrings:SQLServer"]);
+                dynamic clientProvider;
+
+                if (dbsrunner.DBMode.Contains("SQLite", cmp))
+                {
+                    clientProvider = new SqliteSyncProvider(_configuration[$"ConnectionStrings:SQLite"]);
+                }
+                else if (dbsrunner.DBMode.Contains("MySQL", cmp))
+                {
+                    clientProvider = new MySqlSyncProvider(_configuration[$"ConnectionStrings:MySQL"]);
+                }
+                else if (dbsrunner.DBMode.Contains("PostgreSQL", cmp))
+                {
+                    clientProvider = new NpgsqlSyncProvider(_configuration[$"ConnectionStrings:PostgreSQL"]);
+                }
+                else
+                {
+                    clientProvider = new SqlSyncProvider(_configuration[$"ConnectionStrings:SQLServer"]);
+                }
+
+                var setup = new SyncSetup("Games", "Movies", "Books", "TVSeries", "Animes", "FilesData", "Softwares", "Websites");
+
+                SyncAgent agent = new SyncAgent(clientProvider, serverProvider);
+
+                var result = await agent.SynchronizeAsync(setup);
+                stopWatch.Stop();
+
+                return Ok(new
+                {
+                    Data = result,
+                    DatabaseMode = dbsrunner.DBMode,
+                    DateTimeExecuted = DateTime.UtcNow,
+                    DateMeasureMsg = string.Format("Elapsed time {0} ms", stopWatch.ElapsedMilliseconds)
+                });
+            } 
+            catch(Exception e)
+            {
+                return Ok(new { 
+                    Data = e.Message,
+                    DatabaseMode = dbsrunner.DBMode,
+                    DateTimeExecuted = DateTime.UtcNow,
+                    DateMeasureMsg = string.Format("Elapsed time {0} ms", stopWatch.ElapsedMilliseconds)
                 });
             }
         }
