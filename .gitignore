@@ -42,6 +42,12 @@ bld/
 #[Uu]ploads/
 #Server/[Uu]ploads/
 
+# Migrations directory of lcpcollection server
+Server/[Mm]igrations/
+
+# Databases directory of lcpcollection server
+Server/[Dd]atabases/
+
 # Secrets json file
 Auth/secrets.json
 
