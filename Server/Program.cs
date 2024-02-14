@@ -11,6 +11,8 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Serilog;
+using Microsoft.EntityFrameworkCore;
+using System;
 //using Newtonsoft.Json.Converters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -112,6 +114,13 @@ builder.Services.AddResponseCompression(opts =>
 builder.Services.AddSignalR();
 
 var app = builder.Build();
+
+using (var serviceScope = app.Services.CreateScope())
+{
+    var dbContext = serviceScope.ServiceProvider.GetRequiredService<DBContext>();
+    await dbContext.Database.MigrateAsync();
+    // or dbContext.Database.EnsureCreatedAsync();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

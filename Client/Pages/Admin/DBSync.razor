@@ -1,4 +1,4 @@
-@page "/admin/qryrunner"
+@page "/admin/dbsync"
 @using lcpCl = LCPCollection.Shared.Classes
 @using System.Net.Http.Json
 @using System.ComponentModel.DataAnnotations
@@ -6,9 +6,9 @@
 @inject HttpClient httpClient
 @inject NavigationManager navManager
 
-<PageTitle>LCPCollection - Admin - Query Runner</PageTitle>
+<PageTitle>LCPCollection - Admin - Database Sync</PageTitle>
 
-<h1><MudIcon Icon="@Icons.Material.Filled.QueryBuilder" Color="Color.Inherit" /> Admin - Query Runner</h1>
+<h1><MudIcon Icon="@Icons.Material.Filled.CloudSync" Color="Color.Inherit" /> Admin - Database Sync</h1>
 
 <div class="container-fluid mt-3">
     <div class="row">
@@ -20,13 +20,11 @@
                     <MudItem xs="12" sm="12" md="12" lg="12" xl="12" xxl="12">
                         <MudCard>
                             <MudCardContent>
-                                <MudSelect T="string" @bind-Value="model.DBMode" Label="DB Mode" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" TextChanged="OnSelDBModeChanged">
-                                    <MudSelectItem Value="@("SQLServer")" />
+                                <MudSelect T="string" @bind-Value="model.DBMode" Label="DB Mode" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined">
                                     <MudSelectItem Value="@("SQLite")" />
                                     <MudSelectItem Value="@("MySQL")" />
                                     <MudSelectItem Value="@("PostgreSQL")" />
                                 </MudSelect>
-                                <MudTextField @bind-Value="model.QryStr" T="string" Label="Query" HelperText="Write the query string here" Lines="1" MaxLines="10" Placeholder="@qrystrpholder" For="@(() => model.QryStr)" AutoGrow />
                             </MudCardContent>
                             <MudCardActions Class="d-block text-center mt-3 mb-3">
                                 <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Secondary" Class="ml-auto" OnClick="DoClearData">Reset</MudButton>
@@ -39,12 +37,12 @@
 
             @if(!string.IsNullOrEmpty(responseBody)) 
             {
-                <div class="qryrunres mt-3" id="qryrunres">
+                <div class="dbsyncres mt-3" id="dbsyncres">
                     <pre class="code">
                         <span class="codetitle">
-                            <MudIcon Icon="@Icons.Material.Filled.QueryStats" Color="Color.Inherit" class="codeicon" />
+                            <MudIcon Icon="@Icons.Material.Filled.CloudSync" Color="Color.Inherit" class="codeicon" />
                             <span class="codetext">
-                                Query Runner Results
+                                DB Sync Results
                             </span>
                         </span>
                         <div class="coderesp">
@@ -58,15 +56,13 @@
 </div>
 
 @code {
-    lcpCl.QryRunner model { get; set; } = new lcpCl.QryRunner();
+    lcpCl.DBSyncRunner model { get; set; } = new lcpCl.DBSyncRunner();
     HttpResponseMessage? DataX { get; set; }
     string? responseBody { get; set; }
-    string? qrystrpholder { get; set; }
     bool success;
 
     protected override Task OnInitializedAsync()
     {
-        qrystrpholder = GetQryStrPlaceHolder(model.DBMode);
         return base.OnInitializedAsync();
     }
 
@@ -82,24 +78,14 @@
     }
 
     private void DoClearData() {
-        @* model.DBMode = "SQLServer"; *@
-        model.QryStr = "";
+        model.DBMode = "SQLite";
         responseBody = "";
         StateHasChanged();
     }
 
     private async Task DoSubData()
     {
-        DataX = await httpClient.PostAsJsonAsync<lcpCl.QryRunner>("https://localhost:5000/api/admin/qryrunner", model);
+        DataX = await httpClient.PostAsJsonAsync<lcpCl.DBSyncRunner>("https://localhost:5000/api/admin/dbsync", model);
         responseBody = await DataX.Content.ReadAsStringAsync();
-        qrystrpholder = GetQryStrPlaceHolder(model.DBMode);
-    }
-
-    private void OnSelDBModeChanged() {
-        qrystrpholder = GetQryStrPlaceHolder(model.DBMode);
-    }
-
-    private string GetQryStrPlaceHolder(string dbm) {
-        return dbm.Contains("PostgreSQL", StringComparison.InvariantCultureIgnoreCase) ? $"select * from public."+'"'+"Animes"+'"' : "select * from animes";
     }
 }

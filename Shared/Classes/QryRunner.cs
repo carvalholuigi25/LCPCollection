@@ -6,11 +6,6 @@ public class QryRunner {
     [Required] public string QryStr { get; set; } = null!;
 }
 
-public class DBSyncRunner
-{
-    [Required] public string DBMode { get; set; } = QryDBModeEnum.SQLServer.ToString();
-}
-
 public enum QryDBModeEnum
 {
     SQLServer,

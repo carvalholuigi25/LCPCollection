@@ -232,7 +232,8 @@ input:read-only, input:disabled {
     color: white;
 }
 
-.qryrunres .code {
+.qryrunres .code,
+.dbsyncres .code {
     font-family: "montserrat";
     background: #0000001f;
     color: green;
