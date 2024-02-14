@@ -115,16 +115,16 @@ builder.Services.AddSignalR();
 
 var app = builder.Build();
 
-using (var serviceScope = app.Services.CreateScope())
-{
-    var dbContext = serviceScope.ServiceProvider.GetRequiredService<DBContext>();
-    await dbContext.Database.MigrateAsync();
-    // or dbContext.Database.EnsureCreatedAsync();
-}
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    using (var serviceScope = app.Services.CreateScope())
+    {
+        var dbContext = serviceScope.ServiceProvider.GetRequiredService<DBContext>();
+        await dbContext.Database.MigrateAsync();
+        // or dbContext.Database.EnsureCreatedAsync();
+    }
+
     app.UseSwagger(options =>
     {
         options.SerializeAsV2 = true;

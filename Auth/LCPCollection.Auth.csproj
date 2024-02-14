@@ -5,28 +5,29 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-LCPCollection.Auth-07ce6ed3-e2fb-4414-a544-73d4f531a91f</UserSecretsId>
+	<NoWarn>$(NoWarn);1591;8784</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.1">
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.1" />
 	  <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="8.0.0" />
 	  <PackageReference Include="AspNet.Security.OAuth.Twitter" Version="8.0.0" />
 	  <PackageReference Include="AspNet.Security.OAuth.Reddit" Version="8.0.0" />
 	  <PackageReference Include="AspNet.Security.OAuth.Discord" Version="8.0.0" />
-	  <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="8.0.0" />
-	  <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.0" />
-	  <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="8.0.0" />
-	  <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="8.0.0" />
-	  <PackageReference Include="SendGrid" Version="9.28.1" />
+	  <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="8.0.2" />
+	  <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.2" />
+	  <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="8.0.2" />
+	  <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="8.0.2" />
+	  <PackageReference Include="SendGrid" Version="9.29.2" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
