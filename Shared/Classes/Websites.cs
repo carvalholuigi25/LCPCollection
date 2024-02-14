@@ -27,7 +27,7 @@ public class Websites {
     [DataType("text")]
     public string? BrowsersName { get; set; }
 
-    public double? Rating { get; set; }
+    public float? Rating { get; set; }
 
     [DataType("datetime")]
     public DateTime? DateCreated { get; set; }

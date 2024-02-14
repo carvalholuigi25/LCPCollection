@@ -46,8 +46,8 @@ namespace LCPCollection.Server.Migrations.MySQL
                     b.Property<string>("Publishers")
                         .HasColumnType("longtext");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("double");
+                    b.Property<float?>("Rating")
+                        .HasColumnType("float");
 
                     b.Property<DateTime?>("ReleaseDate")
                         .HasColumnType("datetime(6)");
@@ -73,7 +73,7 @@ namespace LCPCollection.Server.Migrations.MySQL
                             ImageUrl = "images/db.jpg",
                             Platforms = "TV",
                             Publishers = "Toei Animation",
-                            Rating = 9.0,
+                            Rating = 9f,
                             ReleaseDate = new DateTime(1986, 2, 26, 0, 0, 0, 0, DateTimeKind.Utc),
                             Title = "Dragon Ball",
                             TrailerUrl = "https://www.youtube.com/watch?v=gqIEgmqljM8"
@@ -107,8 +107,8 @@ namespace LCPCollection.Server.Migrations.MySQL
                     b.Property<string>("Publishers")
                         .HasColumnType("longtext");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("double");
+                    b.Property<float?>("Rating")
+                        .HasColumnType("float");
 
                     b.Property<DateTime?>("ReleaseDate")
                         .HasColumnType("datetime(6)");
@@ -182,8 +182,8 @@ namespace LCPCollection.Server.Migrations.MySQL
                     b.Property<string>("Publishers")
                         .HasColumnType("longtext");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("double");
+                    b.Property<float?>("Rating")
+                        .HasColumnType("float");
 
                     b.Property<DateTime?>("ReleaseDate")
                         .HasColumnType("datetime(6)");
@@ -226,8 +226,8 @@ namespace LCPCollection.Server.Migrations.MySQL
                     b.Property<string>("Publishers")
                         .HasColumnType("longtext");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("double");
+                    b.Property<float?>("Rating")
+                        .HasColumnType("float");
 
                     b.Property<DateTime?>("ReleaseDate")
                         .HasColumnType("datetime(6)");
@@ -267,8 +267,8 @@ namespace LCPCollection.Server.Migrations.MySQL
                     b.Property<string>("Platforms")
                         .HasColumnType("longtext");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("double");
+                    b.Property<float?>("Rating")
+                        .HasColumnType("float");
 
                     b.Property<string>("Requirements")
                         .HasColumnType("longtext");
@@ -317,8 +317,8 @@ namespace LCPCollection.Server.Migrations.MySQL
                     b.Property<string>("Publishers")
                         .HasColumnType("longtext");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("double");
+                    b.Property<float?>("Rating")
+                        .HasColumnType("float");
 
                     b.Property<DateTime?>("ReleaseDate")
                         .HasColumnType("datetime(6)");
@@ -358,8 +358,8 @@ namespace LCPCollection.Server.Migrations.MySQL
                     b.Property<string>("ImageUrl")
                         .HasColumnType("longtext");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("double");
+                    b.Property<float?>("Rating")
+                        .HasColumnType("float");
 
                     b.Property<string>("Requirements")
                         .HasColumnType("longtext");

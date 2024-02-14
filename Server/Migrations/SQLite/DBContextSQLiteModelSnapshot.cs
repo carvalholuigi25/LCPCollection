@@ -44,7 +44,7 @@ namespace LCPCollection.Server.Migrations.SQLite
                     b.Property<string>("Publishers")
                         .HasColumnType("TEXT");
 
-                    b.Property<double?>("Rating")
+                    b.Property<float?>("Rating")
                         .HasColumnType("REAL");
 
                     b.Property<DateTime?>("ReleaseDate")
@@ -71,7 +71,7 @@ namespace LCPCollection.Server.Migrations.SQLite
                             ImageUrl = "images/db.jpg",
                             Platforms = "TV",
                             Publishers = "Toei Animation",
-                            Rating = 9.0,
+                            Rating = 9f,
                             ReleaseDate = new DateTime(1986, 2, 26, 0, 0, 0, 0, DateTimeKind.Utc),
                             Title = "Dragon Ball",
                             TrailerUrl = "https://www.youtube.com/watch?v=gqIEgmqljM8"
@@ -105,7 +105,7 @@ namespace LCPCollection.Server.Migrations.SQLite
                     b.Property<string>("Publishers")
                         .HasColumnType("TEXT");
 
-                    b.Property<double?>("Rating")
+                    b.Property<float?>("Rating")
                         .HasColumnType("REAL");
 
                     b.Property<DateTime?>("ReleaseDate")
@@ -180,7 +180,7 @@ namespace LCPCollection.Server.Migrations.SQLite
                     b.Property<string>("Publishers")
                         .HasColumnType("TEXT");
 
-                    b.Property<double?>("Rating")
+                    b.Property<float?>("Rating")
                         .HasColumnType("REAL");
 
                     b.Property<DateTime?>("ReleaseDate")
@@ -224,7 +224,7 @@ namespace LCPCollection.Server.Migrations.SQLite
                     b.Property<string>("Publishers")
                         .HasColumnType("TEXT");
 
-                    b.Property<double?>("Rating")
+                    b.Property<float?>("Rating")
                         .HasColumnType("REAL");
 
                     b.Property<DateTime?>("ReleaseDate")
@@ -265,7 +265,7 @@ namespace LCPCollection.Server.Migrations.SQLite
                     b.Property<string>("Platforms")
                         .HasColumnType("TEXT");
 
-                    b.Property<double?>("Rating")
+                    b.Property<float?>("Rating")
                         .HasColumnType("REAL");
 
                     b.Property<string>("Requirements")
@@ -315,7 +315,7 @@ namespace LCPCollection.Server.Migrations.SQLite
                     b.Property<string>("Publishers")
                         .HasColumnType("TEXT");
 
-                    b.Property<double?>("Rating")
+                    b.Property<float?>("Rating")
                         .HasColumnType("REAL");
 
                     b.Property<DateTime?>("ReleaseDate")
@@ -356,7 +356,7 @@ namespace LCPCollection.Server.Migrations.SQLite
                     b.Property<string>("ImageUrl")
                         .HasColumnType("TEXT");
 
-                    b.Property<double?>("Rating")
+                    b.Property<float?>("Rating")
                         .HasColumnType("REAL");
 
                     b.Property<string>("Requirements")

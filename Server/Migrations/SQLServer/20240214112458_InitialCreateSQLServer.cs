@@ -27,7 +27,7 @@ namespace LCPCollection.Server.Migrations.SQLServer
                     ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     TrailerUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Genre = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Rating = table.Column<double>(type: "float", nullable: true)
+                    Rating = table.Column<float>(type: "real", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -50,7 +50,7 @@ namespace LCPCollection.Server.Migrations.SQLServer
                     ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     TrailerUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Genre = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Rating = table.Column<double>(type: "float", nullable: true)
+                    Rating = table.Column<float>(type: "real", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -91,7 +91,7 @@ namespace LCPCollection.Server.Migrations.SQLServer
                     ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     TrailerUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Genre = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Rating = table.Column<double>(type: "float", nullable: true)
+                    Rating = table.Column<float>(type: "real", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -114,7 +114,7 @@ namespace LCPCollection.Server.Migrations.SQLServer
                     ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     TrailerUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Genre = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Rating = table.Column<double>(type: "float", nullable: true)
+                    Rating = table.Column<float>(type: "real", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -135,7 +135,7 @@ namespace LCPCollection.Server.Migrations.SQLServer
                     Version = table.Column<int>(type: "int", nullable: true),
                     Requirements = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Platforms = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Rating = table.Column<double>(type: "float", nullable: true),
+                    Rating = table.Column<float>(type: "real", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AuthorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UrlValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -161,7 +161,7 @@ namespace LCPCollection.Server.Migrations.SQLServer
                     ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     TrailerUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Genre = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Rating = table.Column<double>(type: "float", nullable: true)
+                    Rating = table.Column<float>(type: "real", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -181,7 +181,7 @@ namespace LCPCollection.Server.Migrations.SQLServer
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Requirements = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BrowsersName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Rating = table.Column<double>(type: "float", nullable: true),
+                    Rating = table.Column<float>(type: "real", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AuthorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UrlValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -194,7 +194,7 @@ namespace LCPCollection.Server.Migrations.SQLServer
             migrationBuilder.InsertData(
                 table: "Animes",
                 columns: new[] { "Id", "Companies", "CoverUrl", "Description", "Genre", "ImageUrl", "Platforms", "Publishers", "Rating", "ReleaseDate", "Title", "TrailerUrl" },
-                values: new object[] { 1, "Toei Animation", "covers/db.jpg", "Dragon Ball", "Animation", "images/db.jpg", "TV", "Toei Animation", 9.0, new DateTime(1986, 2, 26, 0, 0, 0, 0, DateTimeKind.Utc), "Dragon Ball", "https://www.youtube.com/watch?v=gqIEgmqljM8" });
+                values: new object[] { 1, "Toei Animation", "covers/db.jpg", "Dragon Ball", "Animation", "images/db.jpg", "TV", "Toei Animation", 9f, new DateTime(1986, 2, 26, 0, 0, 0, 0, DateTimeKind.Utc), "Dragon Ball", "https://www.youtube.com/watch?v=gqIEgmqljM8" });
         }
 
         /// <inheritdoc />

@@ -51,8 +51,8 @@ namespace LCPCollection.Server.Migrations.SQLServer
                     b.Property<string>("Publishers")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("float");
+                    b.Property<float?>("Rating")
+                        .HasColumnType("real");
 
                     b.Property<DateTime?>("ReleaseDate")
                         .HasColumnType("datetime2");
@@ -78,7 +78,7 @@ namespace LCPCollection.Server.Migrations.SQLServer
                             ImageUrl = "images/db.jpg",
                             Platforms = "TV",
                             Publishers = "Toei Animation",
-                            Rating = 9.0,
+                            Rating = 9f,
                             ReleaseDate = new DateTime(1986, 2, 26, 0, 0, 0, 0, DateTimeKind.Utc),
                             Title = "Dragon Ball",
                             TrailerUrl = "https://www.youtube.com/watch?v=gqIEgmqljM8"
@@ -114,8 +114,8 @@ namespace LCPCollection.Server.Migrations.SQLServer
                     b.Property<string>("Publishers")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("float");
+                    b.Property<float?>("Rating")
+                        .HasColumnType("real");
 
                     b.Property<DateTime?>("ReleaseDate")
                         .HasColumnType("datetime2");
@@ -193,8 +193,8 @@ namespace LCPCollection.Server.Migrations.SQLServer
                     b.Property<string>("Publishers")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("float");
+                    b.Property<float?>("Rating")
+                        .HasColumnType("real");
 
                     b.Property<DateTime?>("ReleaseDate")
                         .HasColumnType("datetime2");
@@ -239,8 +239,8 @@ namespace LCPCollection.Server.Migrations.SQLServer
                     b.Property<string>("Publishers")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("float");
+                    b.Property<float?>("Rating")
+                        .HasColumnType("real");
 
                     b.Property<DateTime?>("ReleaseDate")
                         .HasColumnType("datetime2");
@@ -282,8 +282,8 @@ namespace LCPCollection.Server.Migrations.SQLServer
                     b.Property<string>("Platforms")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("float");
+                    b.Property<float?>("Rating")
+                        .HasColumnType("real");
 
                     b.Property<string>("Requirements")
                         .HasColumnType("nvarchar(max)");
@@ -334,8 +334,8 @@ namespace LCPCollection.Server.Migrations.SQLServer
                     b.Property<string>("Publishers")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("float");
+                    b.Property<float?>("Rating")
+                        .HasColumnType("real");
 
                     b.Property<DateTime?>("ReleaseDate")
                         .HasColumnType("datetime2");
@@ -377,8 +377,8 @@ namespace LCPCollection.Server.Migrations.SQLServer
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("float");
+                    b.Property<float?>("Rating")
+                        .HasColumnType("real");
 
                     b.Property<string>("Requirements")
                         .HasColumnType("nvarchar(max)");

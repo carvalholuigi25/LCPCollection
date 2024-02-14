@@ -36,6 +36,6 @@ namespace LCPCollection.Shared.Classes
 
         [DataType("text")]
         public string? Genre { get; set; }
-        public double? Rating { get; set; }
+        public float? Rating { get; set; }
     }
 }

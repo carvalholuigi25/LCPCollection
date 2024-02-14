@@ -51,8 +51,8 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
                     b.Property<string>("Publishers")
                         .HasColumnType("text");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("double precision");
+                    b.Property<float?>("Rating")
+                        .HasColumnType("real");
 
                     b.Property<DateTime?>("ReleaseDate")
                         .HasColumnType("timestamp without time zone");
@@ -78,7 +78,7 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
                             ImageUrl = "images/db.jpg",
                             Platforms = "TV",
                             Publishers = "Toei Animation",
-                            Rating = 9.0,
+                            Rating = 9f,
                             ReleaseDate = new DateTime(1986, 2, 26, 0, 0, 0, 0, DateTimeKind.Utc),
                             Title = "Dragon Ball",
                             TrailerUrl = "https://www.youtube.com/watch?v=gqIEgmqljM8"
@@ -114,8 +114,8 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
                     b.Property<string>("Publishers")
                         .HasColumnType("text");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("double precision");
+                    b.Property<float?>("Rating")
+                        .HasColumnType("real");
 
                     b.Property<DateTime?>("ReleaseDate")
                         .HasColumnType("timestamp without time zone");
@@ -193,8 +193,8 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
                     b.Property<string>("Publishers")
                         .HasColumnType("text");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("double precision");
+                    b.Property<float?>("Rating")
+                        .HasColumnType("real");
 
                     b.Property<DateTime?>("ReleaseDate")
                         .HasColumnType("timestamp without time zone");
@@ -239,8 +239,8 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
                     b.Property<string>("Publishers")
                         .HasColumnType("text");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("double precision");
+                    b.Property<float?>("Rating")
+                        .HasColumnType("real");
 
                     b.Property<DateTime?>("ReleaseDate")
                         .HasColumnType("timestamp without time zone");
@@ -282,8 +282,8 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
                     b.Property<string>("Platforms")
                         .HasColumnType("text");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("double precision");
+                    b.Property<float?>("Rating")
+                        .HasColumnType("real");
 
                     b.Property<string>("Requirements")
                         .HasColumnType("text");
@@ -334,8 +334,8 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
                     b.Property<string>("Publishers")
                         .HasColumnType("text");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("double precision");
+                    b.Property<float?>("Rating")
+                        .HasColumnType("real");
 
                     b.Property<DateTime?>("ReleaseDate")
                         .HasColumnType("timestamp without time zone");
@@ -377,8 +377,8 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
                     b.Property<string>("ImageUrl")
                         .HasColumnType("text");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("double precision");
+                    b.Property<float?>("Rating")
+                        .HasColumnType("real");
 
                     b.Property<string>("Requirements")
                         .HasColumnType("text");
