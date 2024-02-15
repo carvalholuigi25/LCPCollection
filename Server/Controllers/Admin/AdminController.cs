@@ -3,7 +3,6 @@ using Dotmim.Sync.SqlServer;
 using Dotmim.Sync.PostgreSql;
 using Dotmim.Sync;
 using Dotmim.Sync.MySql;
-using LCPCollection.Shared.Classes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
@@ -12,13 +11,15 @@ using MySqlConnector;
 using NuGet.Protocol;
 using Npgsql;
 using System.Diagnostics;
+using LCPCollection.Shared.Classes.Admin;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LCPCollection.Server.Controllers
 {
     [Route("api/admin")]
     [Produces("application/json")]
     [ApiController]
-    // [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator")]
     public class AdminController : ControllerBase
     {
         private readonly IConfiguration _configuration;

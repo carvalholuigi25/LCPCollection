@@ -1,4 +1,4 @@
-﻿namespace LCPCollection.Shared.Classes
+﻿namespace LCPCollection.Shared.Classes.Docs
 {
     public class DocsApi
     {

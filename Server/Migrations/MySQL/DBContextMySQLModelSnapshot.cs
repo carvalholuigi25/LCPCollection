@@ -16,7 +16,7 @@ namespace LCPCollection.Server.Migrations.MySQL
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.1")
+                .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("LCPCollection.Shared.Classes.Animes", b =>
@@ -76,7 +76,7 @@ namespace LCPCollection.Server.Migrations.MySQL
                             Rating = 9f,
                             ReleaseDate = new DateTime(1986, 2, 26, 0, 0, 0, 0, DateTimeKind.Utc),
                             Title = "Dragon Ball",
-                            TrailerUrl = "https://www.youtube.com/watch?v=gqIEgmqljM8"
+                            TrailerUrl = "https://www.youtube.com/embed/gqIEgmqljM8"
                         });
                 });
 
@@ -124,7 +124,7 @@ namespace LCPCollection.Server.Migrations.MySQL
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("LCPCollection.Shared.Classes.FileData", b =>
+            modelBuilder.Entity("LCPCollection.Shared.Classes.Files.FileData", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -332,6 +332,46 @@ namespace LCPCollection.Server.Migrations.MySQL
                     b.HasKey("Id");
 
                     b.ToTable("TVSeries");
+                });
+
+            modelBuilder.Entity("LCPCollection.Shared.Classes.Users", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DateAccountCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("RefreshTokenExpiryTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("RoleName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateAccountCreated = new DateTime(2024, 2, 15, 14, 37, 59, 223, DateTimeKind.Utc).AddTicks(7411),
+                            Password = "$2a$12$W2JjfD1lAPz5D7qlZr1ht.gl7vh1oecGIh8l2qdJIiiibMRAkK6gK",
+                            RefreshTokenExpiryTime = new DateTime(2024, 2, 15, 14, 37, 59, 223, DateTimeKind.Utc).AddTicks(7418),
+                            RoleName = "Administrator",
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("LCPCollection.Shared.Classes.Websites", b =>

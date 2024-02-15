@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using LCPCollection.Shared.Classes;
 using LCPCollection.Server.Interfaces;
+using LCPCollection.Shared.Classes.Filter;
 
 namespace LCPCollection.Server.Controllers
 {

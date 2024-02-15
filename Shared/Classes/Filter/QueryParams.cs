@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace LCPCollection.Shared.Classes;
+namespace LCPCollection.Shared.Classes.Filter;
 
 public class QueryParams
 {

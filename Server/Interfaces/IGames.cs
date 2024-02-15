@@ -1,4 +1,5 @@
 ﻿using LCPCollection.Shared.Classes;
+using LCPCollection.Shared.Classes.Filter;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LCPCollection.Server.Interfaces

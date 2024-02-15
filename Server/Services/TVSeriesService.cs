@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 using System.Reflection;
 using System.Linq.Expressions;
+using LCPCollection.Shared.Classes.Filter;
 
 namespace LCPCollection.Server.Services
 {

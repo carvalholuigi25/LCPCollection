@@ -1,5 +1,5 @@
 ﻿using LCPCollection.Server.Context;
-using LCPCollection.Shared.Classes;
+using LCPCollection.Shared.Classes.Files;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LCPCollection.Server.Controllers

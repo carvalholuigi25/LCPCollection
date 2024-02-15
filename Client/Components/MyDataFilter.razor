@@ -1,4 +1,5 @@
 ﻿@using lcpCl = LCPCollection.Shared.Classes
+@using LCPCollection.Shared.Classes.Filter
 @typeparam T where T : class
 @inject HttpClient httpClient
 @inject NavigationManager navManager
@@ -81,7 +82,7 @@ else
 }
 
 @code {
-    [Parameter] public lcpCl.QueryParamsRes<T>? DataItems { get; set; } = new lcpCl.QueryParamsRes<T>();
+    [Parameter] public QueryParamsRes<T>? DataItems { get; set; } = new QueryParamsRes<T>();
     [Parameter] public string ApiName { get; set; } = "animes";
     [Parameter] public int Page { get; set; } = 1;
     [Parameter] public int Size { get; set; } = 12;
@@ -123,7 +124,7 @@ else
     private async Task LoadMyFilteredData()
     {
         filterStr = isFilterEnabled ? $"?Page={Page}&PageSize={Size}&Search={Search}&SortBy={Sortby}&SortOrder={Sortorder}&Operator={Operator}" : $"?Page={Page}&PageSize={Size}";
-        DataItems = await httpClient.GetFromJsonAsync<lcpCl.QueryParamsRes<T>>($"https://localhost:5000/api/{ApiName.ToLower()}/filter{filterStr}");
+        DataItems = await httpClient.GetFromJsonAsync<QueryParamsRes<T>>($"https://localhost:5000/api/{ApiName.ToLower()}/filter{filterStr}");
         SortByEnumList = await httpClient.GetFromJsonAsync<List<string>>($"https://localhost:5000/api/{ApiName.ToLower()}/enumslist");
         OperatorEnumList = await httpClient.GetFromJsonAsync<List<string>>($"https://localhost:5000/api/{ApiName.ToLower()}/fopenumslist");
         NavData();

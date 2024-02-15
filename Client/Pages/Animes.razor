@@ -2,6 +2,7 @@
 @page "/animes/{page:int?}/{size:int?}/{search}/{sortby}/{sortorder}/{foperator}"
 @using System.Net.Http.Json
 @using lcpCl = LCPCollection.Shared.Classes
+@using LCPCollection.Shared.Classes.Filter
 @inject HttpClient httpClient
 @inject NavigationManager navManager
 
@@ -76,7 +77,7 @@
     public bool isFilterEnabled { get; set; } = false;
     public bool isLoading { get; set; } = true;
     public string? filterStr { get; set; }
-    private lcpCl.QueryParamsRes<lcpCl.Animes>? AnimesX = new lcpCl.QueryParamsRes<lcpCl.Animes>();
+    private QueryParamsRes<lcpCl.Animes>? AnimesX = new QueryParamsRes<lcpCl.Animes>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -94,7 +95,7 @@
 
     private async Task LoadMyFilteredData()
     {
-        AnimesX = await httpClient.GetFromJsonAsync<lcpCl.QueryParamsRes<lcpCl.Animes>>($"https://localhost:5000/api/animes/filter?Page={page}&PageSize={size}&Search={search}&SortBy={sortby}&SortOrder={sortorder}&Operator={foperator}");
+        AnimesX = await httpClient.GetFromJsonAsync<QueryParamsRes<lcpCl.Animes>>($"https://localhost:5000/api/animes/filter?Page={page}&PageSize={size}&Search={search}&SortBy={sortby}&SortOrder={sortorder}&Operator={foperator}");
     }
 
     private async Task PageChanged(int i)

@@ -2,6 +2,7 @@
 @page "/books/{page:int?}/{size:int?}/{search}/{sortby}/{sortorder}/{foperator}"
 @using System.Net.Http.Json
 @using lcpCl = LCPCollection.Shared.Classes
+@using LCPCollection.Shared.Classes.Filter
 @inject HttpClient httpClient
 @inject NavigationManager navManager
 
@@ -76,7 +77,7 @@
     public bool isFilterEnabled { get; set; } = false;
     public bool isLoading { get; set; } = true;
     public string? filterStr { get; set; }
-    private lcpCl.QueryParamsRes<lcpCl.Books>? BooksX = new lcpCl.QueryParamsRes<lcpCl.Books>();
+    private QueryParamsRes<lcpCl.Books>? BooksX = new QueryParamsRes<lcpCl.Books>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -94,7 +95,7 @@
 
     private async Task LoadMyFilteredData()
     {
-        BooksX = await httpClient.GetFromJsonAsync<lcpCl.QueryParamsRes<lcpCl.Books>>($"https://localhost:5000/api/books/filter?Page={page}&PageSize={size}&Search={search}&SortBy={sortby}&SortOrder={sortorder}&Operator={foperator}");
+        BooksX = await httpClient.GetFromJsonAsync<QueryParamsRes<lcpCl.Books>>($"https://localhost:5000/api/books/filter?Page={page}&PageSize={size}&Search={search}&SortBy={sortby}&SortOrder={sortorder}&Operator={foperator}");
     }
 
     private async Task PageChanged(int i)

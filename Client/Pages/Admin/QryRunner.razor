@@ -1,5 +1,6 @@
 @page "/admin/qryrunner"
 @using lcpCl = LCPCollection.Shared.Classes
+@using LCPCollection.Shared.Classes.Admin
 @using System.Net.Http.Json
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Components.Forms
@@ -58,7 +59,7 @@
 </div>
 
 @code {
-    lcpCl.QryRunner model { get; set; } = new lcpCl.QryRunner();
+    lcpCl.Admin.QryRunner model { get; set; } = new lcpCl.Admin.QryRunner();
     HttpResponseMessage? DataX { get; set; }
     string? responseBody { get; set; }
     string? qrystrpholder { get; set; }
@@ -90,7 +91,7 @@
 
     private async Task DoSubData()
     {
-        DataX = await httpClient.PostAsJsonAsync<lcpCl.QryRunner>("https://localhost:5000/api/admin/qryrunner", model);
+        DataX = await httpClient.PostAsJsonAsync<lcpCl.Admin.QryRunner>("https://localhost:5000/api/admin/qryrunner", model);
         responseBody = await DataX.Content.ReadAsStringAsync();
         qrystrpholder = GetQryStrPlaceHolder(model.DBMode);
     }

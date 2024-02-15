@@ -1,6 +1,8 @@
 ﻿using LCPCollection.Server.Extensions;
 using LCPCollection.Shared.Classes;
+using LCPCollection.Shared.Classes.Files;
 using Microsoft.EntityFrameworkCore;
+using BC = BCrypt.Net.BCrypt;
 
 namespace LCPCollection.Server.Context
 {
@@ -16,6 +18,7 @@ namespace LCPCollection.Server.Context
         public DbSet<FileData> FilesData { get; set; }
         public DbSet<Softwares> Softwares { get; set; }
         public DbSet<Websites> Websites { get; set; }
+        public DbSet<Users> Users { get; set; }
 
         public DBContext(IConfiguration configuration, IHostEnvironment environment)
         {
@@ -41,7 +44,32 @@ namespace LCPCollection.Server.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyUtcDateTimeConverter();
-            modelBuilder.Entity<Animes>().HasData(new Animes { Id = 1, Title = "Dragon Ball", Description = "Dragon Ball", Companies = "Toei Animation", Publishers = "Toei Animation", ReleaseDate = new DateTime(1986, 2, 26, 0, 0, 0).ToLocalTime(), CoverUrl = "covers/db.jpg", ImageUrl = "images/db.jpg", Platforms = "TV", TrailerUrl = "https://www.youtube.com/watch?v=gqIEgmqljM8", Rating = 9, Genre = "Animation" });
+            modelBuilder.Entity<Users>().HasData(new Users
+            {
+                Id = 1,
+                Username = "admin",
+                Password = BC.HashPassword("admin2024", BC.GenerateSalt(12), false, BCrypt.Net.HashType.SHA256),
+                RoleName = RolesNamesEnum.Administrator.ToString(),
+                DateAccountCreated = DateTime.UtcNow,
+                RefreshToken = null,
+                RefreshTokenExpiryTime = DateTime.UtcNow
+            });
+
+            modelBuilder.Entity<Animes>().HasData(new Animes
+            { 
+                Id = 1, 
+                Title = "Dragon Ball", 
+                Description = "Dragon Ball", 
+                Companies = "Toei Animation", 
+                Publishers = "Toei Animation", 
+                CoverUrl = "covers/db.jpg", 
+                ImageUrl = "images/db.jpg", 
+                Platforms = "TV", 
+                TrailerUrl = "https://www.youtube.com/embed/gqIEgmqljM8", 
+                Genre = "Animation",
+                ReleaseDate = new DateTime(1986, 2, 26, 0, 0, 0).ToLocalTime(),
+                Rating = 9
+            });
         }
     }
 }

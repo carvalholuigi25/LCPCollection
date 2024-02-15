@@ -1,4 +1,5 @@
 ﻿@using lcpCl = LCPCollection.Shared.Classes
+@using LCPCollection.Shared.Classes.Filter
 @typeparam T where T : class
 @inject HttpClient httpClient
 @inject NavigationManager navManager
@@ -9,7 +10,7 @@
 }
 
 @code {
-    [Parameter] public lcpCl.QueryParamsRes<T>? DataItems { get; set; } = new lcpCl.QueryParamsRes<T>();
+    [Parameter] public QueryParamsRes<T>? DataItems { get; set; } = new QueryParamsRes<T>();
     [Parameter] public string ApiName { get; set; } = "animes";
     [Parameter] public int Page { get; set; } = 1;
     [Parameter] public int Size { get; set; } = 12;
@@ -37,7 +38,7 @@
         foperator = !string.IsNullOrEmpty(GetQueryParm("operator")) ? GetQueryParm("operator") : "Contains";
         filterstr = IsFilterEnabled ? $"?Page={Page}&PageSize={Size}&Search={search}&SortBy={sortby}&SortOrder={sortorder}&Operator={foperator}" : $"?Page={Page}&PageSize={Size}";
 
-        DataItems = await httpClient.GetFromJsonAsync<lcpCl.QueryParamsRes<T>>($"https://localhost:5000/api/{ApiName.ToLower()}/filter{filterstr}");
+        DataItems = await httpClient.GetFromJsonAsync<QueryParamsRes<T>>($"https://localhost:5000/api/{ApiName.ToLower()}/filter{filterstr}");
         StateHasChanged();
     }
 

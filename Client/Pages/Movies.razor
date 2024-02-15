@@ -2,6 +2,7 @@
 @page "/movies/{page:int?}/{size:int?}/{search}/{sortby}/{sortorder}/{foperator}"
 @using System.Net.Http.Json
 @using lcpCl = LCPCollection.Shared.Classes
+@using LCPCollection.Shared.Classes.Filter
 @inject HttpClient httpClient
 @inject NavigationManager navManager
 
@@ -76,7 +77,7 @@
     public bool isFilterEnabled { get; set; } = false;
     public bool isLoading { get; set; } = true;
     public string? filterStr { get; set; }
-    private lcpCl.QueryParamsRes<lcpCl.Movies>? MoviesX = new lcpCl.QueryParamsRes<lcpCl.Movies>();
+    private QueryParamsRes<lcpCl.Movies>? MoviesX = new QueryParamsRes<lcpCl.Movies>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -94,7 +95,7 @@
 
     private async Task LoadMyFilteredData()
     {
-        MoviesX = await httpClient.GetFromJsonAsync<lcpCl.QueryParamsRes<lcpCl.Movies>>($"https://localhost:5000/api/movies/filter?Page={page}&PageSize={size}&Search={search}&SortBy={sortby}&SortOrder={sortorder}&Operator={foperator}");
+        MoviesX = await httpClient.GetFromJsonAsync<QueryParamsRes<lcpCl.Movies>>($"https://localhost:5000/api/movies/filter?Page={page}&PageSize={size}&Search={search}&SortBy={sortby}&SortOrder={sortorder}&Operator={foperator}");
     }
 
     private async Task PageChanged(int i)

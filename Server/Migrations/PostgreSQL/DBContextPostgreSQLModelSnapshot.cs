@@ -17,7 +17,7 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.1")
+                .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -81,7 +81,7 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
                             Rating = 9f,
                             ReleaseDate = new DateTime(1986, 2, 26, 0, 0, 0, 0, DateTimeKind.Utc),
                             Title = "Dragon Ball",
-                            TrailerUrl = "https://www.youtube.com/watch?v=gqIEgmqljM8"
+                            TrailerUrl = "https://www.youtube.com/embed/gqIEgmqljM8"
                         });
                 });
 
@@ -131,7 +131,7 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("LCPCollection.Shared.Classes.FileData", b =>
+            modelBuilder.Entity("LCPCollection.Shared.Classes.Files.FileData", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -349,6 +349,48 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
                     b.HasKey("Id");
 
                     b.ToTable("TVSeries");
+                });
+
+            modelBuilder.Entity("LCPCollection.Shared.Classes.Users", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("DateAccountCreated")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("text");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("RefreshTokenExpiryTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("RoleName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateAccountCreated = new DateTime(2024, 2, 15, 14, 37, 38, 690, DateTimeKind.Utc).AddTicks(5149),
+                            Password = "$2a$12$MkD/COMno8RqEXOOkf/XWuGlmQgxgW0xqTjBf2czIanMXZaGlgxGm",
+                            RefreshTokenExpiryTime = new DateTime(2024, 2, 15, 14, 37, 38, 690, DateTimeKind.Utc).AddTicks(5156),
+                            RoleName = "Administrator",
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("LCPCollection.Shared.Classes.Websites", b =>

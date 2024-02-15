@@ -2,6 +2,7 @@
 @page "/tvseries/{page:int?}/{size:int?}/{search}/{sortby}/{sortorder}/{foperator}"
 @using System.Net.Http.Json
 @using lcpCl = LCPCollection.Shared.Classes
+@using LCPCollection.Shared.Classes.Filter
 @inject HttpClient httpClient
 @inject NavigationManager navManager
 
@@ -76,7 +77,7 @@
     public bool isFilterEnabled { get; set; } = false;
     public bool isLoading { get; set; } = true;
     public string? filterStr { get; set; }
-    private lcpCl.QueryParamsRes<lcpCl.TVSeries>? TvseriesX = new lcpCl.QueryParamsRes<lcpCl.TVSeries>();
+    private QueryParamsRes<lcpCl.TVSeries>? TvseriesX = new QueryParamsRes<lcpCl.TVSeries>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -94,7 +95,7 @@
 
     private async Task LoadMyFilteredData()
     {
-        TvseriesX = await httpClient.GetFromJsonAsync<lcpCl.QueryParamsRes<lcpCl.TVSeries>>($"https://localhost:5000/api/tvseries/filter?Page={page}&PageSize={size}&Search={search}&SortBy={sortby}&SortOrder={sortorder}&Operator={foperator}");
+        TvseriesX = await httpClient.GetFromJsonAsync<QueryParamsRes<lcpCl.TVSeries>>($"https://localhost:5000/api/tvseries/filter?Page={page}&PageSize={size}&Search={search}&SortBy={sortby}&SortOrder={sortorder}&Operator={foperator}");
     }
 
     private async Task PageChanged(int i)

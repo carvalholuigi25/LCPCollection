@@ -15,6 +15,7 @@ builder.Services.AddSingleton<ILogger>(provider => provider.GetRequiredService<I
 builder.Services.AddSingleton<ILogger>(provider => provider.GetRequiredService<ILogger<Games>>());
 builder.Services.AddSingleton<ILogger>(provider => provider.GetRequiredService<ILogger<Movies>>());
 builder.Services.AddSingleton<ILogger>(provider => provider.GetRequiredService<ILogger<TVSeries>>());
+builder.Services.AddSingleton<ILogger>(provider => provider.GetRequiredService<ILogger<Users>>());
 
 builder.Services.AddHttpClient("LCPCollection.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LCPCollection.Shared.Classes
+namespace LCPCollection.Shared.Classes.Files
 {
     public class SaveFile
     {

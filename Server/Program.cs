@@ -12,7 +12,11 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using Serilog;
 using Microsoft.EntityFrameworkCore;
-using System;
+using LCPCollection.Server.Interfaces.Auth;
+using LCPCollection.Server.Services.Auth;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 //using Newtonsoft.Json.Converters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -50,6 +54,24 @@ builder.Services.AddScoped<ITVSeries, TVSeriesService>();
 builder.Services.AddScoped<IFilesList, FilesListService>();
 builder.Services.AddScoped<ISoftwares, SoftwaresService>();
 builder.Services.AddScoped<IWebsites, WebsitesService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IUsers, UsersService>();
+
+builder.Services.AddAuthentication(opt => {
+    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options => {
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = Convert.ToBoolean(builder.Configuration["JWTConfig:ValidateAudience"]),
+        ValidateAudience = Convert.ToBoolean(builder.Configuration["JWTConfig:ValidateAudience"]),
+        ValidateLifetime = Convert.ToBoolean(builder.Configuration["JWTConfig:ValidateLifetime"]),
+        ValidateIssuerSigningKey = Convert.ToBoolean(builder.Configuration["JWTConfig:ValidateIssuerSigningKey"]),
+        ValidIssuer = builder.Configuration["JWTConfig:ValidIssuer"],
+        ValidAudience = builder.Configuration["JWTConfig:ValidAudience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTConfig:IssuerSigningKey"]!))
+    };
+});
 
 //builder.Services.AddControllersWithViews().AddNewtonsoftJson(opts => opts.SerializerSettings.Converters.Add(new StringEnumConverter()));
 builder.Services.AddControllersWithViews().AddJsonOptions(options => {
@@ -82,6 +104,30 @@ builder.Services.AddSwaggerGen(options =>
         {
             Name = "License",
             Url = new Uri("https://example.com/license")
+        }
+    });
+
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Scheme = "bearer",
+        Description = "Please insert JWT token into field"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] { }
         }
     });
 
@@ -127,7 +173,7 @@ if (app.Environment.IsDevelopment())
 
     app.UseSwagger(options =>
     {
-        options.SerializeAsV2 = true;
+        options.SerializeAsV2 = false;
     });
     app.UseSwaggerUI(options =>
     {
