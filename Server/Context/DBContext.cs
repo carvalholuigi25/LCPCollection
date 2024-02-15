@@ -51,6 +51,7 @@ namespace LCPCollection.Server.Context
                 Password = BC.HashPassword("admin2024", BC.GenerateSalt(12), false, BCrypt.Net.HashType.SHA256),
                 RoleName = RolesNamesEnum.Administrator.ToString(),
                 DateAccountCreated = DateTime.UtcNow,
+                CurrentToken = null,
                 RefreshToken = null,
                 RefreshTokenExpiryTime = DateTime.UtcNow
             });

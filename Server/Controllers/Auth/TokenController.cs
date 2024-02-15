@@ -46,6 +46,7 @@ namespace LCPCollection.Server.Controllers.Auth
             var newAccessToken = _tokenService.GenerateAccessToken(principal.Claims);
             var newRefreshToken = _tokenService.GenerateRefreshToken();
             
+            user.CurrentToken = newAccessToken;
             user.RefreshToken = newRefreshToken;
             _dbContext.SaveChanges();
             
@@ -68,7 +69,8 @@ namespace LCPCollection.Server.Controllers.Auth
             var user = _dbContext.Users.SingleOrDefault(u => u.Username == username);
 
             if (user == null) return BadRequest();
-            
+
+            user.CurrentToken = null;
             user.RefreshToken = null;
             _dbContext.SaveChanges();
             

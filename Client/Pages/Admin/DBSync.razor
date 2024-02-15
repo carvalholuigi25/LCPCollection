@@ -1,4 +1,6 @@
 @page "/admin/dbsync"
+@using Microsoft.AspNetCore.Authorization
+@using System.Net.Http.Headers
 @using lcpCl = LCPCollection.Shared.Classes
 @using LCPCollection.Shared.Classes.Admin
 @using System.Net.Http.Json
@@ -6,6 +8,8 @@
 @using Microsoft.AspNetCore.Components.Forms
 @inject HttpClient httpClient
 @inject NavigationManager navManager
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@attribute [Authorize("Administrator")]
 
 <PageTitle>LCPCollection - Admin - Database Sync</PageTitle>
 
@@ -62,10 +66,14 @@
     HttpResponseMessage? DataX { get; set; }
     string? responseBody { get; set; }
     bool success;
+    private LCPCollection.Shared.Classes.Users? usersDataInfo { get; set; }
 
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
-        return base.OnInitializedAsync();
+        usersDataInfo = await localStorage.GetItemAsync<LCPCollection.Shared.Classes.Users>("loginInfo");
+        StateHasChanged();
+
+        // return base.OnInitializedAsync();
     }
 
     private async Task OnValidSubmit(EditContext context)
@@ -87,6 +95,7 @@
 
     private async Task DoSubData()
     {
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", usersDataInfo!.CurrentToken);
         DataX = await httpClient.PostAsJsonAsync<DBSyncRunner>("https://localhost:5000/api/admin/dbsync", model);
         responseBody = await DataX.Content.ReadAsStringAsync();
     }

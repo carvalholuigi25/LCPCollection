@@ -340,6 +340,9 @@ namespace LCPCollection.Server.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("CurrentToken")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("DateAccountCreated")
                         .HasColumnType("datetime(6)");
 
@@ -366,9 +369,9 @@ namespace LCPCollection.Server.Migrations.MySQL
                         new
                         {
                             Id = 1,
-                            DateAccountCreated = new DateTime(2024, 2, 15, 14, 37, 59, 223, DateTimeKind.Utc).AddTicks(7411),
-                            Password = "$2a$12$W2JjfD1lAPz5D7qlZr1ht.gl7vh1oecGIh8l2qdJIiiibMRAkK6gK",
-                            RefreshTokenExpiryTime = new DateTime(2024, 2, 15, 14, 37, 59, 223, DateTimeKind.Utc).AddTicks(7418),
+                            DateAccountCreated = new DateTime(2024, 2, 15, 17, 50, 50, 55, DateTimeKind.Utc).AddTicks(808),
+                            Password = "$2a$12$PjfItbWyppOBdY87eO3Tju7Ot7wULsVT1yYPXR.baZNftpJYXsvMO",
+                            RefreshTokenExpiryTime = new DateTime(2024, 2, 15, 17, 50, 50, 55, DateTimeKind.Utc).AddTicks(817),
                             RoleName = "Administrator",
                             Username = "admin"
                         });

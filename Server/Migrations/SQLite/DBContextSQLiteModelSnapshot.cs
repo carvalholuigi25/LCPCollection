@@ -338,6 +338,9 @@ namespace LCPCollection.Server.Migrations.SQLite
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("CurrentToken")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime?>("DateAccountCreated")
                         .HasColumnType("TEXT");
 
@@ -364,9 +367,9 @@ namespace LCPCollection.Server.Migrations.SQLite
                         new
                         {
                             Id = 1,
-                            DateAccountCreated = new DateTime(2024, 2, 15, 14, 37, 19, 941, DateTimeKind.Utc).AddTicks(2356),
-                            Password = "$2a$12$A9ELMMiX8NNcITzhJx7ZZeF2HHuc6Chu1EB6hmyUfr0KkoutIWcgW",
-                            RefreshTokenExpiryTime = new DateTime(2024, 2, 15, 14, 37, 19, 941, DateTimeKind.Utc).AddTicks(2364),
+                            DateAccountCreated = new DateTime(2024, 2, 15, 17, 50, 11, 924, DateTimeKind.Utc).AddTicks(2370),
+                            Password = "$2a$12$qLgN6YzLCoQD5jRDkum9YufrD3Al0.bFBUjyAtPoqu/tM0srxFQIG",
+                            RefreshTokenExpiryTime = new DateTime(2024, 2, 15, 17, 50, 11, 924, DateTimeKind.Utc).AddTicks(2383),
                             RoleName = "Administrator",
                             Username = "admin"
                         });

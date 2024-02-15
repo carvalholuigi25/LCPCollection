@@ -1,8 +1,10 @@
 @page "/admin"
+@using Microsoft.AspNetCore.Authorization
 @using System.Net.Http.Json
 @using lcpCl = LCPCollection.Shared.Classes
 @inject HttpClient httpClient
 @inject NavigationManager navManager
+@attribute [Authorize("Administrator")]
 
 <PageTitle>LCPCollection - Admin</PageTitle>
 

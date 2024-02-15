@@ -359,6 +359,9 @@ namespace LCPCollection.Server.Migrations.SQLServer
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CurrentToken")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("DateAccountCreated")
                         .HasColumnType("datetime2");
 
@@ -385,9 +388,9 @@ namespace LCPCollection.Server.Migrations.SQLServer
                         new
                         {
                             Id = 1,
-                            DateAccountCreated = new DateTime(2024, 2, 15, 14, 38, 30, 533, DateTimeKind.Utc).AddTicks(9755),
-                            Password = "$2a$12$FxKw8X7J/hjXSK5Nl0JfsurGJLI6LXZHZiy9YGxt7An4huCLp65Cy",
-                            RefreshTokenExpiryTime = new DateTime(2024, 2, 15, 14, 38, 30, 533, DateTimeKind.Utc).AddTicks(9763),
+                            DateAccountCreated = new DateTime(2024, 2, 15, 17, 51, 19, 674, DateTimeKind.Utc).AddTicks(956),
+                            Password = "$2a$12$FNcBP8xTcaP4416gTGxEOeWBw54Iqahar5QKJCts13s102UEvm0cG",
+                            RefreshTokenExpiryTime = new DateTime(2024, 2, 15, 17, 51, 19, 674, DateTimeKind.Utc).AddTicks(967),
                             RoleName = "Administrator",
                             Username = "admin"
                         });

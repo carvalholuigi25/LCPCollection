@@ -359,6 +359,9 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CurrentToken")
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("DateAccountCreated")
                         .HasColumnType("timestamp without time zone");
 
@@ -385,9 +388,9 @@ namespace LCPCollection.Server.Migrations.PostgreSQL
                         new
                         {
                             Id = 1,
-                            DateAccountCreated = new DateTime(2024, 2, 15, 14, 37, 38, 690, DateTimeKind.Utc).AddTicks(5149),
-                            Password = "$2a$12$MkD/COMno8RqEXOOkf/XWuGlmQgxgW0xqTjBf2czIanMXZaGlgxGm",
-                            RefreshTokenExpiryTime = new DateTime(2024, 2, 15, 14, 37, 38, 690, DateTimeKind.Utc).AddTicks(5156),
+                            DateAccountCreated = new DateTime(2024, 2, 15, 17, 50, 30, 4, DateTimeKind.Utc).AddTicks(2670),
+                            Password = "$2a$12$EWIIFnT9n0D5ffxADlKt9eoPn/Yoz8wYFa1pAyUdb0i2gCn3dhynG",
+                            RefreshTokenExpiryTime = new DateTime(2024, 2, 15, 17, 50, 30, 4, DateTimeKind.Utc).AddTicks(2680),
                             RoleName = "Administrator",
                             Username = "admin"
                         });

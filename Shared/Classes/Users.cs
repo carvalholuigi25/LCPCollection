@@ -23,6 +23,10 @@ public class Users
     [DataType("text")]
     public string? RoleName { get; set; } = RolesNamesEnum.User.ToString();
 
+    [DisplayName("CurrentToken")]
+    [DataType("text")]
+    public string? CurrentToken { get; set; }
+
     [DisplayName("RefreshToken")]
     [DataType("text")]
     public string? RefreshToken { get; set; }
