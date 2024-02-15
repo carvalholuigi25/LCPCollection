@@ -1,4 +1,6 @@
+using Blazored.LocalStorage;
 using LCPCollection.Client;
+using LCP = LCPCollection.Client.Pages;
 using LCPCollection.Shared.Classes;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -16,6 +18,9 @@ builder.Services.AddSingleton<ILogger>(provider => provider.GetRequiredService<I
 builder.Services.AddSingleton<ILogger>(provider => provider.GetRequiredService<ILogger<Movies>>());
 builder.Services.AddSingleton<ILogger>(provider => provider.GetRequiredService<ILogger<TVSeries>>());
 builder.Services.AddSingleton<ILogger>(provider => provider.GetRequiredService<ILogger<Users>>());
+builder.Services.AddSingleton<ILogger>(provider => provider.GetRequiredService<ILogger<LCP.Auth>>());
+
+builder.Services.AddBlazoredLocalStorageAsSingleton();
 
 builder.Services.AddHttpClient("LCPCollection.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
 

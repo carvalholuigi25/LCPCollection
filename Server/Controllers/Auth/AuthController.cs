@@ -46,7 +46,7 @@ namespace LCPCollection.Server.Controllers.Auth
 
             var accessToken = _tokenService.GenerateAccessToken(claims);
             var refreshToken = _tokenService.GenerateRefreshToken();
-            
+
             user.RefreshToken = refreshToken;
             user.RefreshTokenExpiryTime = DateTime.Now.AddMonths(1);
             
@@ -55,7 +55,8 @@ namespace LCPCollection.Server.Controllers.Auth
             return Ok(new AuthenticatedResponse
             {
                 Token = accessToken,
-                RefreshToken = refreshToken
+                RefreshToken = refreshToken,
+                UsersInfo = user
             });
         }
     }

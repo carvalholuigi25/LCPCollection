@@ -1,0 +1,99 @@
+﻿@page "/auth"
+@using LCPCollection.Shared.Classes.Auth
+@using Microsoft.AspNetCore.Components.Forms
+@using System.Net.Http.Json
+@using lcpCl = LCPCollection.Shared.Classes
+@inject HttpClient httpClient
+@inject NavigationManager navManager
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject ILogger<Auth> Logger
+
+<PageTitle>LCPCollection - Auth</PageTitle>
+
+<h1><MudIcon Icon="@Icons.Material.Filled.Login" Color="Color.Inherit"></MudIcon> Authentication</h1>
+
+<div class="row">
+    <div class="col-12 frmblk">
+        @if(usersSessionInfo != null)
+        {
+            <div class="blkloggedin">
+                <p>Hello, @usersSessionInfo.Username!</p>
+                <MudButton ButtonType="ButtonType.Button" Color="Color.Primary" Variant="Variant.Filled" Class="d-block mt-3" OnClick="AuthLogout">Logout</MudButton>
+            </div>
+        }
+        else
+        {
+            <EditForm Model="usersData" OnValidSubmit="AuthUser">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <MudGrid>
+                    <MudItem xs="12" sm="12" md="12" lg="12" xl="12" xxl="12">
+                        <MudCard>
+                            <MudCardContent>
+                                <MudTextField Label="Username" HelperText="Write the username here" @bind-Value="usersData.Username" For="@(() => usersData.Username)" Required />
+                                <MudTextField Label="Password" HelperText="Write the password here" @bind-Value="usersData.Password" For="@(() => usersData.Password)" InputType="InputType.Password" Required />
+                            </MudCardContent>
+                            <MudCardActions>
+                                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Secondary" Class="ml-auto" OnClick="AuthClear">Reset</MudButton>
+                                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Login</MudButton>
+                            </MudCardActions>
+                        </MudCard>
+                    </MudItem>
+                </MudGrid>
+            </EditForm>
+        }
+    </div>
+</div>
+
+@code {
+    private lcpCl.Users usersData { get; set; } = new lcpCl.Users();
+    private lcpCl.Users? usersSessionInfo { get; set; } = new lcpCl.Users();
+    HttpResponseMessage? DataUsers { get; set; }
+    string? responseBody { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        usersSessionInfo = await localStorage.GetItemAsync<lcpCl.Users>("loginInfo");
+        StateHasChanged();
+    }
+
+    private async Task AuthUser()
+    {
+        try
+        {
+            DataUsers = await httpClient.PostAsJsonAsync<lcpCl.UsersLogin>($"https://localhost:5000/api/auth/login", new lcpCl.UsersLogin()
+            {
+                Username = usersData.Username,
+                Password = usersData.Password
+            });
+
+            responseBody = await DataUsers.Content.ReadAsStringAsync();
+
+            await localStorage.SetItemAsync<lcpCl.Users>("loginInfo", Newtonsoft.Json.JsonConvert.DeserializeObject<AuthenticatedResponse>(responseBody)!.UsersInfo!);
+
+            Logger.LogInformation($"Logged successfully as {usersData.Username}!");
+            navManager.NavigateTo("/", true);
+        }
+        catch (Exception e)
+        {
+            Logger.LogError($"Error: {e.Message}");
+            throw;
+        }
+
+        StateHasChanged();
+    }
+
+    private async Task AuthClear()
+    {
+        usersData = new lcpCl.Users();
+        await localStorage.RemoveItemAsync("loginInfo");
+    }
+
+    private async Task AuthLogout()
+    {
+        usersData = new lcpCl.Users();
+        await localStorage.RemoveItemAsync("loginInfo");
+        navManager.NavigateTo("/", true);
+    }
+}

@@ -1,4 +1,7 @@
-﻿<MudNavMenu Color="Color.Transparent" Dense="@dense">
+﻿@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager navManager
+
+<MudNavMenu Color="Color.Transparent" Dense="@dense">
     <MudNavLink Href="/" Icon="@Icons.Material.Filled.Home" IconColor="Color.Inherit" Match="NavLinkMatch.All" ActiveClass="active" title="Home">Home</MudNavLink>
     <MudNavLink Href="/games" Icon="@Icons.Material.Filled.Games" IconColor="Color.Inherit" Match="NavLinkMatch.All" title="Games">Games</MudNavLink>
     <MudNavLink Href="/movies" Icon="@Icons.Material.Filled.Movie" IconColor="Color.Inherit" Match="NavLinkMatch.All" title="Movies">Movies</MudNavLink>
@@ -8,15 +11,45 @@
     <MudNavLink Href="/softwares" Icon="@Icons.Material.Filled.Apps" IconColor="Color.Inherit" Match="NavLinkMatch.All" title="Softwares">Softwares</MudNavLink>
     <MudNavLink Href="/websites" Icon="@Icons.Material.Filled.Web" IconColor="Color.Inherit" Match="NavLinkMatch.All" title="Websites">Websites</MudNavLink>
     <MudNavLink Href="/upload" Icon="@Icons.Material.Filled.CloudUpload" IconColor="Color.Inherit" Match="NavLinkMatch.All" title="Upload Files">Upload Files</MudNavLink>
-    <MudNavGroup Icon="@Icons.Material.Filled.AdminPanelSettings" IconColor="Color.Inherit" Title="Admin Links" Expanded="false">
-        <MudNavLink Href="/admin" title="Admin" Icon="@Icons.Material.Filled.AdminPanelSettings" IconColor="Color.Inherit" Match="NavLinkMatch.All">Admin</MudNavLink>
-        <MudNavLink Href="/admin/qryrunner" title="Query Runner" Icon="@Icons.Material.Filled.QueryBuilder" IconColor="Color.Inherit" Match="NavLinkMatch.All">Query Runner</MudNavLink>
-        <MudNavLink Href="/admin/dbsync" title="Database Sync" Icon="@Icons.Material.Filled.CloudSync" IconColor="Color.Inherit" Match="NavLinkMatch.All">Database Sync</MudNavLink>
-    </MudNavGroup>
+
+    @if (usersDataInfo != null)
+    {
+        @if(usersDataInfo.RoleName!.Contains("Administrator", StringComparison.InvariantCultureIgnoreCase))
+        {
+            <MudNavGroup Icon="@Icons.Material.Filled.AdminPanelSettings" IconColor="Color.Inherit" Title="Admin Links" Expanded="false">
+                <MudNavLink Href="/admin" title="Admin" Icon="@Icons.Material.Filled.AdminPanelSettings" IconColor="Color.Inherit" Match="NavLinkMatch.All">Admin</MudNavLink>
+                <MudNavLink Href="/admin/qryrunner" title="Query Runner" Icon="@Icons.Material.Filled.QueryBuilder" IconColor="Color.Inherit" Match="NavLinkMatch.All">Query Runner</MudNavLink>
+                <MudNavLink Href="/admin/dbsync" title="Database Sync" Icon="@Icons.Material.Filled.CloudSync" IconColor="Color.Inherit" Match="NavLinkMatch.All">Database Sync</MudNavLink>
+            </MudNavGroup>
+        }
+
+        <MudButton Class="mud-nav-link w-100" OnClick="AuthLogout">
+            <MudIcon Icon="@Icons.Material.Filled.Logout" Class="me-3"></MudIcon>
+            @(usersDataInfo.Username) Logout
+        </MudButton>
+    }
+    else
+    {
+        <MudNavLink Href="/auth" Icon="@Icons.Material.Filled.Login" IconColor="Color.Inherit" Match="NavLinkMatch.All" title="Login">Login</MudNavLink>
+    }
+
     <MudNavLink Href="/docs/api" Icon="@Icons.Material.Filled.Api" IconColor="Color.Inherit" title="API Service">API Docs</MudNavLink>
     <MudNavLink Href="/swagger" Icon="@Icons.Material.Filled.Api" IconColor="Color.Inherit" title="API Service">API Service</MudNavLink>
 </MudNavMenu>
 
 @code {
     [Parameter] public bool dense { get; set; } = false; 
+    private LCPCollection.Shared.Classes.Users? usersDataInfo { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        usersDataInfo = await localStorage.GetItemAsync<LCPCollection.Shared.Classes.Users>("loginInfo");
+        StateHasChanged();
+    }
+
+    private async Task AuthLogout()
+    {
+        await localStorage.RemoveItemAsync("loginInfo");
+        navManager.NavigateTo("/", true);
+    }
 }
