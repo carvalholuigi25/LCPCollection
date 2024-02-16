@@ -11,10 +11,12 @@
     <MudNavLink Href="/softwares" Icon="@Icons.Material.Filled.Apps" IconColor="Color.Inherit" Match="NavLinkMatch.All" title="Softwares">Softwares</MudNavLink>
     <MudNavLink Href="/websites" Icon="@Icons.Material.Filled.Web" IconColor="Color.Inherit" Match="NavLinkMatch.All" title="Websites">Websites</MudNavLink>
     <MudNavLink Href="/upload" Icon="@Icons.Material.Filled.CloudUpload" IconColor="Color.Inherit" Match="NavLinkMatch.All" title="Upload Files">Upload Files</MudNavLink>
+    <MudNavLink Href="/docs/api" Icon="@Icons.Material.Filled.Api" IconColor="Color.Inherit" title="API Service">API Docs</MudNavLink>
+    <MudNavLink Href="/swagger" Icon="@Icons.Material.Filled.Api" IconColor="Color.Inherit" title="API Service">API Service</MudNavLink>
 
     @if (usersDataInfo != null)
     {
-        @if(usersDataInfo.RoleName!.Contains("Administrator", StringComparison.InvariantCultureIgnoreCase))
+        @if (usersDataInfo.RoleName!.Contains("Administrator", StringComparison.InvariantCultureIgnoreCase))
         {
             <MudNavGroup Icon="@Icons.Material.Filled.AdminPanelSettings" IconColor="Color.Inherit" Title="Admin Links" Expanded="false">
                 <MudNavLink Href="/admin" title="Admin" Icon="@Icons.Material.Filled.AdminPanelSettings" IconColor="Color.Inherit" Match="NavLinkMatch.All">Admin</MudNavLink>
@@ -23,18 +25,20 @@
             </MudNavGroup>
         }
 
-        <MudButton Class="mud-nav-link w-100" OnClick="AuthLogout">
-            <MudIcon Icon="@Icons.Material.Filled.Logout" Class="me-3"></MudIcon>
-            @(usersDataInfo.Username) Logout
-        </MudButton>
+        <MudNavGroup Title="My user info" Expanded="false" Icon="@Icons.Material.Filled.SupervisedUserCircle" IconColor="Color.Inherit">
+            <MudNavLink Href=@($"/users/{usersDataInfo.Id}") title="@usersDataInfo.Username" Icon="@Icons.Material.Filled.VerifiedUser" IconColor="Color.Inherit">
+                @usersDataInfo.Username
+            </MudNavLink>
+
+            <MudNavLink Href="/logout" title="Logout" Icon="@Icons.Material.Filled.Logout" IconColor="Color.Inherit">
+                Logout
+            </MudNavLink>
+        </MudNavGroup>
     }
     else
     {
         <MudNavLink Href="/auth" Icon="@Icons.Material.Filled.Login" IconColor="Color.Inherit" Match="NavLinkMatch.All" title="Login">Login</MudNavLink>
     }
-
-    <MudNavLink Href="/docs/api" Icon="@Icons.Material.Filled.Api" IconColor="Color.Inherit" title="API Service">API Docs</MudNavLink>
-    <MudNavLink Href="/swagger" Icon="@Icons.Material.Filled.Api" IconColor="Color.Inherit" title="API Service">API Service</MudNavLink>
 </MudNavMenu>
 
 @code {

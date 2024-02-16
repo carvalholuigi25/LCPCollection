@@ -34,7 +34,7 @@
                                 <MudTextField Label="Username" HelperText="Write the username here" @bind-Value="usersData.Username" For="@(() => usersData.Username)" Required />
                                 <MudTextField Label="Password" HelperText="Write the password here" @bind-Value="usersData.Password" For="@(() => usersData.Password)" InputType="InputType.Password" Required />
                             </MudCardContent>
-                            <MudCardActions>
+                            <MudCardActions Class="d-block text-center mt-3 mb-3">
                                 <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Secondary" Class="ml-auto" OnClick="AuthClear">Reset</MudButton>
                                 <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Login</MudButton>
                             </MudCardActions>
@@ -49,8 +49,9 @@
 @code {
     private lcpCl.Users usersData { get; set; } = new lcpCl.Users();
     private lcpCl.Users? usersSessionInfo { get; set; } = new lcpCl.Users();
-    HttpResponseMessage? DataUsers { get; set; }
-    string? responseBody { get; set; }
+    private HttpResponseMessage? DataUsers { get; set; }
+    private string? responseBody { get; set; }
+    private bool forceReload { get; set; } = true;
 
     protected override async Task OnInitializedAsync()
     {
@@ -73,7 +74,7 @@
             await localStorage.SetItemAsync<lcpCl.Users>("loginInfo", Newtonsoft.Json.JsonConvert.DeserializeObject<AuthenticatedResponse>(responseBody)!.UsersInfo!);
 
             Logger.LogInformation($"Logged successfully as {usersData.Username}!");
-            navManager.NavigateTo("/", true);
+            navManager.NavigateTo("/", forceReload);
         }
         catch (Exception e)
         {
@@ -94,6 +95,6 @@
     {
         usersData = new lcpCl.Users();
         await localStorage.RemoveItemAsync("loginInfo");
-        navManager.NavigateTo("/", true);
+        navManager.NavigateTo("/", forceReload);
     }
 }
