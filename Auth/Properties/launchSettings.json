@@ -9,39 +9,54 @@
     }
   },
   "profiles": {
-    "Watch": {
+    "LCPCollectionAuth": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "https://localhost:5004",
+      "applicationUrl": "https://localhost:5004;http://localhost:5005",
+      "dotnetRunMessages": true,
+      "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "LCPCollectionAuth-Staging": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "https://localhost:5004",
+      "applicationUrl": "https://localhost:5004;http://localhost:5005",
+      "dotnetRunMessages": true,
+      "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Staging",
+        "ASPNETCORE_DETAILEDERRORS": "1",
+        "ASPNETCORE_SHUTDOWNTIMEOUTSECONDS": "3"
+      }
+    },
+    "LCPCollectionAuth-Production": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "https://localhost:5004",
+      "applicationUrl": "https://localhost:5004;http://localhost:5005",
+      "dotnetRunMessages": true,
+      "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
+      }
+    },
+    "LCPCollectionAuth-Watch": {
       "commandName": "Executable",
       "executablePath": "dotnet.exe",
       "workingDirectory": "$(ProjectDir)",
       "commandLineArgs": "watch",
       "hotReloadEnabled": true,
       "launchBrowser": true,
-      "launchUrl": "https://localhost:5002",
+      "launchUrl": "https://localhost:5004",
+      "applicationUrl": "https://localhost:5004;http://localhost:5005",
+      "dotnetRunMessages": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_HTTPS_PORT": "5002"
-      },
-      "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:5002;http://localhost:5003"
-    },
-    "http": {
-      "commandName": "Project",
-      "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "launchUrl": "https://localhost:5002",
-      "applicationUrl": "https://localhost:5002;http://localhost:5003",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "https": {
-      "commandName": "Project",
-      "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "launchUrl": "https://localhost:5002",
-      "applicationUrl": "https://localhost:5002;http://localhost:5003",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_HTTPS_PORT": "5004"
       }
     },
     "IIS Express": {
