@@ -1,6 +1,7 @@
 ﻿@page "/movies/delete/{id:int}"
 
 @using LCPCollection.Shared.Classes
+@using Microsoft.AspNetCore.SignalR.Client
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Net.Http.Json
 @using lcpCl = LCPCollection.Shared.Classes
@@ -68,11 +69,27 @@ else
     public int cid { get; set; }
     private bool _loading = false;
     private IEnumerable<lcpCl.Movies>? MoviesXList = new List<lcpCl.Movies>();
+    private HubConnection? hubConnection;
 
     protected override async Task OnInitializedAsync()
     {
-        MoviesXList = await httpClient.GetFromJsonAsync<List<lcpCl.Movies>>($"https://localhost:5000/api/movies/{id}");
+        MoviesXList = await httpClient.GetFromJsonAsync<List<lcpCl.Movies>>($"movies/{id}");
         cid = MoviesXList!.Where(x => x.Id == id).Count() == 1 ? id : -1;
+
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(navMan.ToAbsoluteUri("/datasendhub"))
+            .Build();
+
+        await hubConnection.StartAsync();
+    }
+
+    Task SendMessage() => hubConnection!.SendAsync("SendMessage");
+
+    public bool IsConnected => hubConnection!.State == HubConnectionState.Connected;
+
+    public void Dispose()
+    {
+        _ = hubConnection!.DisposeAsync();
     }
 
     async Task DeleteIt()
@@ -81,7 +98,7 @@ else
         {
             if (cid != -1)
             {
-                await httpClient.DeleteAsync($"https://localhost:5000/api/movies/{cid}");
+                await httpClient.DeleteAsync($"movies/{cid}");
                 _logger.LogInformation("Deleted movie successfully!");
             }
             else
@@ -89,6 +106,7 @@ else
                 _logger.LogInformation("Unable to delete movie because it hasn't been found or does not exist!");
             }
 
+            if (IsConnected) await SendMessage();
             navMan.NavigateTo("/movies", false);
         }
         catch (Exception ex)

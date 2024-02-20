@@ -132,7 +132,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        FileDatasX = await Http.GetFromJsonAsync<List<FileData>>("https://localhost:5000/api/list/files");
+        FileDatasX = await Http.GetFromJsonAsync<List<FileData>>("list/files");
     }
 
     private void OnValueChanged(ActTypes selected)

@@ -1,6 +1,7 @@
 ﻿@page "/websites/delete/{id:int}"
 
 @using LCPCollection.Shared.Classes
+@using Microsoft.AspNetCore.SignalR.Client
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Net.Http.Json
 @using lcpCl = LCPCollection.Shared.Classes
@@ -68,11 +69,27 @@ else
     public int cid { get; set; }
     private bool _loading = false;
     private IEnumerable<lcpCl.Websites>? WebsitesXList = new List<lcpCl.Websites>();
+    private HubConnection? hubConnection;
 
     protected override async Task OnInitializedAsync()
     {
-        WebsitesXList = await httpClient.GetFromJsonAsync<List<lcpCl.Websites>>($"https://localhost:5000/api/websites/{id}");
+        WebsitesXList = await httpClient.GetFromJsonAsync<List<lcpCl.Websites>>($"websites/{id}");
         cid = WebsitesXList!.Where(x => x.Id == id).Count() == 1 ? id : -1;
+
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(navMan.ToAbsoluteUri("/datasendhub"))
+            .Build();
+
+        await hubConnection.StartAsync();
+    }
+
+    Task SendMessage() => hubConnection!.SendAsync("SendMessage");
+
+    public bool IsConnected => hubConnection!.State == HubConnectionState.Connected;
+
+    public void Dispose()
+    {
+        _ = hubConnection!.DisposeAsync();
     }
 
     async Task DeleteIt()
@@ -81,7 +98,7 @@ else
         {
             if (cid != -1)
             {
-                await httpClient.DeleteAsync($"https://localhost:5000/api/websites/{cid}");
+                await httpClient.DeleteAsync($"websites/{cid}");
                 _logger.LogInformation("Deleted website successfully!");
             }
             else
@@ -89,8 +106,9 @@ else
                 _logger.LogInformation("Unable to delete website because it hasn't been found or does not exist!");
             }
 
+            if (IsConnected) await SendMessage();
             navMan.NavigateTo("/websites", false);
-        } 
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);

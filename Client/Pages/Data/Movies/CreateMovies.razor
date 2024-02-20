@@ -1,6 +1,7 @@
 ﻿@page "/movies/create"
 
 @using LCPCollection.Shared.Classes
+@using Microsoft.AspNetCore.SignalR.Client
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Net.Http.Json
 @using lcpCl = LCPCollection.Shared.Classes
@@ -88,21 +89,32 @@ else
     private string? MoviesXJTXT { get; set; }
     private bool IsToggledJSON { get; set; } = false;
     lcpCl.Movies? MoviesX { get; set; } = new lcpCl.Movies();
+    private HubConnection? hubConnection;
 
-    async Task CreateIt()
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(navMan.ToAbsoluteUri("/datasendhub"))
+            .Build();
+
+        await hubConnection.StartAsync();
+    }
+
+    private async Task CreateIt()
     {
         try
         {
-            if(!!IsToggledJSON)
+            if (!!IsToggledJSON)
             {
-                await httpClient.PostAsJsonAsync<lcpCl.Movies>($"https://localhost:5000/api/movies", Newtonsoft.Json.JsonConvert.DeserializeObject<lcpCl.Movies>(MoviesXJTXT!)!);
+                await httpClient.PostAsJsonAsync<lcpCl.Movies>($"movies", Newtonsoft.Json.JsonConvert.DeserializeObject<lcpCl.Movies>(MoviesXJTXT!)!);
             }
             else
             {
                 Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(MoviesX));
-                await httpClient.PostAsJsonAsync<lcpCl.Movies>($"https://localhost:5000/api/movies", MoviesX!);
+                await httpClient.PostAsJsonAsync<lcpCl.Movies>($"movies", MoviesX!);
             }
 
+            if (IsConnected) await SendMessage();
             _logger.LogInformation("Added new movie succesfully!");
             navMan.NavigateTo("/movies", false);
         }
@@ -110,6 +122,16 @@ else
         {
             _logger.LogError(ex, ex.Message);
         }
+    }
+
+    Task SendMessage() => hubConnection!.SendAsync("SendMessage");
+
+    public bool IsConnected =>
+        hubConnection!.State == HubConnectionState.Connected;
+
+    public void Dispose()
+    {
+        _ = hubConnection!.DisposeAsync();
     }
 
     void Back()

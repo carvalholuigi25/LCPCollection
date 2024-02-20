@@ -86,7 +86,7 @@
         cid = id >= 1 ? $"{id}" : "";
         usersSessionInfo = await localStorage.GetItemAsync<lcpCl.Users>("loginInfo");
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", usersSessionInfo!.CurrentToken);
-        UsersX = await httpClient.GetFromJsonAsync<List<lcpCl.Users>>($"https://localhost:5000/api/users/{cid}");
+        UsersX = await httpClient.GetFromJsonAsync<List<lcpCl.Users>>($"users/{cid}");
         StateHasChanged();
     }
 }

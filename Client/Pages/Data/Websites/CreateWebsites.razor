@@ -1,6 +1,7 @@
 ﻿@page "/websites/create"
 
 @using LCPCollection.Shared.Classes
+@using Microsoft.AspNetCore.SignalR.Client
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Net.Http.Json
 @using lcpCl = LCPCollection.Shared.Classes
@@ -88,21 +89,32 @@ else
     private string? WebsitesXJTXT { get; set; }
     private bool IsToggledJSON { get; set; } = false;
     lcpCl.Websites? WebsitesX { get; set; } = new lcpCl.Websites();
+    private HubConnection? hubConnection;
 
-    async Task CreateIt()
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(navMan.ToAbsoluteUri("/datasendhub"))
+            .Build();
+
+        await hubConnection.StartAsync();
+    }
+
+    private async Task CreateIt()
     {
         try
         {
-            if(!!IsToggledJSON)
+            if (!!IsToggledJSON)
             {
-                await httpClient.PostAsJsonAsync<lcpCl.Websites>($"https://localhost:5000/api/websites", Newtonsoft.Json.JsonConvert.DeserializeObject<lcpCl.Websites>(WebsitesXJTXT!)!);
+                await httpClient.PostAsJsonAsync<lcpCl.Websites>($"websites", Newtonsoft.Json.JsonConvert.DeserializeObject<lcpCl.Websites>(WebsitesXJTXT!)!);
             }
             else
             {
                 Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(WebsitesX));
-                await httpClient.PostAsJsonAsync<lcpCl.Websites>($"https://localhost:5000/api/websites", WebsitesX!);
+                await httpClient.PostAsJsonAsync<lcpCl.Websites>($"websites", WebsitesX!);
             }
 
+            if (IsConnected) await SendMessage();
             _logger.LogInformation("Added new website succesfully!");
             navMan.NavigateTo("/websites", false);
         }
@@ -110,6 +122,16 @@ else
         {
             _logger.LogError(ex, ex.Message);
         }
+    }
+
+    Task SendMessage() => hubConnection!.SendAsync("SendMessage");
+
+    public bool IsConnected =>
+        hubConnection!.State == HubConnectionState.Connected;
+
+    public void Dispose()
+    {
+        _ = hubConnection!.DisposeAsync();
     }
 
     void Back()

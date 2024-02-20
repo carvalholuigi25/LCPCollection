@@ -100,7 +100,7 @@
     private async Task DoSubData()
     {
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", usersDataInfo!.CurrentToken);
-        DataX = await httpClient.PostAsJsonAsync<lcpCl.Admin.QryRunner>("https://localhost:5000/api/admin/qryrunner", model);
+        DataX = await httpClient.PostAsJsonAsync<lcpCl.Admin.QryRunner>("admin/qryrunner", model);
         responseBody = await DataX.Content.ReadAsStringAsync();
         qrystrpholder = GetQryStrPlaceHolder(model.DBMode);
     }

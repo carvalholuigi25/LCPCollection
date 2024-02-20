@@ -150,14 +150,13 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddSignalR();
 
 builder.Services.AddResponseCompression(opts =>
 {
     opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
           new[] { "application/octet-stream" });
 });
-
-builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -207,6 +206,7 @@ app.UseAuthorization();
 app.MapRazorPages();
 app.MapControllers();
 app.MapHub<ChatHub>("/chathub");
+app.MapHub<DataSendHub>("/datasendhub");
 app.MapFallbackToFile("index.html");
 
 app.Run();

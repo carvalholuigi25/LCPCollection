@@ -1,4 +1,5 @@
-﻿using LCPCollection.Server.Extensions;
+﻿using LCPCollection.Server.Context.Conventions;
+using LCPCollection.Server.Extensions;
 using LCPCollection.Shared.Classes;
 using LCPCollection.Shared.Classes.Files;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,12 @@ namespace LCPCollection.Server.Context
             {
                 optionsBuilder.UseSqlServer(_configuration["ConnectionStrings:SQLServer"]);
             }
+        }
+
+        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        {
+            //src: https://learn.microsoft.com/en-us/ef/core/providers/sql-server/misc
+            configurationBuilder.Conventions.Add(_ => new BlankTriggerAddingConvention());
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

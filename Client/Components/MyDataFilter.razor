@@ -124,9 +124,9 @@ else
     private async Task LoadMyFilteredData()
     {
         filterStr = isFilterEnabled ? $"?Page={Page}&PageSize={Size}&Search={Search}&SortBy={Sortby}&SortOrder={Sortorder}&Operator={Operator}" : $"?Page={Page}&PageSize={Size}";
-        DataItems = await httpClient.GetFromJsonAsync<QueryParamsRes<T>>($"https://localhost:5000/api/{ApiName.ToLower()}/filter{filterStr}");
-        SortByEnumList = await httpClient.GetFromJsonAsync<List<string>>($"https://localhost:5000/api/{ApiName.ToLower()}/enumslist");
-        OperatorEnumList = await httpClient.GetFromJsonAsync<List<string>>($"https://localhost:5000/api/{ApiName.ToLower()}/fopenumslist");
+        DataItems = await httpClient.GetFromJsonAsync<QueryParamsRes<T>>($"{ApiName.ToLower()}/filter{filterStr}");
+        SortByEnumList = await httpClient.GetFromJsonAsync<List<string>>($"{ApiName.ToLower()}/enumslist");
+        OperatorEnumList = await httpClient.GetFromJsonAsync<List<string>>($"{ApiName.ToLower()}/fopenumslist");
         NavData();
     }
 

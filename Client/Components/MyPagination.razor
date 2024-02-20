@@ -38,7 +38,7 @@
         foperator = !string.IsNullOrEmpty(GetQueryParm("operator")) ? GetQueryParm("operator") : "Contains";
         filterstr = IsFilterEnabled ? $"?Page={Page}&PageSize={Size}&Search={search}&SortBy={sortby}&SortOrder={sortorder}&Operator={foperator}" : $"?Page={Page}&PageSize={Size}";
 
-        DataItems = await httpClient.GetFromJsonAsync<QueryParamsRes<T>>($"https://localhost:5000/api/{ApiName.ToLower()}/filter{filterstr}");
+        DataItems = await httpClient.GetFromJsonAsync<QueryParamsRes<T>>($"{ApiName.ToLower()}/filter{filterstr}");
         StateHasChanged();
     }
 

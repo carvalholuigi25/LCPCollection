@@ -63,7 +63,7 @@
     {
         try
         {
-            DataUsers = await httpClient.PostAsJsonAsync<lcpCl.UsersLogin>($"https://localhost:5000/api/auth/login", new lcpCl.UsersLogin()
+            DataUsers = await httpClient.PostAsJsonAsync<lcpCl.UsersLogin>($"auth/login", new lcpCl.UsersLogin()
             {
                 Username = usersData.Username,
                 Password = usersData.Password

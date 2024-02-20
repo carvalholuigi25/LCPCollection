@@ -102,7 +102,7 @@
                 {
                     Id = 2,
                     Title = "Authentication / Authorization",
-                    Desc = "<p class='desc'>LCPCollection uses API keys to allow access to the API.</p><p class='desc'>LCPCollection expects for the API key to be included in all API requests to the server in a header that looks like the following: <br /><code class='code'>Authorization: <span class='bold'>[API_TOKEN_KEY]</span></code></p><p class='desc'><p>Request urls: </p><code class='code'>For CURL: <br /># With shell, you can just pass the correct header with each request <br /> curl 'https://localhost:5000/api' \\ -H 'Authorization: <span class='bold'>[TYPE_AUTH]</span> <span class='bold'>[API_TOKEN_KEY]</span>' <br /> or <br /> curl 'http://localhost:5001/api' \\ -H 'Authorization: <span class='bold'>[TYPE_AUTH]</span> <span class='bold'>[API_TOKEN_KEY]</span>' <br /> For HTTPS / HTTP: <br /><span class='bold'>[TYPE_METHOD]</span> https://localhost:5000/api/<span class='bold'>[QUERY_PARAMETERS]</span> <br /> <span class='bold'>[TYPE_METHOD]</span> http://localhost:5000/api/<span class='bold'>[QUERY_PARAMETERS]</span></code></p><p class='desc'>Note: Replace <span class='bold'>[API_TOKEN_KEY]</span> to your api personal token key!</p><p class='desc'>Note 2: Replace <span class='bold'>[TYPE_METHOD]</span> to one of these options: GET, PUT, PATCH, POST, DELETE and OPTIONS.</p><p class='desc'>Note 3: Replace <span class='bold'>[QUERY_PARAMETERS]</span> to your any query parameters as you wish (like ?id=id or /id) (optional).</p><p class='desc'>Note 4: Replace <span class='bold'>[TYPE_AUTH]</span> to one of these options: BASIC, BEARER or nothing (optional).</p>",
+                    Desc = "<p class='desc'>LCPCollection uses API keys to allow access to the API.</p><p class='desc'>LCPCollection expects for the API key to be included in all API requests to the server in a header that looks like the following: <br /><code class='code'>Authorization: <span class='bold'>[API_TOKEN_KEY]</span></code></p><p class='desc'><p>Request urls: </p><code class='code'>For CURL: <br /># With shell, you can just pass the correct header with each request <br /> curl 'https://localhost:5000/api' \\ -H 'Authorization: <span class='bold'>[TYPE_AUTH]</span> <span class='bold'>[API_TOKEN_KEY]</span>' <br /> or <br /> curl 'http://localhost:5001/api' \\ -H 'Authorization: <span class='bold'>[TYPE_AUTH]</span> <span class='bold'>[API_TOKEN_KEY]</span>' <br /> For HTTPS / HTTP: <br /><span class='bold'>[TYPE_METHOD]</span> <span class='bold'>[QUERY_PARAMETERS]</span> <br /> <span class='bold'>[TYPE_METHOD]</span> http://localhost:5000/api/<span class='bold'>[QUERY_PARAMETERS]</span></code></p><p class='desc'>Note: Replace <span class='bold'>[API_TOKEN_KEY]</span> to your api personal token key!</p><p class='desc'>Note 2: Replace <span class='bold'>[TYPE_METHOD]</span> to one of these options: GET, PUT, PATCH, POST, DELETE and OPTIONS.</p><p class='desc'>Note 3: Replace <span class='bold'>[QUERY_PARAMETERS]</span> to your any query parameters as you wish (like ?id=id or /id) (optional).</p><p class='desc'>Note 4: Replace <span class='bold'>[TYPE_AUTH]</span> to one of these options: BASIC, BEARER or nothing (optional).</p>",
                     ClassName = "apiauth",
                     IdName = "auth",
                     ListSubContent = new List<SubContentDocsApi>()
@@ -149,7 +149,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "GET https://localhost:5000/api/animes"
+                                    Desc = "GET animes"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -170,7 +170,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "GET https://localhost:5000/api/animes/id"
+                                    Desc = "GET animes/id"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -201,7 +201,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "POST https://localhost:5000/api/animes"
+                                    Desc = "POST animes"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -232,7 +232,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "PUT https://localhost:5000/api/animes/id"
+                                    Desc = "PUT animes/id"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -273,7 +273,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "DELETE https://localhost:5000/api/animes/id"
+                                    Desc = "DELETE animes/id"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -326,7 +326,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "GET https://localhost:5000/api/games"
+                                    Desc = "GET games"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -347,7 +347,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "GET https://localhost:5000/api/games/id"
+                                    Desc = "GET games/id"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -378,7 +378,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "POST https://localhost:5000/api/games"
+                                    Desc = "POST games"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -409,7 +409,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "PUT https://localhost:5000/api/games/id"
+                                    Desc = "PUT games/id"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -450,7 +450,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "DELETE https://localhost:5000/api/games/id"
+                                    Desc = "DELETE games/id"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -503,7 +503,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "GET https://localhost:5000/api/movies"
+                                    Desc = "GET movies"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -524,7 +524,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "GET https://localhost:5000/api/movies/id"
+                                    Desc = "GET movies/id"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -555,7 +555,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "POST https://localhost:5000/api/movies"
+                                    Desc = "POST movies"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -586,7 +586,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "PUT https://localhost:5000/api/movies/id"
+                                    Desc = "PUT movies/id"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -627,7 +627,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "DELETE https://localhost:5000/api/movies/id"
+                                    Desc = "DELETE movies/id"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -680,7 +680,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "GET https://localhost:5000/api/books"
+                                    Desc = "GET books"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -701,7 +701,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "GET https://localhost:5000/api/books/id"
+                                    Desc = "GET books/id"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -732,7 +732,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "POST https://localhost:5000/api/books"
+                                    Desc = "POST books"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -763,7 +763,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "PUT https://localhost:5000/api/books/id"
+                                    Desc = "PUT books/id"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -804,7 +804,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "DELETE https://localhost:5000/api/books/id"
+                                    Desc = "DELETE books/id"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -857,7 +857,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "GET https://localhost:5000/api/tvseries"
+                                    Desc = "GET tvseries"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -878,7 +878,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "GET https://localhost:5000/api/tvseries/id"
+                                    Desc = "GET tvseries/id"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -909,7 +909,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "POST https://localhost:5000/api/tvseries"
+                                    Desc = "POST tvseries"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -940,7 +940,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "PUT https://localhost:5000/api/tvseries/id"
+                                    Desc = "PUT tvseries/id"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -981,7 +981,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "DELETE https://localhost:5000/api/tvseries/id"
+                                    Desc = "DELETE tvseries/id"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -1034,7 +1034,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "GET https://localhost:5000/api/softwares"
+                                    Desc = "GET softwares"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -1055,7 +1055,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "GET https://localhost:5000/api/softwares/id"
+                                    Desc = "GET softwares/id"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -1086,7 +1086,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "POST https://localhost:5000/api/softwares"
+                                    Desc = "POST softwares"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -1117,7 +1117,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "PUT https://localhost:5000/api/softwares/id"
+                                    Desc = "PUT softwares/id"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -1158,7 +1158,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "DELETE https://localhost:5000/api/softwares/id"
+                                    Desc = "DELETE softwares/id"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -1211,7 +1211,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "GET https://localhost:5000/api/websites"
+                                    Desc = "GET websites"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -1232,7 +1232,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "GET https://localhost:5000/api/websites/id"
+                                    Desc = "GET websites/id"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -1263,7 +1263,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "POST https://localhost:5000/api/websites"
+                                    Desc = "POST websites"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -1294,7 +1294,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "PUT https://localhost:5000/api/websites/id"
+                                    Desc = "PUT websites/id"
                                 },
                                 new HttpReqsEndpointCl()
                                 {
@@ -1335,7 +1335,7 @@
                             {
                                 new HttpReqsEndpointCl()
                                 {
-                                    Desc = "DELETE https://localhost:5000/api/websites/id"
+                                    Desc = "DELETE websites/id"
                                 },
                                 new HttpReqsEndpointCl()
                                 {

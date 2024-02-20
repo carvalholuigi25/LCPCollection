@@ -3,6 +3,7 @@
 @using System.Net.Http.Json
 @using lcpCl = LCPCollection.Shared.Classes
 @using LCPCollection.Shared.Classes.Filter
+@using Microsoft.AspNetCore.SignalR.Client
 @inject HttpClient httpClient
 @inject NavigationManager navManager
 
@@ -22,7 +23,7 @@
 <div class="row mt-3">
     <MyDataFilter T="lcpCl.Softwares" DataItems="SoftwaresX" ApiName="Softwares" isFilterEnabled="isFilterEnabled" Page="page" Size="size" Search="@search" Sortby="@sortby" Sortorder="@sortorder" Operator="@foperator" onPageSizeChanged="PageSizeChanged" onTextChanged="TextChanged" onSortByChanged="SortByChanged" onSortOrderChanged="SortOrderChanged" onOperatorChanged="OperatorChanged" />
 
-    @if(SoftwaresX!.Count > 0)
+    @if (SoftwaresX!.Count > 0)
     {
         <MudGrid Spacing="1" Justify="Justify.FlexStart" Class="mt-3 mb-3">
             @foreach (var item in SoftwaresX!.Data!)
@@ -39,7 +40,7 @@
     }
     else
     {
-        @if(!!isLoading)
+        @if (!!isLoading)
         {
             <div class="col-12 loadblk">
                 <p>Loading...</p>
@@ -78,24 +79,45 @@
     public bool isLoading { get; set; } = true;
     public string? filterStr { get; set; }
     private QueryParamsRes<lcpCl.Softwares>? SoftwaresX = new QueryParamsRes<lcpCl.Softwares>();
+    private HubConnection? hubConnection;
 
     protected override async Task OnInitializedAsync()
     {
-        isLoading = true;
         page = GetQueryParm("page") > 0 ? GetQueryParm("page") : 1;
         size = GetQueryParm("size") > 0 ? GetQueryParm("size") : 12;
         search = !string.IsNullOrEmpty(GetQueryParm("search")) ? GetQueryParm("search") : "";
         sortby = !string.IsNullOrEmpty(GetQueryParm("sortby")) ? GetQueryParm("sortby") : "id";
         sortorder = !string.IsNullOrEmpty(GetQueryParm("sortorder")) ? GetQueryParm("sortorder") : "ASC";
         foperator = !string.IsNullOrEmpty(GetQueryParm("operator")) ? GetQueryParm("operator") : "Contains";
+
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(navManager.ToAbsoluteUri("/datasendhub"))
+            .Build();
+
+        hubConnection.On("ReceiveMessage", () =>
+        {
+            CallLoadData();
+            StateHasChanged();
+        });
+
+        await hubConnection.StartAsync();
         await LoadMyFilteredData();
-        isLoading = false;
-        StateHasChanged();
+    }
+
+    private void CallLoadData()
+    {
+        Task.Run(async () =>
+        {
+            isLoading = true;
+            await LoadMyFilteredData();
+            isLoading = false;
+        });
     }
 
     private async Task LoadMyFilteredData()
     {
-        SoftwaresX = await httpClient.GetFromJsonAsync<QueryParamsRes<lcpCl.Softwares>>($"https://localhost:5000/api/softwares/filter?Page={page}&PageSize={size}&Search={search}&SortBy={sortby}&SortOrder={sortorder}&Operator={foperator}");
+        SoftwaresX = await httpClient.GetFromJsonAsync<QueryParamsRes<lcpCl.Softwares>>($"softwares/filter?Page={page}&PageSize={size}&Search={search}&SortBy={sortby}&SortOrder={sortorder}&Operator={foperator}");
+        StateHasChanged();
     }
 
     private async Task PageChanged(int i)
@@ -156,5 +178,12 @@
         var uriBuilder = new UriBuilder(navManager.Uri);
         var q = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
         return int.TryParse(q[parmName], out int result) ? result : q[parmName]!;
+    }
+
+    public bool IsConnected => hubConnection!.State == HubConnectionState.Connected;
+
+    public void Dispose()
+    {
+        _ = hubConnection!.DisposeAsync();
     }
 }

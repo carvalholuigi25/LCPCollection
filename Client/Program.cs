@@ -22,7 +22,11 @@ builder.Services.AddSingleton<ILogger>(provider => provider.GetRequiredService<I
 
 builder.Services.AddBlazoredLocalStorageAsSingleton();
 
-builder.Services.AddHttpClient("LCPCollection.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+builder.Services.AddHttpClient("LCPCollection.ServerAPI", client =>
+{
+    //client.BaseAddress = new Uri($"{builder.HostEnvironment.BaseAddress}api/");
+    client.BaseAddress = new Uri($"https://localhost:5000/api/");
+});
 
 // Supply HttpClient instances that include access tokens when making requests to the server project
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("LCPCollection.ServerAPI"));

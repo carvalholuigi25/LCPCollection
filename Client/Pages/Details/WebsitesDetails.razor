@@ -1,8 +1,10 @@
 ﻿@page "/websites/{id:int}"
+@using Microsoft.AspNetCore.SignalR.Client
 @using System.Net.Http.Json
 @using NJS = Newtonsoft.Json
 @using lcpCl = LCPCollection.Shared.Classes
 @inject HttpClient httpClient
+@inject NavigationManager NavigationManager
 
 <PageTitle>LCPCollection - Websites</PageTitle>
 
@@ -83,12 +85,51 @@
 @code {
     [Parameter] public int id { get; set; } = -1;
 
+    public bool isMediaToggled { get; set; } = false;
     public int cid { get; set; }
     private IEnumerable<lcpCl.Websites>? WebsitesX = new List<lcpCl.Websites>();
+    private HubConnection? hubConnection;
 
     protected override async Task OnInitializedAsync()
     {
-        WebsitesX = await httpClient.GetFromJsonAsync<List<lcpCl.Websites>>($"https://localhost:5000/api/websites/{id}");
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/datasendhub"))
+            .Build();
+
+        hubConnection.On("ReceiveMessage", () =>
+        {
+            CallLoadData();
+            StateHasChanged();
+        });
+
+        await hubConnection.StartAsync();
+        await LoadData();
+    }
+
+    private void CallLoadData()
+    {
+        Task.Run(async () =>
+        {
+            await LoadData();
+        });
+    }
+
+    protected async Task LoadData()
+    {
+        WebsitesX = await httpClient.GetFromJsonAsync<List<lcpCl.Websites>>($"websites/{id}");
         cid = WebsitesX!.Where(x => x.Id == id).Count() == 1 ? id : -1;
+        StateHasChanged();
+    }
+
+    public bool IsConnected => hubConnection!.State == HubConnectionState.Connected;
+
+    public void Dispose()
+    {
+        _ = hubConnection!.DisposeAsync();
+    }
+
+    private void OnToggleMedia()
+    {
+        isMediaToggled = !isMediaToggled;
     }
 }

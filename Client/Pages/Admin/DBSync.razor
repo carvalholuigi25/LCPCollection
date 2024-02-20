@@ -96,7 +96,7 @@
     private async Task DoSubData()
     {
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", usersDataInfo!.CurrentToken);
-        DataX = await httpClient.PostAsJsonAsync<DBSyncRunner>("https://localhost:5000/api/admin/dbsync", model);
+        DataX = await httpClient.PostAsJsonAsync<DBSyncRunner>("admin/dbsync", model);
         responseBody = await DataX.Content.ReadAsStringAsync();
     }
 }

@@ -3,6 +3,7 @@
 @using System.Net.Http.Json
 @using lcpCl = LCPCollection.Shared.Classes
 @using LCPCollection.Shared.Classes.Filter
+@using Microsoft.AspNetCore.SignalR.Client
 @inject HttpClient httpClient
 @inject NavigationManager navManager
 
@@ -78,24 +79,45 @@
     public bool isLoading { get; set; } = true;
     public string? filterStr { get; set; }
     private QueryParamsRes<lcpCl.Animes>? AnimesX = new QueryParamsRes<lcpCl.Animes>();
+    private HubConnection? hubConnection;
 
     protected override async Task OnInitializedAsync()
     {
-        isLoading = true;
         page = GetQueryParm("page") > 0 ? GetQueryParm("page") : 1;
         size = GetQueryParm("size") > 0 ? GetQueryParm("size") : 12;
         search = !string.IsNullOrEmpty(GetQueryParm("search")) ? GetQueryParm("search") : "";
         sortby = !string.IsNullOrEmpty(GetQueryParm("sortby")) ? GetQueryParm("sortby") : "id";
         sortorder = !string.IsNullOrEmpty(GetQueryParm("sortorder")) ? GetQueryParm("sortorder") : "ASC";
         foperator = !string.IsNullOrEmpty(GetQueryParm("operator")) ? GetQueryParm("operator") : "Contains";
+
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(navManager.ToAbsoluteUri("/datasendhub"))
+            .Build();
+
+        hubConnection.On("ReceiveMessage", () =>
+        {
+            CallLoadData();
+            StateHasChanged();
+        });
+
+        await hubConnection.StartAsync();
         await LoadMyFilteredData();
-        isLoading = false;
-        StateHasChanged();
+    }
+
+    private void CallLoadData()
+    {
+        Task.Run(async () =>
+        {
+            isLoading = true;
+            await LoadMyFilteredData();
+            isLoading = false;
+        });
     }
 
     private async Task LoadMyFilteredData()
     {
-        AnimesX = await httpClient.GetFromJsonAsync<QueryParamsRes<lcpCl.Animes>>($"https://localhost:5000/api/animes/filter?Page={page}&PageSize={size}&Search={search}&SortBy={sortby}&SortOrder={sortorder}&Operator={foperator}");
+        AnimesX = await httpClient.GetFromJsonAsync<QueryParamsRes<lcpCl.Animes>>($"animes/filter?Page={page}&PageSize={size}&Search={search}&SortBy={sortby}&SortOrder={sortorder}&Operator={foperator}");
+        StateHasChanged();
     }
 
     private async Task PageChanged(int i)
@@ -156,5 +178,12 @@
         var uriBuilder = new UriBuilder(navManager.Uri);
         var q = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
         return int.TryParse(q[parmName], out int result) ? result : q[parmName]!;
+    }
+
+    public bool IsConnected => hubConnection!.State == HubConnectionState.Connected;
+
+    public void Dispose()
+    {
+        _ = hubConnection!.DisposeAsync();
     }
 }

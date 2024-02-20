@@ -96,7 +96,7 @@
     protected override async Task OnInitializedAsync()
     {
         isLoading = true;
-        FileDatasX = await Http.GetFromJsonAsync<List<FileData>>("https://localhost:5000/api/list/files");
+        FileDatasX = await Http.GetFromJsonAsync<List<FileData>>("list/files");
         isLoading = false;
     }
 
@@ -139,7 +139,7 @@
 
     private async Task SaveToServer()
     {
-        await Http.PostAsJsonAsync("https://localhost:5000/api/upload/files", saveFile);
+        await Http.PostAsJsonAsync("upload/files", saveFile);
     }
 
     private void RemoveImg(FileData file)

@@ -2,6 +2,7 @@
 
 @using LCPCollection.Shared.Classes
 @using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.SignalR.Client
 @using System.Net.Http.Json
 @using lcpCl = LCPCollection.Shared.Classes
 @inject ILogger<Books> _logger
@@ -104,19 +105,26 @@ else
     public int cid { get; set; }
     private List<lcpCl.Books>? BooksXList = new List<lcpCl.Books>();
 
+    private HubConnection? hubConnection;
+
     protected override async Task OnInitializedAsync()
     {
-        BooksXList = await httpClient.GetFromJsonAsync<List<lcpCl.Books>>($"https://localhost:5000/api/books/{id}");
+        BooksXList = await httpClient.GetFromJsonAsync<List<lcpCl.Books>>($"books/{id}");
         cid = BooksXList!.Where(x => x.Id == id).Count() == 1 ? id : -1;
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(navMan.ToAbsoluteUri("/datasendhub"))
+            .Build();
+
+        await hubConnection.StartAsync();
     }
 
-    async Task UpdateIt()
+    private async Task UpdateIt()
     {
         try
         {
             if (cid != -1)
             {
-                await httpClient.PutAsJsonAsync<lcpCl.Books>($"https://localhost:5000/api/books/{cid}", BooksXList![0]);
+                await httpClient.PutAsJsonAsync<lcpCl.Books>($"books/{cid}", BooksXList![0]);
                 _logger.LogInformation("Updated book successfully!");
             }
             else
@@ -124,12 +132,22 @@ else
                 _logger.LogInformation("Unable to update book because it hasn't been found or does not exist!");
             }
 
+            if (IsConnected) await SendMessage();
             navMan.NavigateTo(cid != -1 ? $"/books/{cid}" : "/books", false);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
         }
+    }
+
+    Task SendMessage() => hubConnection!.SendAsync("SendMessage");
+
+    public bool IsConnected => hubConnection!.State == HubConnectionState.Connected;
+
+    public void Dispose()
+    {
+        _ = hubConnection!.DisposeAsync();
     }
 
     void Back()

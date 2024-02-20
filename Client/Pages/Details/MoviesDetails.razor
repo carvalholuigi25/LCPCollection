@@ -1,8 +1,10 @@
 ﻿@page "/movies/{id:int}"
+@using Microsoft.AspNetCore.SignalR.Client
 @using System.Net.Http.Json
 @using NJS = Newtonsoft.Json
 @using lcpCl = LCPCollection.Shared.Classes
 @inject HttpClient httpClient
+@inject NavigationManager NavigationManager
 
 <PageTitle>LCPCollection - Movies</PageTitle>
 
@@ -47,7 +49,8 @@
                     </div>
                 </div>
 
-                @if(isMediaToggled) {
+                @if (isMediaToggled)
+                {
                     <div class="container mt-3">
                         <div class="col-12">
                             <h3>Media</h3>
@@ -55,7 +58,7 @@
                         </div>
                     </div>
                 }
-                
+
             </MudCard>
         }
 
@@ -64,9 +67,9 @@
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" Href="/movies">Back</MudButton>
             </div>
         </div>
-    } 
-    
-    @if(cid == -1)
+    }
+
+    @if (cid == -1)
     {
         <div class="col-12 warnblk">
             <MudCard>
@@ -92,14 +95,47 @@
     public bool isMediaToggled { get; set; } = false;
     public int cid { get; set; }
     private IEnumerable<lcpCl.Movies>? MoviesX = new List<lcpCl.Movies>();
+    private HubConnection? hubConnection;
 
     protected override async Task OnInitializedAsync()
     {
-        MoviesX = await httpClient.GetFromJsonAsync<List<lcpCl.Movies>>($"https://localhost:5000/api/movies/{id}");
-        cid = MoviesX!.Where(x => x.Id == id).Count() == 1 ? id : -1;
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/datasendhub"))
+            .Build();
+
+        hubConnection.On("ReceiveMessage", () =>
+        {
+            CallLoadData();
+            StateHasChanged();
+        });
+
+        await hubConnection.StartAsync();
+        await LoadData();
     }
 
-    private void OnToggleMedia() 
+    private void CallLoadData()
+    {
+        Task.Run(async () =>
+        {
+            await LoadData();
+        });
+    }
+
+    protected async Task LoadData()
+    {
+        MoviesX = await httpClient.GetFromJsonAsync<List<lcpCl.Movies>>($"movies/{id}");
+        cid = MoviesX!.Where(x => x.Id == id).Count() == 1 ? id : -1;
+        StateHasChanged();
+    }
+
+    public bool IsConnected => hubConnection!.State == HubConnectionState.Connected;
+
+    public void Dispose()
+    {
+        _ = hubConnection!.DisposeAsync();
+    }
+
+    private void OnToggleMedia()
     {
         isMediaToggled = !isMediaToggled;
     }
