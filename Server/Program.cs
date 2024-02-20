@@ -154,20 +154,24 @@ builder.Services.AddSignalR();
 
 builder.Services.AddResponseCompression(opts =>
 {
-    opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
-          new[] { "application/octet-stream" });
+    opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/octet-stream" });
 });
 
 var app = builder.Build();
 
+var isMigServiceScopeEnabled = false;
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    using (var serviceScope = app.Services.CreateScope())
+    if(isMigServiceScopeEnabled)
     {
-        var dbContext = serviceScope.ServiceProvider.GetRequiredService<DBContext>();
-        await dbContext.Database.MigrateAsync();
-        // or dbContext.Database.EnsureCreatedAsync();
+        using (var serviceScope = app.Services.CreateScope())
+        {
+            var dbContext = serviceScope.ServiceProvider.GetRequiredService<DBContext>();
+            await dbContext.Database.MigrateAsync();
+            // or dbContext.Database.EnsureCreatedAsync();
+        }
     }
 
     app.UseSwagger(options =>
