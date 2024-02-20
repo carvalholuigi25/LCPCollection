@@ -136,13 +136,17 @@ namespace LCPCollection.Server.Controllers
                 {
                     while (reader.Read())
                     {
-                        for(var x = 0; x < reader.FieldCount; x++) {
+                        res = new Dictionary<object, object?>();
+
+                        for (var x = 0; x < reader.FieldCount; x++) {
                             res[reader.GetName(x)] = reader.GetValue(x);
-                            // res.Add(reader.GetName(x), reader.GetValue(x));
                         }
+
+                        lstres.Add(res);
                     }
                 } else {
                     res.Add("status", "No rows for that table!");
+                    lstres.Add(res);
                 }
             } else if(qryrun.QryStr.Contains("INSERT", cmp)) {
                 if(cmd.ExecuteNonQuery() >= 1) {
@@ -150,24 +154,30 @@ namespace LCPCollection.Server.Controllers
                 } else {
                     res.Add("status", "Error while inserting data from database!");
                 }
+
+                lstres.Add(res);
             } else if(qryrun.QryStr.Contains("UPDATE", cmp)) {
                 if(cmd.ExecuteNonQuery() >= 1) {
                     res.Add("status", "Updated data from database with success!");
                 } else {
                     res.Add("status", "Error while updating data from database!");
                 }
+                
+                lstres.Add(res);
             } else if(qryrun.QryStr.Contains("DELETE", cmp)) {
                 if(cmd.ExecuteNonQuery() >= 1) {
                     res.Add("status", "Deleted data from database with success!");
                 } else {
                     res.Add("status", "Error while deleting data from database!");
                 }
+
+                lstres.Add(res);
             } else {
                 cmd.ExecuteNonQuery();
                 res.Add(cmd.ToJson(), null);
+                lstres.Add(res);
             }
 
-            lstres.Add(res);
             stopWatch.Stop();
             return Ok(new {
                 Data = lstres,
@@ -192,12 +202,17 @@ namespace LCPCollection.Server.Controllers
                if(dr.HasRows) {
                     dr.Read();
 
-                    for(var x = 0; x < dr.FieldCount; x++) {
+                    res = new Dictionary<object, object?>();
+
+                    for (var x = 0; x < dr.FieldCount; x++) {
                         res[dr.GetName(x)] = dr.GetValue(x);
-                        // res.Add(reader.GetName(x), reader.GetValue(x));
                     }
-                } else {
+
+                    lstres.Add(res);
+                }
+                else {
                     res.Add("status", "No rows for that table!");
+                    lstres.Add(res);
                 }
             } else if(qryrun.QryStr.Contains("INSERT", cmp)) {
                 if(cmd.ExecuteNonQuery() >= 1) {
@@ -205,24 +220,30 @@ namespace LCPCollection.Server.Controllers
                 } else {
                     res.Add("status", "Error while inserting data from database!");
                 }
+
+                lstres.Add(res);
             } else if(qryrun.QryStr.Contains("UPDATE", cmp)) {
                 if(cmd.ExecuteNonQuery() >= 1) {
                     res.Add("status", "Updated data from database with success!");
                 } else {
                     res.Add("status", "Error while updating data from database!");
                 }
+
+                lstres.Add(res);
             } else if(qryrun.QryStr.Contains("DELETE", cmp)) {
                 if(cmd.ExecuteNonQuery() >= 1) {
                     res.Add("status", "Deleted data from database with success!");
                 } else {
                     res.Add("status", "Error while deleting data from database!");
                 }
+
+                lstres.Add(res);
             } else {
                 cmd.ExecuteNonQuery();
                 res.Add(cmd.ToJson(), null);
+                lstres.Add(res);
             }
 
-            lstres.Add(res);
             stopWatch.Stop();
             return Ok(new {
                 Data = lstres,
@@ -250,12 +271,16 @@ namespace LCPCollection.Server.Controllers
                 {
                     dr.Read();
 
-                    for(var x = 0; x < dr.FieldCount; x++) {
+                    res = new Dictionary<object, object?>();
+
+                    for (var x = 0; x < dr.FieldCount; x++) {
                         res[dr.GetName(x)] = dr.GetValue(x);
-                        // res.Add(reader.GetName(x), reader.GetValue(x));
                     }
+
+                    lstres.Add(res);
                 } else {
                     res.Add("status", "No rows for that table!");
+                    lstres.Add(res);
                 }
             } else if(qryrun.QryStr.Contains("INSERT", cmp)) {
                 if(cmd.ExecuteNonQuery() >= 1) {
@@ -263,24 +288,31 @@ namespace LCPCollection.Server.Controllers
                 } else {
                     res.Add("status", "Error while inserting data from database!");
                 }
-            } else if(qryrun.QryStr.Contains("UPDATE", cmp)) {
+
+                lstres.Add(res);
+            }
+            else if(qryrun.QryStr.Contains("UPDATE", cmp)) {
                 if(cmd.ExecuteNonQuery() >= 1) {
                     res.Add("status", "Updated data from database with success!");
                 } else {
                     res.Add("status", "Error while updating data from database!");
                 }
+
+                lstres.Add(res);
             } else if(qryrun.QryStr.Contains("DELETE", cmp)) {
                 if(cmd.ExecuteNonQuery() >= 1) {
                     res.Add("status", "Deleted data from database with success!");
                 } else {
                     res.Add("status", "Error while deleting data from database!");
                 }
+
+                lstres.Add(res);
             } else {
                 cmd.ExecuteNonQuery();
                 res.Add(cmd.ToJson(), null);
+                lstres.Add(res);
             }
 
-            lstres.Add(res);
             stopWatch.Stop();
             return Ok(new {
                 Data = lstres,
@@ -309,12 +341,16 @@ namespace LCPCollection.Server.Controllers
                 if(dr.HasRows) {
                     dr.Read();
 
-                    for(var x = 0; x < dr.FieldCount; x++) {
+                    res = new Dictionary<object, object?>();
+
+                    for (var x = 0; x < dr.FieldCount; x++) {
                         res[dr.GetName(x)] = dr.GetValue(x);
-                        // res.Add(reader.GetName(x), reader.GetValue(x));
                     }
+
+                    lstres.Add(res);
                 } else {
                     res.Add("status", "No rows for that table!");
+                    lstres.Add(res);
                 }
             } else if(qryrun.QryStr.Contains("INSERT", cmp)) {
                 if(cmd.ExecuteNonQuery() >= 1) {
@@ -322,24 +358,30 @@ namespace LCPCollection.Server.Controllers
                 } else {
                     res.Add("status", "Error while inserting data from database!");
                 }
+
+                lstres.Add(res);
             } else if(qryrun.QryStr.Contains("UPDATE", cmp)) {
                 if(cmd.ExecuteNonQuery() >= 1) {
                     res.Add("status", "Updated data from database with success!");
                 } else {
                     res.Add("status", "Error while updating data from database!");
                 }
+
+                lstres.Add(res);
             } else if(qryrun.QryStr.Contains("DELETE", cmp)) {
                 if(cmd.ExecuteNonQuery() >= 1) {
                     res.Add("status", "Deleted data from database with success!");
                 } else {
                     res.Add("status", "Error while deleting data from database!");
                 }
+
+                lstres.Add(res);
             } else {
                 cmd.ExecuteNonQuery();
                 res.Add(cmd.ToJson(), null);
+                lstres.Add(res);
             }
 
-            lstres.Add(res);
             stopWatch.Stop();
             return Ok(new {
                 Data = lstres,
