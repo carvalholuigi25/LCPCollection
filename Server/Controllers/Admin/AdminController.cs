@@ -34,24 +34,36 @@ namespace LCPCollection.Server.Controllers
         [HttpPost("qryrunner")]
         public IActionResult DoQryRun([FromBody] QryRunner qryrun)
         {
-            try {
+            try
+            {
                 StringComparison cmp = StringComparison.InvariantCultureIgnoreCase;
 
-                if(qryrun.QryStr!.Contains("DROP", cmp)) {
+                if (qryrun.QryStr!.Contains("DROP", cmp))
+                {
                     return BadRequest("This command is forbidden!");
                 }
 
-                if(qryrun.DBMode.Contains(QryDBModeEnum.SQLite.ToString(), cmp)) {
+                if (qryrun.DBMode.Contains(QryDBModeEnum.SQLite.ToString(), cmp))
+                {
                     return FetchDataSQLite(qryrun, cmp);
-                } else if(qryrun.DBMode.Contains(QryDBModeEnum.MySQL.ToString(), cmp)) {
+                }
+                else if (qryrun.DBMode.Contains(QryDBModeEnum.MySQL.ToString(), cmp))
+                {
                     return FetchDataMySQL(qryrun, cmp);
-                } else if(qryrun.DBMode.Contains(QryDBModeEnum.PostgreSQL.ToString(), cmp)) {
+                }
+                else if (qryrun.DBMode.Contains(QryDBModeEnum.PostgreSQL.ToString(), cmp))
+                {
                     return FetchDataPostgreSQL(qryrun, cmp);
-                } else {
+                }
+                else
+                {
                     return FetchDataSQLServer(qryrun, cmp);
                 }
-            } catch(Exception e) {
-                return Ok(new {
+            }
+            catch (Exception e)
+            {
+                return Ok(new
+                {
                     Data = e.Message,
                     DatabaseMode = qryrun.DBMode,
                     QueryString = qryrun.QryStr,
@@ -108,10 +120,11 @@ namespace LCPCollection.Server.Controllers
                     DateTimeExecuted = DateTime.UtcNow,
                     DateMeasureMsg = string.Format("Elapsed time {0} ms", stopWatch.ElapsedMilliseconds)
                 });
-            } 
-            catch(Exception e)
+            }
+            catch (Exception e)
             {
-                return Ok(new { 
+                return Ok(new
+                {
                     Data = e.Message,
                     DatabaseMode = dbsrunner.DBMode,
                     DateTimeExecuted = DateTime.UtcNow,
@@ -120,7 +133,8 @@ namespace LCPCollection.Server.Controllers
             }
         }
 
-        private IActionResult FetchDataSQLServer(QryRunner qryrun, StringComparison cmp) {
+        private IActionResult FetchDataSQLServer(QryRunner qryrun, StringComparison cmp)
+        {
             Stopwatch stopWatch = Stopwatch.StartNew();
             var res = new Dictionary<object, object?>();
             var lstres = new List<object>();
@@ -132,54 +146,75 @@ namespace LCPCollection.Server.Controllers
             if (qryrun.QryStr.Contains("SELECT", cmp))
             {
                 using SqlDataReader reader = cmd.ExecuteReader();
-                if(reader.HasRows) 
+                if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
                         res = new Dictionary<object, object?>();
 
-                        for (var x = 0; x < reader.FieldCount; x++) {
+                        for (var x = 0; x < reader.FieldCount; x++)
+                        {
                             res[reader.GetName(x)] = reader.GetValue(x);
                         }
 
                         lstres.Add(res);
                     }
-                } else {
+                }
+                else
+                {
                     res.Add("status", "No rows for that table!");
                     lstres.Add(res);
                 }
-            } else if(qryrun.QryStr.Contains("INSERT", cmp)) {
-                if(cmd.ExecuteNonQuery() >= 1) {
+            }
+            else if (qryrun.QryStr.Contains("INSERT", cmp))
+            {
+                if (cmd.ExecuteNonQuery() >= 1)
+                {
                     res.Add("status", "Inserted data from database with success!");
-                } else {
+                }
+                else
+                {
                     res.Add("status", "Error while inserting data from database!");
                 }
 
                 lstres.Add(res);
-            } else if(qryrun.QryStr.Contains("UPDATE", cmp)) {
-                if(cmd.ExecuteNonQuery() >= 1) {
+            }
+            else if (qryrun.QryStr.Contains("UPDATE", cmp))
+            {
+                if (cmd.ExecuteNonQuery() >= 1)
+                {
                     res.Add("status", "Updated data from database with success!");
-                } else {
+                }
+                else
+                {
                     res.Add("status", "Error while updating data from database!");
                 }
-                
+
                 lstres.Add(res);
-            } else if(qryrun.QryStr.Contains("DELETE", cmp)) {
-                if(cmd.ExecuteNonQuery() >= 1) {
+            }
+            else if (qryrun.QryStr.Contains("DELETE", cmp))
+            {
+                if (cmd.ExecuteNonQuery() >= 1)
+                {
                     res.Add("status", "Deleted data from database with success!");
-                } else {
+                }
+                else
+                {
                     res.Add("status", "Error while deleting data from database!");
                 }
 
                 lstres.Add(res);
-            } else {
+            }
+            else
+            {
                 cmd.ExecuteNonQuery();
                 res.Add(cmd.ToJson(), null);
                 lstres.Add(res);
             }
 
             stopWatch.Stop();
-            return Ok(new {
+            return Ok(new
+            {
                 Data = lstres,
                 DatabaseMode = qryrun.DBMode,
                 QueryString = qryrun.QryStr,
@@ -188,7 +223,8 @@ namespace LCPCollection.Server.Controllers
             });
         }
 
-        private IActionResult FetchDataSQLite(QryRunner qryrun, StringComparison cmp) {
+        private IActionResult FetchDataSQLite(QryRunner qryrun, StringComparison cmp)
+        {
             Stopwatch stopWatch = Stopwatch.StartNew();
             var res = new Dictionary<object, object?>();
             var lstres = new List<object>();
@@ -197,55 +233,78 @@ namespace LCPCollection.Server.Controllers
             con.Open();
             using var cmd = new SqliteCommand(qryrun.QryStr, con);
 
-            if(qryrun.QryStr.Contains("SELECT", cmp)) {
-               SqliteDataReader dr = cmd.ExecuteReader();
-               if(dr.HasRows) {
-                    dr.Read();
+            if (qryrun.QryStr.Contains("SELECT", cmp))
+            {
+                SqliteDataReader dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        res = new Dictionary<object, object?>();
 
-                    res = new Dictionary<object, object?>();
+                        for (var x = 0; x < dr.FieldCount; x++)
+                        {
+                            res[dr.GetName(x)] = dr.GetValue(x);
+                        }
 
-                    for (var x = 0; x < dr.FieldCount; x++) {
-                        res[dr.GetName(x)] = dr.GetValue(x);
+                        lstres.Add(res);
                     }
-
-                    lstres.Add(res);
                 }
-                else {
+                else
+                {
                     res.Add("status", "No rows for that table!");
                     lstres.Add(res);
                 }
-            } else if(qryrun.QryStr.Contains("INSERT", cmp)) {
-                if(cmd.ExecuteNonQuery() >= 1) {
+            }
+            else if (qryrun.QryStr.Contains("INSERT", cmp))
+            {
+                if (cmd.ExecuteNonQuery() >= 1)
+                {
                     res.Add("status", "Inserted data from database with success!");
-                } else {
+                }
+                else
+                {
                     res.Add("status", "Error while inserting data from database!");
                 }
 
                 lstres.Add(res);
-            } else if(qryrun.QryStr.Contains("UPDATE", cmp)) {
-                if(cmd.ExecuteNonQuery() >= 1) {
+            }
+            else if (qryrun.QryStr.Contains("UPDATE", cmp))
+            {
+                if (cmd.ExecuteNonQuery() >= 1)
+                {
                     res.Add("status", "Updated data from database with success!");
-                } else {
+                }
+                else
+                {
                     res.Add("status", "Error while updating data from database!");
                 }
 
                 lstres.Add(res);
-            } else if(qryrun.QryStr.Contains("DELETE", cmp)) {
-                if(cmd.ExecuteNonQuery() >= 1) {
+            }
+            else if (qryrun.QryStr.Contains("DELETE", cmp))
+            {
+                if (cmd.ExecuteNonQuery() >= 1)
+                {
                     res.Add("status", "Deleted data from database with success!");
-                } else {
+                }
+                else
+                {
                     res.Add("status", "Error while deleting data from database!");
                 }
 
                 lstres.Add(res);
-            } else {
+            }
+            else
+            {
                 cmd.ExecuteNonQuery();
                 res.Add(cmd.ToJson(), null);
                 lstres.Add(res);
             }
 
             stopWatch.Stop();
-            return Ok(new {
+            return Ok(new
+            {
                 Data = lstres,
                 DatabaseMode = qryrun.DBMode,
                 QueryString = qryrun.QryStr,
@@ -254,7 +313,8 @@ namespace LCPCollection.Server.Controllers
             });
         }
 
-        private IActionResult FetchDataMySQL(QryRunner qryrun, StringComparison cmp) {
+        private IActionResult FetchDataMySQL(QryRunner qryrun, StringComparison cmp)
+        {
             Stopwatch stopWatch = Stopwatch.StartNew();
             var res = new Dictionary<object, object?>();
             var lstres = new List<object>();
@@ -265,56 +325,78 @@ namespace LCPCollection.Server.Controllers
             cmd.CommandText = qryrun.QryStr;
 
             con.Open();
-            if(qryrun.QryStr.Contains("SELECT", cmp)) {
+            if (qryrun.QryStr.Contains("SELECT", cmp))
+            {
                 MySqlDataReader dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
-                    dr.Read();
+                    while(dr.Read())
+                    {
+                        res = new Dictionary<object, object?>();
 
-                    res = new Dictionary<object, object?>();
+                        for (var x = 0; x < dr.FieldCount; x++)
+                        {
+                            res[dr.GetName(x)] = dr.GetValue(x);
+                        }
 
-                    for (var x = 0; x < dr.FieldCount; x++) {
-                        res[dr.GetName(x)] = dr.GetValue(x);
+                        lstres.Add(res);
                     }
-
-                    lstres.Add(res);
-                } else {
+                }
+                else
+                {
                     res.Add("status", "No rows for that table!");
                     lstres.Add(res);
                 }
-            } else if(qryrun.QryStr.Contains("INSERT", cmp)) {
-                if(cmd.ExecuteNonQuery() >= 1) {
+            }
+            else if (qryrun.QryStr.Contains("INSERT", cmp))
+            {
+                if (cmd.ExecuteNonQuery() >= 1)
+                {
                     res.Add("status", "Inserted data from database with success!");
-                } else {
+                }
+                else
+                {
                     res.Add("status", "Error while inserting data from database!");
                 }
 
                 lstres.Add(res);
             }
-            else if(qryrun.QryStr.Contains("UPDATE", cmp)) {
-                if(cmd.ExecuteNonQuery() >= 1) {
+            else if (qryrun.QryStr.Contains("UPDATE", cmp))
+            {
+                if (cmd.ExecuteNonQuery() >= 1)
+                {
                     res.Add("status", "Updated data from database with success!");
-                } else {
+                }
+                else
+                {
                     res.Add("status", "Error while updating data from database!");
                 }
 
                 lstres.Add(res);
-            } else if(qryrun.QryStr.Contains("DELETE", cmp)) {
-                if(cmd.ExecuteNonQuery() >= 1) {
+            }
+            else if (qryrun.QryStr.Contains("DELETE", cmp))
+            {
+                if (cmd.ExecuteNonQuery() >= 1)
+                {
                     res.Add("status", "Deleted data from database with success!");
-                } else {
+                }
+                else
+                {
                     res.Add("status", "Error while deleting data from database!");
                 }
 
                 lstres.Add(res);
-            } else {
+            }
+            else
+            {
                 cmd.ExecuteNonQuery();
                 res.Add(cmd.ToJson(), null);
                 lstres.Add(res);
             }
 
             stopWatch.Stop();
-            return Ok(new {
+            return Ok(new
+            {
                 Data = lstres,
                 DatabaseMode = qryrun.DBMode,
                 QueryString = qryrun.QryStr,
@@ -323,7 +405,8 @@ namespace LCPCollection.Server.Controllers
             });
         }
 
-        private IActionResult FetchDataPostgreSQL(QryRunner qryrun, StringComparison cmp) {
+        private IActionResult FetchDataPostgreSQL(QryRunner qryrun, StringComparison cmp)
+        {
             Stopwatch stopWatch = Stopwatch.StartNew();
             var res = new Dictionary<object, object?>();
             var lstres = new List<object>();
@@ -334,56 +417,80 @@ namespace LCPCollection.Server.Controllers
             cmd.Connection = con;
 
             cmd.CommandText = qryrun.QryStr;
-            
-            if(qryrun.QryStr.Contains("SELECT", cmp)) {
+
+            if (qryrun.QryStr.Contains("SELECT", cmp))
+            {
                 NpgsqlDataReader dr = cmd.ExecuteReader();
 
-                if(dr.HasRows) {
-                    dr.Read();
+                if (dr.HasRows)
+                {
+                    while(dr.Read())
+                    {
+                        res = new Dictionary<object, object?>();
 
-                    res = new Dictionary<object, object?>();
+                        for (var x = 0; x < dr.FieldCount; x++)
+                        {
+                            res[dr.GetName(x)] = dr.GetValue(x);
+                        }
 
-                    for (var x = 0; x < dr.FieldCount; x++) {
-                        res[dr.GetName(x)] = dr.GetValue(x);
+                        lstres.Add(res);
                     }
-
-                    lstres.Add(res);
-                } else {
+                }
+                else
+                {
                     res.Add("status", "No rows for that table!");
                     lstres.Add(res);
                 }
-            } else if(qryrun.QryStr.Contains("INSERT", cmp)) {
-                if(cmd.ExecuteNonQuery() >= 1) {
+            }
+            else if (qryrun.QryStr.Contains("INSERT", cmp))
+            {
+                if (cmd.ExecuteNonQuery() >= 1)
+                {
                     res.Add("status", "Inserted data from database with success!");
-                } else {
+                }
+                else
+                {
                     res.Add("status", "Error while inserting data from database!");
                 }
 
                 lstres.Add(res);
-            } else if(qryrun.QryStr.Contains("UPDATE", cmp)) {
-                if(cmd.ExecuteNonQuery() >= 1) {
+            }
+            else if (qryrun.QryStr.Contains("UPDATE", cmp))
+            {
+                if (cmd.ExecuteNonQuery() >= 1)
+                {
                     res.Add("status", "Updated data from database with success!");
-                } else {
+                }
+                else
+                {
                     res.Add("status", "Error while updating data from database!");
                 }
 
                 lstres.Add(res);
-            } else if(qryrun.QryStr.Contains("DELETE", cmp)) {
-                if(cmd.ExecuteNonQuery() >= 1) {
+            }
+            else if (qryrun.QryStr.Contains("DELETE", cmp))
+            {
+                if (cmd.ExecuteNonQuery() >= 1)
+                {
                     res.Add("status", "Deleted data from database with success!");
-                } else {
+                }
+                else
+                {
                     res.Add("status", "Error while deleting data from database!");
                 }
 
                 lstres.Add(res);
-            } else {
+            }
+            else
+            {
                 cmd.ExecuteNonQuery();
                 res.Add(cmd.ToJson(), null);
                 lstres.Add(res);
             }
 
             stopWatch.Stop();
-            return Ok(new {
+            return Ok(new
+            {
                 Data = lstres,
                 DatabaseMode = qryrun.DBMode,
                 QueryString = qryrun.QryStr,
